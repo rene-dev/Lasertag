@@ -1,9 +1,9 @@
 MCU = attiny2313
-FREQ=1000000
+FREQ=8000000
 TRG = main
 SRC = $(TRG).c
 
-CFLAGS	= -g -Os -Wall -Wstrict-prototypes -mcall-prologues -mmcu=$(MCU) -DF_CPU=$(FREQ) -DMCU=$(MCU)
+CFLAGS	= -g -Os -Wall -Wstrict-prototypes -mcall-prologues -mmcu=$(MCU) -DF_CPU=$(FREQ) -DMCU=$(MCU) -std=c99
 LDFLAGS = -mmcu=$(MCU)
 
 CC	= avr-gcc
@@ -58,5 +58,7 @@ clean:
 size:
 	$(SIZE) $(TRG).elf
 load: $(TRG).hex
-	avrdude -c stk500v2 -P /dev/tty.usbserial-A5001s6J -p t2313 -U flash:w:main.hex
+	avrdude -c usbasp -p t2313 -U flash:w:main.hex
+fuses:
+	avrdude -c usbasp -p t2313 -U lfuse:w:0xe4:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m
 
