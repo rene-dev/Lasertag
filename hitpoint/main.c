@@ -4,6 +4,7 @@
 #include <string.h>
 #include <util/delay.h>
 #include "pwm.h"
+#include "i2c_slave_usi.h"
 
 #define NO 0
 #define YES 1
@@ -21,6 +22,7 @@
 #endif
 
 volatile uint8_t alive = YES;
+volatile uint8_t i2c_buffer[16];
 
 ISR(USART_RX_vect){
 	static unsigned char lastbyte = 0;
@@ -36,10 +38,21 @@ void long_delay(uint16_t ms)
 	for(; ms>0; ms--) _delay_ms(1);
 }
 
+void i2c_slave_poll_buffer(unsigned char reg_addr, volatile unsigned char** buffer, volatile unsigned char* buffer_length){
+	*buffer = i2c_buffer;
+	*buffer_length = 16;
+}
+void i2c_slave_write_complete(void){
+	
+}
+void i2c_slave_read_complete(void){
+	
+}
+
 int main(void) {
-	int i = 0;
 	uint8_t pwm[8];
 	pwm_init();
+	usi_i2c_init(0x20);
 	sei();                  // Interrupts global einschalten
 	
 	//UART init
