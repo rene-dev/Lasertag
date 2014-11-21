@@ -1,7 +1,7 @@
 MCU = attiny2313
 FREQ=8000000
 TRG = main
-SRC = $(TRG).c
+SRC = $(TRG).c pwm.c i2c_slave_usi.c
 
 CFLAGS	= -g -Os -Wall -Wstrict-prototypes -mcall-prologues -mmcu=$(MCU) -DF_CPU=$(FREQ) -DMCU=$(MCU) -std=c99
 LDFLAGS = -mmcu=$(MCU)
@@ -57,8 +57,5 @@ clean:
 	
 size:
 	$(SIZE) $(TRG).elf
-load: $(TRG).hex
-	avrdude -c usbasp -p t2313 -U flash:w:main.hex
-fuses:
-	avrdude -c usbasp -p t2313 -U lfuse:w:0xe4:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m
-
+program: $(TRG).hex
+	avrdude -c usbasp -p t2313 -U flash:w:main.hex -U lfuse:w:0xe4:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m
