@@ -1,7 +1,7 @@
 #include <stdint.h>
 //LED pin nummern an port B
 
-#define PWM_CHANNELS  8                 // Anzahl der PWM-Kanäle
+#define PWM_CHANNELS  7                // Anzahl der PWM-Kanäle
 
 #define LED1R 6
 #define LED1G 4

@@ -45,7 +45,7 @@ uint8_t *main_ptr_mask = pwm_mask_tmp;          // ändern uint16_t oder uint32_
 
 void pwm_init(void){
 	// PWM Port einstellen
-	PWM_DDR = 0xFF;         // Port als Ausgang
+	PWM_DDR |= (1<<0)|(1<<1)|(1<<2)|(1<<3)|(1<<4)|(1<<6);         // Port als Ausgang
 	// Timer 1 OCRA1, als variablen Timer nutzen
 	TCCR1B = PWM_PRESCALER; // Timer läuft mit Prescaler 8
 	TIMSK |= (1<<OCIE1A);   // Interrupt freischalten
@@ -165,10 +165,12 @@ void pwm_update(void) {
 	while(pwm_sync==0);
 
 	// Zeiger tauschen
-	cli();
+// 	cli();
+	TIMSK &= ~(1 << OCIE1A);
 	tausche_zeiger();
 	pwm_cnt_max = k;
-	sei();
+	TIMSK |= (1 << OCIE1A);
+// 	sei();
 }
 
 // Timer 1 Output COMPARE A Interrupt
@@ -181,12 +183,12 @@ ISR(TIMER1_COMPA_vect) {
 	tmp    = isr_ptr_mask[pwm_cnt];
 
 	if (pwm_cnt == 0) {
-		PWM_PORT = tmp;                         // Ports setzen zu Begin der PWM
+		PWM_PORT |= tmp;                         // Ports setzen zu Begin der PWM
 		// zusätzliche PWM-Ports hier setzen
 		pwm_cnt++;
 	}
 	else {
-		PWM_PORT &= tmp;                        // Ports löschen
+		PWM_PORT &= (tmp| ~((1<<0)|(1<<1)|(1<<2)|(1<<3)|(1<<4)|(1<<6)));                        // Ports löschen
 		// zusätzliche PWM-Ports hier setzen
 		if (pwm_cnt == pwm_cnt_max) {
 			pwm_sync = 1;                       // Update jetzt möglich

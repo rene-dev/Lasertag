@@ -58,4 +58,4 @@ clean:
 size:
 	$(SIZE) $(TRG).elf
 program: $(TRG).hex
-	avrdude -c usbasp -p t2313 -U flash:w:main.hex -U lfuse:w:0xe4:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m
+	avrdude -c dragon_isp -B10 -p t2313 -U lfuse:w:0xe4:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m
