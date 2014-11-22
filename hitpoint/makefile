@@ -39,7 +39,7 @@ all: $(TRG).elf $(TRG).bin $(TRG).hex $(TRG).eep $(TRG).ok
 $(TRG).o : $(TRG).c
 
 %ok:
-	$(SIZE) $(TRG).elf
+	$(SIZE) -C --mcu=$(MCU) $(TRG).elf
 
 clean:
 	$(RM) $(OBJ)
