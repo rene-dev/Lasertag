@@ -352,12 +352,12 @@ ISR( USI_OVERFLOW_VECTOR )	//Handles all the communication. Only disabled when w
 				i2c_slave_poll_buffer(data, &current_buffer, &current_length);
 				buffer_adr = 0;
 			} else {								//weiterer Zugriff, Daten empfangen
-				current_buffer[buffer_adr] = data;	//Daten in Buffer schreiben
+				if (buffer_adr < current_length) current_buffer[buffer_adr] = data;	//Daten in Buffer schreiben
 				buffer_adr++; 						//Buffer-Adresse weiterzählen für nächsten Schreibzugriff
 			}
 			overflowState = USI_SLAVE_REQUEST_DATA;	// next USI_SLAVE_REQUEST_DATA
 			
-			if (current_length == buffer_adr){
+			if (current_length < buffer_adr){
 				//Answer last byte with NACK.
 				SET_USI_TO_SEND_NACK( );
 				i2c_slave_write_complete();
