@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include <string.h>
 #include <util/delay.h>
-#include "pwm.h"
 #include "i2c_slave_usi.h"
 
 #define NO 0
@@ -59,9 +58,7 @@ void i2c_slave_read_complete(void){
 }
 
 int main(void) {
-	uint8_t pwm[7];
 	usi_i2c_init(0x20);
-	pwm_init();
 	sei();                  // Interrupts global einschalten
 	
 	//UART init
@@ -73,17 +70,7 @@ int main(void) {
 	
 	while(1){
 		if(alive){
-			pwm[LED1R] = color_buffer[0];
-			pwm[LED1G] = color_buffer[1];
-			pwm[LED1B] = color_buffer[2];
-			pwm[LED2R] = color_buffer[3];
-			pwm[LED2G] = color_buffer[4];
-			pwm[LED2B] = color_buffer[5];
-			memcpy(pwm_setting, pwm, 7);
-			pwm_update();
 		} else {
-			memset(pwm_setting, 0, 7);
-			pwm_update();
 			long_delay(50);
 			alive = YES;
 		}

@@ -1,7 +1,7 @@
 MCU = attiny2313
 FREQ=8000000
 TRG = main
-SRC = $(TRG).c pwm.c i2c_slave_usi.c
+SRC = $(TRG).c i2c_slave_usi.c
 
 CFLAGS	= -g -Os -Wall -Wstrict-prototypes -mcall-prologues -mmcu=$(MCU) -DF_CPU=$(FREQ) -DMCU=$(MCU) -std=c99
 LDFLAGS = -mmcu=$(MCU)
