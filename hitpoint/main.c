@@ -8,6 +8,10 @@
 #define NO 0
 #define YES 1
 
+#define RED OCR1B
+#define GREEN OCR1A
+#define BLUE OCR0A
+
 //UART http://www.mikrocontroller.net/articles/AVR-GCC-Tutorial/Der_UART
 #define BAUD 1200UL      // Baudrate
 
@@ -61,16 +65,28 @@ int main(void) {
 	usi_i2c_init(0x20);
 	sei();                  // Interrupts global einschalten
 	
+	DDRB |= _BV(DDB2) | _BV(DDB3) | _BV(DDB4);//LEDs
+
+	//PWM, Phase Correct, 8-bit, no presacler
+	TCCR0A = _BV(WGM00) | _BV(COM0A1);
+	TCCR0B = _BV(CS00);
+	TCCR1A = _BV(WGM10) | _BV(COM1A1) | _BV(COM1B1);
+	TCCR1B = _BV(CS00);
+	
+	RED = 0;
+	GREEN = 0;
+	BLUE = 0;
 	//UART init
 	UBRRH = UBRR_VAL >> 8;
 	UBRRL = UBRR_VAL & 0xFF;
-	UCSRC = (1<<UCSZ1)|(1<<UCSZ0);  // Asynchron 8N1 
-	UCSRB |= (1<<RXEN)|(1<<RXCIE);  // UART RX und RX Interrupt einschalten
-	
+	UCSRC = _BV(UCSZ1) | _BV(UCSZ0);  // Asynchron 8N1 
+	UCSRB |= _BV(RXEN)| _BV(RXCIE);  // UART RX und RX Interrupt einschalten
 	
 	while(1){
 		if(alive){
+			RED = 10;
 		} else {
+			RED = 0;
 			long_delay(50);
 			alive = YES;
 		}
