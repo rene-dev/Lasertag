@@ -26,14 +26,20 @@
 
 #define BIT_SET(port, mask, value) {if (value) {port |= (mask);} else {port &= ~(mask);}}
 
+#define REG_LED_COLOR 0x00
+#define REG_LAST_HIT  0x10
+
 volatile uint8_t alive = YES;
 volatile uint8_t color_buffer[3];
+volatile uint8_t last_hit = 0;
+volatile uint8_t i2c_last_reg_access = -1;
 
 ISR(USART_RX_vect){
 	static unsigned char lastbyte = 0;
 	unsigned char ch = UDR;
 	if(lastbyte == 'a' && ch == 'b'){
 		alive = NO;
+		last_hit = 42;
 	}
 	lastbyte = ch;
 }
@@ -44,9 +50,14 @@ void long_delay(uint16_t ms)
 }
 
 void i2c_slave_poll_buffer(unsigned char reg_addr, volatile unsigned char** buffer, volatile unsigned char* buffer_length){
-	if (reg_addr < 3){
-		*buffer = &color_buffer[reg_addr];
-		*buffer_length = 3-reg_addr;
+	if ((reg_addr >= REG_LED_COLOR) && (reg_addr < (REG_LED_COLOR + 3))){
+		*buffer        = &color_buffer[reg_addr];
+		*buffer_length = (3-reg_addr);
+		i2c_last_reg_access = REG_LED_COLOR;
+	} else if (reg_addr == REG_LAST_HIT){
+		*buffer        = &last_hit;
+		*buffer_length = 1;
+		i2c_last_reg_access = REG_LAST_HIT;
 	} else {
 // 		*buffer = i2c_buffer;
 // 		*buffer_length = 16;
@@ -58,7 +69,7 @@ void i2c_slave_write_complete(void){
 	
 }
 void i2c_slave_read_complete(void){
-	
+	if (i2c_last_reg_access == REG_LAST_HIT) last_hit = 0;
 }
 
 int main(void) {
