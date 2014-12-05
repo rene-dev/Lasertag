@@ -27,7 +27,7 @@
 #define BIT_SET(port, mask, value) {if (value) {port |= (mask);} else {port &= ~(mask);}}
 
 volatile uint8_t alive = YES;
-volatile uint8_t color_buffer[8];
+volatile uint8_t color_buffer[3];
 
 ISR(USART_RX_vect){
 	static unsigned char lastbyte = 0;
@@ -44,9 +44,9 @@ void long_delay(uint16_t ms)
 }
 
 void i2c_slave_poll_buffer(unsigned char reg_addr, volatile unsigned char** buffer, volatile unsigned char* buffer_length){
-	if (reg_addr < 6){
+	if (reg_addr < 3){
 		*buffer = &color_buffer[reg_addr];
-		*buffer_length = 6-reg_addr;
+		*buffer_length = 3-reg_addr;
 	} else {
 // 		*buffer = i2c_buffer;
 // 		*buffer_length = 16;
@@ -67,7 +67,7 @@ int main(void) {
 	
 	DDRB |= _BV(DDB2) | _BV(DDB3) | _BV(DDB4);//LEDs
 
-	//PWM, Phase Correct, 8-bit, no presacler
+	//PWM, Phase Correct, 8-bit, no presacler -> 16kHz
 	TCCR0A = _BV(WGM00) | _BV(COM0A1);
 	TCCR0B = _BV(CS00);
 	TCCR1A = _BV(WGM10) | _BV(COM1A1) | _BV(COM1B1);
@@ -84,13 +84,16 @@ int main(void) {
 	
 	while(1){
 		if(alive){
-			RED = 10;
+			RED = color_buffer[0];
+			GREEN = color_buffer[1];
+			BLUE = color_buffer[2];
 		} else {
 			RED = 0;
+			GREEN = 0;
+			BLUE = 0;
 			long_delay(50);
 			alive = YES;
 		}
 	}
 	return 0;
 }
-
