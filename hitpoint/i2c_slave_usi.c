@@ -321,7 +321,7 @@ ISR( USI_OVERFLOW_VECTOR )	//Handles all the communication. Only disabled when w
 			SET_USI_TO_SEND_DATA( );
 			
 			if (current_buffer != 0 && buffer_adr == current_length){
-				i2c_slave_write_complete();
+				i2c_slave_read_complete();
 			}
 			break;
 
