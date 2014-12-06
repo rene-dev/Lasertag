@@ -35,4 +35,12 @@ int main(int argc, char *argv[]){
                 printf(strerror(errno));
                 printf("\n\n");
         }
+	buf[0] = 0x10;
+	if(write(file,buf,1) != 1){
+		printf(strerror(errno));
+	}	
+	if(read(file,buf,1) != 1){
+		printf(strerror(errno));
+	}
+	printf("read %i\n",buf[0]);
 }
