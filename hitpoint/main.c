@@ -31,6 +31,7 @@
 
 volatile uint8_t alive = YES;
 volatile uint8_t color_buffer[3];
+volatile uint16_t color[3];
 volatile uint8_t last_hit = 0;
 volatile uint8_t i2c_last_reg_access = -1;
 
@@ -72,6 +73,9 @@ void i2c_slave_read_complete(void){
 	if (i2c_last_reg_access == REG_LAST_HIT) last_hit = 0;
 }
 
+ISR (TIMER0_OVF_vect){
+}
+
 int main(void) {
 	usi_i2c_init(0x20);
 	sei();                  // Interrupts global einschalten
@@ -83,7 +87,8 @@ int main(void) {
 	TCCR0B = _BV(CS00);
 	TCCR1A = _BV(WGM10) | _BV(COM1A1) | _BV(COM1B1);
 	TCCR1B = _BV(CS00);
-	
+	//TIMSK |= (1<<TOIE0);	
+
 	RED = 0;
 	GREEN = 0;
 	BLUE = 0;
@@ -94,14 +99,18 @@ int main(void) {
 	UCSRB |= _BV(RXEN)| _BV(RXCIE);  // UART RX und RX Interrupt einschalten
 	
 	while(1){
+		long_delay(1);
 		if(alive){
-			RED = color_buffer[0];
-			GREEN = color_buffer[1];
-			BLUE = color_buffer[2];
+			color[0] = (uint16_t)color_buffer[0] + ((uint16_t)RED*99);
+			RED = color[0]/100;
+			color[1] = (uint16_t)color_buffer[1] + ((uint16_t)GREEN*99);
+			GREEN = color[1]/100;
+			color[2] = (uint16_t)color_buffer[2] + ((uint16_t)BLUE*99);
+			BLUE = color[2]/100;
 		} else {
-			RED = 0;
-			GREEN = 0;
-			BLUE = 0;
+			color[0] = 0;
+			color[1] = 0;
+			color[2] = 0;
 			long_delay(50);
 			alive = YES;
 		}
