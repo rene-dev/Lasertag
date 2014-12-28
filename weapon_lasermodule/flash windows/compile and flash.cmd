@@ -1,0 +1,3 @@
+@cd ..
+@make load
+@pause

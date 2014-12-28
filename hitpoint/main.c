@@ -26,6 +26,7 @@
 
 #define BIT_SET(port, mask, value) {if (value) {port |= (mask);} else {port &= ~(mask);}}
 
+//i2c adresses
 #define REG_LED_COLOR 0x00
 #define REG_LAST_HIT  0x10
 
