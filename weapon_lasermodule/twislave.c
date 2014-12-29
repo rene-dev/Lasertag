@@ -44,6 +44,10 @@
 #include <stdint.h> 								// definiert Datentyp uint8_t
 #include "twislave.h" 								
 
+volatile uint8_t rxbuffer[buffer_size];				//Der Empfangsbuffer, der vom Slave ausgelesen werden kann.
+volatile uint8_t txbuffer[buffer_size];				//Der Sendebuffe, der vom Master ausgelesen werden kann.
+volatile static uint8_t buffer_adr; 						//"Adressregister" für den Buffer
+
 //#################################### Macros
 //ACK nach empfangenen Daten senden/ ACK nach gesendeten Daten erwarten
 #define TWCR_ACK 	TWCR = (1<<TWEN)|(1<<TWIE)|(1<<TWINT)|(1<<TWEA)|(0<<TWSTA)|(0<<TWSTO)|(0<<TWWC);  

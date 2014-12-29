@@ -61,9 +61,8 @@
 
 //#################################### Globale Variablen, die vom Hauptprogramm genutzt werden 
 
-volatile uint8_t rxbuffer[buffer_size];				//Der Empfangsbuffer, der vom Slave ausgelesen werden kann.
-volatile uint8_t txbuffer[buffer_size];				//Der Sendebuffe, der vom Master ausgelesen werden kann.
-volatile uint8_t buffer_adr; 						//"Adressregister" für den Buffer
+extern volatile uint8_t rxbuffer[];				//Der Empfangsbuffer, der vom Slave ausgelesen werden kann.
+extern volatile uint8_t txbuffer[];				//Der Sendebuffe, der vom Master ausgelesen werden kann.
 
 //########################################################################################## init_twi_slave 
 void init_twi_slave(uint8_t adr);
