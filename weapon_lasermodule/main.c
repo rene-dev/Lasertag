@@ -14,6 +14,9 @@
 #define LED_G OCR1B
 #define LED_R OCR2A
 #define LED_W OCR2B
+#define KEY_1 PB7
+#define KEY_2 PB6
+#define KEY_3 PD4
 
 #define NO 0
 #define YES 1
@@ -39,6 +42,26 @@ volatile uint8_t color_buffer[3];
 volatile uint16_t color[3];
 volatile uint8_t last_hit = 0;
 volatile uint8_t i2c_last_reg_access = -1;
+
+/* Einfache Funktion zum Entprellen eines Tasters */
+//http://www.mikrocontroller.net/articles/Entprellung
+inline uint8_t debounce(volatile uint8_t *port, uint8_t pin)
+{
+    if ( !(*port & (1 << pin)) )
+    {
+        /* Pin wurde auf Masse gezogen, 100ms warten   */
+        _delay_ms(50);   // Maximalwert des Parameters an _delay_ms 
+        _delay_ms(50);   // beachten, vgl. Dokumentation der avr-libc
+        if ( *port & (1 << pin) )
+        {
+            /* Anwender Zeit zum Loslassen des Tasters geben */
+            _delay_ms(50);
+            _delay_ms(50); 
+            return 1;
+        }
+    }
+    return 0;
+}
 
 ISR(USART_RX_vect){
 	static unsigned char lastbyte = 0;
@@ -107,12 +130,20 @@ int main(void){
 	//  1 PD3 LED_W	     OC2B	Timer2	 8 Bit
 	// 24 PC1 LDR        ADC1
 	// 25 PC2 V_BATT     ADC2
+	//  2 PD4 KEY_3
+	//  7 PB6 KEY_2
+	//  8 PB7 KEY_1
 	
 	cli();
 
-	//set pins to OUTPUT
-	DDRB |= (1 << DDB0) | (1 << DDB1) | (1 << DDB2) | (1 << DDB3);
-	DDRD |= (1 << DDD3) | (1 << DDD5) | (1 << DDD6) | (1 << DDD7);
+	//set pins
+	DDRB |= (1 << DDB0) | (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //OUTPUT
+	DDRD |= (1 << DDD3) | (1 << DDD5) | (1 << DDD6) | (1 << DDD7); //OUTPUT
+	DDRB &= ~(1 << PB6) & ~(1 << PB7); //INPUT
+    PORTB |= (1 << PB6) | (1 << PB7); //input pullup
+	DDRD &= ~(1 << PD4); //INPUT
+    PORTD |= (1 << PD4); //input pullup
+
 	
 	//init Timers for PWM:
 	//https://sites.google.com/site/qeewiki/books/avr-guide/pwm-on-the-atmega328
@@ -156,7 +187,76 @@ int main(void){
     UCSR0C = (1<<UCSZ01) | (1<<UCSZ00); //Asynchron 8N1 
 	sei();                  // enable Interrupts global
 	
-	//i2c test
+	
+inline uint8_t taster(volatile uint8_t *port, uint8_t pin)
+{
+    static unsigned char zustand;
+    char rw = 0;
+ 
+    if(zustand == 0 && !(*port & (1<<pin)))   //Taster wird gedrueckt (steigende Flanke)
+    {
+        zustand = 1;
+        rw = 1;
+		txbuffer[0] = 1;
+    }
+    else if (zustand == 1 && !(*port & (1<<pin)))   //Taster wird gehalten
+    {
+         zustand = 2;
+         rw = 0;
+    }
+    else if (zustand == 2 && (*port & (1<<pin)))   //Taster wird losgelassen (fallende Flanke)
+    {
+        zustand = 3;
+        rw = 0;
+    }
+    else if (zustand == 3 && (*port & (1<<pin)))   //Taster losgelassen
+    {
+        zustand = 0;
+        rw = 0;
+		txbuffer[0] = 0;
+    }
+ 
+    return rw;
+}
+	
+//i2c:
+//0		1		2		3		4		5		6		7		8		9		10		11		12
+//key_1	key_2	key_3	led_r	led_g	led_b	led_w	laser_r	laser_g	laser_b	tx_pid	tx_dmg	haptik
+	
+ 	while(1){
+		taster(&PINB, KEY_1);
+		// if(debounce(&PINB, KEY_1)){ //KEY_1
+			// txbuffer[0] = 1;
+		// }else{
+			// txbuffer[0] = 0;
+		// }
+		if(debounce(&PINB, KEY_2)){ //KEY_2
+			txbuffer[1] = 1;
+		}
+		if(debounce(&PIND, KEY_3)){ //KEY_3
+			txbuffer[2] = 1;
+		}
+		LED_R = 255-rxbuffer[3]; //LED_R
+		LED_G = ICR1-rxbuffer[4]; //LED_G
+		LED_B = 255-rxbuffer[5]; //LED_B
+		LED_W = 255-rxbuffer[6]; //LED_W
+		laser_r(rxbuffer[7]); //LASER_R
+		laser_g(rxbuffer[8]); //LASER_G
+		LASER_B = rxbuffer[9]; //LASER_B
+		if(rxbuffer[10] != 0 && rxbuffer[11] != 0){
+			USART_Transmit(rxbuffer[10]); //IR_TX: PlayerID
+			USART_Transmit(rxbuffer[11]); //IR_TX: Schaden
+		}
+	}
+
+ 	while(1){
+		USART_Transmit('a'); //IR_TX: PlayerID
+		USART_Transmit('b'); //IR_TX: Schaden
+		_delay_ms(200);
+	}
+	
+	
+	//i2c loop test
  	while(1){
 		txbuffer[0] = rxbuffer[0];
 		txbuffer[1] = rxbuffer[1];
@@ -164,7 +264,6 @@ int main(void){
 		laser_r(1);
 		_delay_ms(100);
 		laser_r(0);
-
 		_delay_ms(100);
 	}
 	
@@ -185,6 +284,7 @@ int main(void){
 	}
  */
 	uint32_t time1=0, time2=0;
+	
 	while(1){
 		// LED_R = 255-1;
 		// _delay_ms(500);

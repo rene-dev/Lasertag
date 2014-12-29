@@ -1,0 +1,26 @@
+lasertag2
+pi
+dse4rzthgfbbfLL
+151.217.63.87
+
+root
+bWV45vzWBEzHVs5rZfsdnfjdsrtrst545rt6er
+
+
+sudo apt-get install python-smbus i2c-tools
+sudo modprobe i2c-dev
+sudo i2cdetect -y 1
+sudo i2cset -y 1 0x18 0x01 0x01
+sudo i2cget -y 1 0x18 0x00
+
+
+clock stretching
+
+http://www.instructables.com/id/Raspberry-Pi-I2C-Python/all/?lang=de
+sudo adduser pi i2c
+sudo python
+
+
+
+sudo rmmod i2c_bcm2708
+sudo modprobe i2c_bcm2708 baudrate=750000 
