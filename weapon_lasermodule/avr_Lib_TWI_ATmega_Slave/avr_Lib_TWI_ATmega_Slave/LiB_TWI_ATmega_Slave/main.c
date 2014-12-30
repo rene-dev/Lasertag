@@ -30,7 +30,7 @@
 #define BAUD_ERROR ((BAUD_REAL*1000)/BAUD) // Fehler in Promille, 1000 = kein Fehler.
 
 #if ((BAUD_ERROR<990) || (BAUD_ERROR>1010))
-  #error Systematischer Fehler der Baudrate grÃ¶sser 1% und damit zu hoch! 
+  #error Systematischer Fehler der Baudrate grösser 1% und damit zu hoch! 
 #endif
 
 //i2c adresses
@@ -130,7 +130,8 @@ uint8_t laser_g(uint8_t on){
 	return laser_g_status;
 }
 
-int main(void){
+int main(void)
+{
 	// 12 PB0 LASER_R
 	// 11 PD7 LASER_G
 	// 10 PD6 LASER_B    OC0A	Timer0	 8 Bit
@@ -159,7 +160,7 @@ int main(void){
 	//init Timers for PWM:
 	//https://sites.google.com/site/qeewiki/books/avr-guide/pwm-on-the-atmega328
 	//WGM* s157: fast pwm without ctc
-	//CS*  s158: _BV(CS20) = prescaler 1 (gilt fÃ¼r a und b)
+	//CS*  s158: _BV(CS20) = prescaler 1 (gilt für a und b)
 	//PWM_fequency = clock_speed / [Prescaller_value * (1 + TOP_Value) ] = 8000000/(1*(1+210)) = 37.915 kHz
 	
 	//Timer 0: Mode 3: Fast PWM, TOP: 0xFF, Update of OCRx: Bottom, TOV1 Flag set on: TOP, Prescaler: 1, Set OC0x on Compare Match
@@ -187,36 +188,15 @@ int main(void){
 	LED_W=255;
 	LASER_B=255;
 	//PORTB |= (1 << PB0); //an
-	
-	//i2c init
+
+
+
 	init_twi_slave(0x30);
+	sei();
 
-	//UART init
-	UBRR0H = UBRR_VAL >> 8;
-	UBRR0L = UBRR_VAL & 0xFF;
-	UCSR0B |= _BV(TXEN0) | _BV(RXEN0) | _BV(RXCIE0); //UART RX, TX und RX-Interrupt einschalten
-    UCSR0C = (1<<UCSZ01) | (1<<UCSZ00); //Asynchron 8N1 
-	
-	sei();                  // enable Interrupts global
-	
-	//i2c:
-	//0		1		2		3		4		5		6		7		8		9		10		11		12
-	//key_1	key_2	key_3	led_r	led_g	led_b	led_w	laser_r	laser_g	laser_b	tx_pid	tx_dmg	haptik
-	
- 	while(1){
-		txbuffer[0] = taster(&PINB, KEY_1);
-
-		LED_R = 255-rxbuffer[3]; //LED_R
-		LED_G = ICR1-rxbuffer[4]; //LED_G
-		LED_B = 255-rxbuffer[5]; //LED_B
-		LED_W = 255-rxbuffer[6]; //LED_W
-		laser_r(rxbuffer[7]); //LASER_R
-		laser_g(rxbuffer[8]); //LASER_G
-		LASER_B = rxbuffer[9]; //LASER_B
-		if(rxbuffer[10] != 0 && rxbuffer[11] != 0){
-			USART_Transmit(rxbuffer[10]); //IR_TX: PlayerID
-			USART_Transmit(rxbuffer[11]); //IR_TX: Schaden
-		}
+	while(1)
+    {
+		txbuffer[0]++;
+		_delay_ms(50);
 	}
-	return 0;
 }

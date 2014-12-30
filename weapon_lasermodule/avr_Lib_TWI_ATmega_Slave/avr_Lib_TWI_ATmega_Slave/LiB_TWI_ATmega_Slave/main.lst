@@ -1,0 +1,243 @@
+   1               		.file	"main.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	Initialisierung
+  12               	Initialisierung:
+  13               	.LFB5:
+  14               		.file 1 "main.c"
+   1:main.c        **** /*#################################################################################################
+   2:main.c        **** 	Title	: TWI SLave
+   3:main.c        **** 	Author	: Martin Junghans <jtronics@gmx.de>
+   4:main.c        **** 	Hompage	: www.jtronics.de
+   5:main.c        **** 	Software: AVR-GCC / Programmers Notpad 2
+   6:main.c        **** 	License	: GNU General Public License 
+   7:main.c        **** 	
+   8:main.c        **** 	Aufgabe	:
+   9:main.c        **** 	Betrieb eines AVRs mit Hardware-TWI-Schnittstelle als Slave. 
+  10:main.c        **** 	Zu Beginn muss init_twi_slave mit der gewünschten Slave-Adresse als Parameter aufgerufen werden. 
+  11:main.c        **** 	Der Datenaustausch mit dem Master erfolgt über die Buffer rxbuffer und txbuffer, auf die von Maste
+  12:main.c        **** 	rxbuffer und txbuffer sind globale Variablen (Array aus uint8_t).
+  13:main.c        **** 	
+  14:main.c        **** 	Ablauf:
+  15:main.c        **** 	Die Ansteuerung des rxbuffers, in den der Master schreiben kann, erfolgt ähnlich wie bei einem nor
+  16:main.c        **** 	Man sendet zunächst die Bufferposition, an die man schreiben will, und dann die Daten. Die Bufferp
+  17:main.c        **** 	automatisch hochgezählt, sodass man mehrere Datenbytes hintereinander schreiben kann, ohne jedesma
+  18:main.c        **** 	die Bufferadresse zu schreiben.
+  19:main.c        **** 	Um den txbuffer vom Master aus zu lesen, überträgt man zunächst in einem Schreibzugriff die gewüns
+  20:main.c        **** 	liest dann nach einem repeated start die Daten aus. Die Bufferposition wird automatisch hochgezähl
+  21:main.c        **** 	Datenbytes hintereinander lesen kann, ohne jedesmal die Bufferposition zu schreiben.
+  22:main.c        **** 
+  23:main.c        **** 	Abgefangene Fehlbedienung durch den Master:
+  24:main.c        **** 	- Lesen über die Grenze des txbuffers hinaus
+  25:main.c        **** 	- Schreiben über die Grenzen des rxbuffers hinaus
+  26:main.c        **** 	- Angabe einer ungültigen Schreib/Lese-Adresse
+  27:main.c        **** 	- Lesezuggriff, ohne vorher Leseadresse geschrieben zu haben
+  28:main.c        **** 	
+  29:main.c        **** 	LICENSE:
+  30:main.c        ****     This program is free software; you can redistribute it and/or modify
+  31:main.c        ****     it under the terms of the GNU General Public License as published by
+  32:main.c        ****     the Free Software Foundation; either version 2 of the License, or
+  33:main.c        ****     any later version.
+  34:main.c        **** 
+  35:main.c        ****     This program is distributed in the hope that it will be useful,
+  36:main.c        ****     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  37:main.c        ****     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  38:main.c        ****     GNU General Public License for more details.
+  39:main.c        **** 
+  40:main.c        **** //#################################################################################################
+  41:main.c        **** 
+  42:main.c        **** #include <stdlib.h>
+  43:main.c        **** #include <avr/io.h>
+  44:main.c        **** #include <avr/interrupt.h>
+  45:main.c        **** #include <avr/pgmspace.h>
+  46:main.c        **** 
+  47:main.c        **** #include "twislave.h"
+  48:main.c        **** 
+  49:main.c        **** #ifndef F_CPU
+  50:main.c        **** #define F_CPU 16000000UL
+  51:main.c        **** #endif
+  52:main.c        **** 
+  53:main.c        **** //###################### Slave-Adresse
+  54:main.c        **** #define SLAVE_ADRESSE 0x50 								// Slave-Adresse
+  55:main.c        **** 
+  56:main.c        **** //###################### Macros
+  57:main.c        **** #define uniq(LOW,HEIGHT)	((HEIGHT << 8)|LOW)			// 2x 8Bit 	--> 16Bit
+  58:main.c        **** #define LOW_BYTE(x)        	(x & 0xff)					// 16Bit 	--> 8Bit
+  59:main.c        **** #define HIGH_BYTE(x)       	((x >> 8) & 0xff)			// 16Bit 	--> 8Bit
+  60:main.c        **** 
+  61:main.c        **** 
+  62:main.c        **** #define sbi(ADDRESS,BIT) 	((ADDRESS) |= (1<<(BIT)))	// set Bit
+  63:main.c        **** #define cbi(ADDRESS,BIT) 	((ADDRESS) &= ~(1<<(BIT)))	// clear Bit
+  64:main.c        **** #define	toggle(ADDRESS,BIT)	((ADDRESS) ^= (1<<BIT))		// Bit umschalten
+  65:main.c        **** 
+  66:main.c        **** #define	bis(ADDRESS,BIT)	(ADDRESS & (1<<BIT))		// bit is set?
+  67:main.c        **** #define	bic(ADDRESS,BIT)	(!(ADDRESS & (1<<BIT)))		// bit is clear?
+  68:main.c        **** 
+  69:main.c        **** 
+  70:main.c        **** //###################### Variablen
+  71:main.c        **** 	uint16_t 	Variable=2345;				//Zähler
+  72:main.c        **** 	uint16_t	buffer;
+  73:main.c        **** 	uint16_t	low, hight;
+  74:main.c        **** 
+  75:main.c        **** //#################################################################################################
+  76:main.c        **** void Initialisierung(void)
+  77:main.c        **** 	{
+  15               		.loc 1 77 0
+  16               		.cfi_startproc
+  17               	/* prologue: function */
+  18               	/* frame size = 0 */
+  19               	/* stack size = 0 */
+  20               	.L__stack_usage = 0
+  78:main.c        **** 	cli();
+  21               		.loc 1 78 0
+  22               	/* #APP */
+  23               	 ;  78 "main.c" 1
+  24 0000 F894      		cli
+  25               	 ;  0 "" 2
+  79:main.c        **** 	//### PORTS	
+  80:main.c        **** 	
+  81:main.c        **** 	//### TWI 
+  82:main.c        **** 	init_twi_slave(SLAVE_ADRESSE);			//TWI als Slave mit Adresse slaveadr starten 
+  26               		.loc 1 82 0
+  27               	/* #NOAPP */
+  28 0002 80E5      		ldi r24,lo8(80)
+  29 0004 0E94 0000 		call init_twi_slave
+  30               	.LVL0:
+  83:main.c        **** 	
+  84:main.c        **** 	sei();
+  31               		.loc 1 84 0
+  32               	/* #APP */
+  33               	 ;  84 "main.c" 1
+  34 0008 7894      		sei
+  35               	 ;  0 "" 2
+  36               	/* #NOAPP */
+  37 000a 0895      		ret
+  38               		.cfi_endproc
+  39               	.LFE5:
+  41               		.section	.text.startup,"ax",@progbits
+  42               	.global	main
+  44               	main:
+  45               	.LFB6:
+  85:main.c        **** 	}
+  86:main.c        **** 
+  87:main.c        **** //#################################################################################################
+  88:main.c        **** int main(void)
+  89:main.c        **** {	
+  46               		.loc 1 89 0
+  47               		.cfi_startproc
+  48               	/* prologue: function */
+  49               	/* frame size = 0 */
+  50               	/* stack size = 0 */
+  51               	.L__stack_usage = 0
+  90:main.c        ****  
+  91:main.c        **** Initialisierung();
+  52               		.loc 1 91 0
+  53 0000 0E94 0000 		call Initialisierung
+  54               	.LVL1:
+  55 0004 2091 0000 		lds r18,Variable
+  56 0008 8091 0000 		lds r24,Variable+1
+  92:main.c        **** 
+  93:main.c        **** while(1)
+  94:main.c        ****     {
+  95:main.c        **** 	//############################ write Data in txbuffer
+  96:main.c        **** 	
+  97:main.c        **** 	// 8Bit variable
+  98:main.c        **** 	txbuffer[2]=3;	
+  57               		.loc 1 98 0
+  58 000c 63E0      		ldi r22,lo8(3)
+  99:main.c        **** 	txbuffer[3]=4;		
+  59               		.loc 1 99 0
+  60 000e 54E0      		ldi r21,lo8(4)
+ 100:main.c        **** 	txbuffer[4]=5;	
+  61               		.loc 1 100 0
+  62 0010 45E0      		ldi r20,lo8(5)
+ 101:main.c        **** 	txbuffer[5]=6;	
+  63               		.loc 1 101 0
+  64 0012 36E0      		ldi r19,lo8(6)
+  65               	.L3:
+  98:main.c        **** 	txbuffer[3]=4;		
+  66               		.loc 1 98 0 discriminator 1
+  67 0014 6093 0000 		sts txbuffer+2,r22
+  99:main.c        **** 	txbuffer[4]=5;	
+  68               		.loc 1 99 0 discriminator 1
+  69 0018 5093 0000 		sts txbuffer+3,r21
+ 100:main.c        **** 	txbuffer[5]=6;	
+  70               		.loc 1 100 0 discriminator 1
+  71 001c 4093 0000 		sts txbuffer+4,r20
+  72               		.loc 1 101 0 discriminator 1
+  73 0020 3093 0000 		sts txbuffer+5,r19
+ 102:main.c        **** 	
+ 103:main.c        **** 	// 16Bit Variable --> 2x 8Bit Variable
+ 104:main.c        **** 	buffer		= Variable;
+ 105:main.c        **** 	txbuffer[0]	= LOW_BYTE(buffer);			//16bit --> 8bit
+  74               		.loc 1 105 0 discriminator 1
+  75 0024 2093 0000 		sts txbuffer,r18
+ 106:main.c        **** 	txbuffer[1]	= HIGH_BYTE(buffer);		//16bit --> 8bit
+  76               		.loc 1 106 0 discriminator 1
+  77 0028 8093 0000 		sts txbuffer+1,r24
+ 107:main.c        **** 	
+ 108:main.c        **** 
+ 109:main.c        **** 	//############################ read Data form rxbuffer
+ 110:main.c        **** 
+ 111:main.c        **** 	// 8Bit variable
+ 112:main.c        **** 	Variable	= rxbuffer[2];
+  78               		.loc 1 112 0 discriminator 1
+  79 002c 8091 0000 		lds r24,rxbuffer+2
+ 113:main.c        **** 	
+ 114:main.c        **** 	// 2x 8Bit Variable -->16Bit Variable
+ 115:main.c        **** 	low			= rxbuffer[0];
+  80               		.loc 1 115 0 discriminator 1
+  81 0030 8091 0000 		lds r24,rxbuffer
+ 116:main.c        **** 	hight		= rxbuffer[1];
+  82               		.loc 1 116 0 discriminator 1
+  83 0034 2091 0000 		lds r18,rxbuffer+1
+ 117:main.c        **** 	Variable	= uniq(low,hight);			// 2x 8Bit  --> 16Bit
+  84               		.loc 1 117 0 discriminator 1
+  85 0038 90E0      		ldi r25,0
+  86 003a 922B      		or r25,r18
+  87 003c 282F      		mov r18,r24
+  88 003e 892F      		mov r24,r25
+  89 0040 00C0      		rjmp .L3
+  90               		.cfi_endproc
+  91               	.LFE6:
+  93               		.comm	hight,2,1
+  94               		.comm	low,2,1
+  95               		.comm	buffer,2,1
+  96               	.global	Variable
+  97               		.data
+ 100               	Variable:
+ 101 0000 2909      		.word	2345
+ 102               		.comm	buffer_adr,1,1
+ 103               		.comm	txbuffer,20,1
+ 104               		.comm	rxbuffer,20,1
+ 105               		.text
+ 106               	.Letext0:
+ 107               		.file 2 "c:\\program files (x86)\\mhv avr tools\\avr\\include\\stdint.h"
+ 108               		.file 3 "twislave.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\lars\AppData\Local\Temp\ccwu2BEr.s:2      *ABS*:0000003e __SP_H__
+C:\Users\lars\AppData\Local\Temp\ccwu2BEr.s:3      *ABS*:0000003d __SP_L__
+C:\Users\lars\AppData\Local\Temp\ccwu2BEr.s:4      *ABS*:0000003f __SREG__
+C:\Users\lars\AppData\Local\Temp\ccwu2BEr.s:5      *ABS*:00000000 __tmp_reg__
+C:\Users\lars\AppData\Local\Temp\ccwu2BEr.s:6      *ABS*:00000001 __zero_reg__
+C:\Users\lars\AppData\Local\Temp\ccwu2BEr.s:12     .text:00000000 Initialisierung
+C:\Users\lars\AppData\Local\Temp\ccwu2BEr.s:44     .text.startup:00000000 main
+C:\Users\lars\AppData\Local\Temp\ccwu2BEr.s:100    .data:00000000 Variable
+                            *COM*:00000014 txbuffer
+                            *COM*:00000014 rxbuffer
+                            *COM*:00000002 hight
+                            *COM*:00000002 low
+                            *COM*:00000002 buffer
+                            *COM*:00000001 buffer_adr
+
+UNDEFINED SYMBOLS
+init_twi_slave
+__do_copy_data
+__do_clear_bss
