@@ -100,10 +100,10 @@ uint32_t millis;
 volatile uint8_t counter;
 
 ISR(TIMER0_OVF_vect){
-	if(counter++ == 38){
-		millis++;
-		counter=0;
-	}
+	// if(counter++ == 38){
+		// millis++;
+		// counter=0;
+	// }
 }
 
 uint8_t laser_r(uint8_t on){
@@ -165,7 +165,7 @@ int main(void){
 	//Timer 0: Mode 3: Fast PWM, TOP: 0xFF, Update of OCRx: Bottom, TOV1 Flag set on: TOP, Prescaler: 1, Set OC0x on Compare Match
 	TCCR0A = _BV(COM0B0) | _BV(COM0A0) | _BV(COM0B1) | _BV(COM0A1) | _BV(WGM00) | _BV(WGM01);
     TCCR0B = _BV(CS00);
-	TIMSK0 |= (1<<TOIE0); //Overflow Interrupt for count millis
+	//TIMSK0 |= (1<<TOIE0); //Overflow Interrupt for count millis
 	
 	//Timer 2: Mode 3: Fast PWM, TOP: 0xFF, Update of OCRx: Bottom, TOV1 Flag set on: TOP, Prescaler: 1, Set OC2x on Compare Match
 	TCCR2A = _BV(COM2B0) | _BV(COM2A0) | _BV(COM2B1) | _BV(COM2A1) | _BV(WGM20) | _BV(WGM21);
@@ -205,7 +205,8 @@ int main(void){
 	
  	while(1){
 		txbuffer[0] = taster(&PINB, KEY_1);
-
+		txbuffer[1] = taster(&PINB, KEY_2);
+		txbuffer[2] = taster(&PINB, KEY_3);
 		LED_R = 255-rxbuffer[3]; //LED_R
 		LED_G = ICR1-rxbuffer[4]; //LED_G
 		LED_B = 255-rxbuffer[5]; //LED_B

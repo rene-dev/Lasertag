@@ -1,3 +1,0 @@
-
-@make load
-@pause
