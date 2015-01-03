@@ -39,7 +39,7 @@ int main(void){
 
 	//Timer 1: Mode 14: Fast PWM, inverting mode, Top: ICR1, Update of OCR1x: Bottom, TOV1 Flag set on: TOP, Prescaler: 1
 	TCCR1A = _BV(COM1B0) | _BV(COM1A0) | _BV(COM1B1) | _BV(COM1A1) | _BV(WGM11);
-    TCCR1B = _BV(CS10) | _BV(WGM12) | _BV(WGM13);
+	TCCR1B = _BV(CS10) | _BV(WGM12) | _BV(WGM13);
 	
 	//IR carrier frequency to 37.915 kHz:
 	ICR1 = 210;
@@ -52,8 +52,8 @@ int main(void){
 	//UART init
 	UBRR0H = UBRR_VAL >> 8;
 	UBRR0L = UBRR_VAL & 0xFF;
-	UCSR0B |= _BV(TXEN0) | _BV(RXEN0) | _BV(RXCIE0); //UART RX, TX und RX-Interrupt einschalten
-    UCSR0C = (1<<UCSZ01) | (1<<UCSZ00); //Asynchron 8N1 
+	UCSR0C = (1<<UCSZ01) | (1<<UCSZ00); //Asynchron 8N1 
+	UCSR0B = _BV(TXEN0) | _BV(RXEN0); //UART RX, TX einschalten
 	
 	sei();                  // enable Interrupts global
 	
