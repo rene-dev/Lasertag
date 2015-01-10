@@ -10,7 +10,7 @@ import network
 
 end = 66666666666666666666666666666
 i = 0
-data = 0
+fire = 0
 leben = 0
 
 sounds = Sounds.Sounds()
@@ -19,11 +19,13 @@ cs = network.Client_server("10.0.8.200", 9005)
 
 pygame.init()
 
+hardware.setTopLED(G=255)
+
 try:
 	while True:
 		#print network.Client_server.empf()
 		leben = hardware.getLive()
-		data = hardware.getFire()
+		fire = hardware.getFire()
 		
 		if leben == 42:
 			hardware.setTopLED(G=0)
@@ -32,14 +34,13 @@ try:
 			sounds.play('down', True)
 			hardware.setTopLED(G=255)
 			hardware.getLive() # Einmal abrufen fals man nochmal getroffen wurde
-			data = 0
+			fire = 0
 			leben = 0
 		
-		if data == 1 and display.schuss >=0:
+		if fire == 1 and display.schuss >=0:
 			sounds.play('pew')
 			hardware.setLaser(R=1)
 			hardware.setFrontLED(R=255)
-			hardware.setTopLED(G=255)
 			time.sleep(0.1)
 			hardware.setLaser(R=0)
 			hardware.setFrontLED(R=0, B=0)
@@ -47,7 +48,7 @@ try:
 			display.schuss = display.schuss-1
 		if time.time() >= end:
 			break
-		print data, i, display.schuss, leben
+		print fire, i, display.schuss, leben
 except KeyboardInterrupt:
 	print 'Keyboard interrupt...'
 	hardware.setLaser(R=0)

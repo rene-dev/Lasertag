@@ -8,21 +8,18 @@ schuss = 1000
 
 pygame.init()
 pygame.mouse.set_visible(False)
-font = pygame.font.SysFont("comicsansms", 72)
-klein = pygame.font.SysFont("comicsansms", 25)
 screen = pygame.display.set_mode([240, 320])
-bild = pygame.image.load("images/waffe.jpg")
-herz = pygame.image.load("images/herz.png")
-red = 255,0,0
+font1 = pygame.font.SysFont("comicsansms", 72)
+font2 = pygame.font.SysFont("comicsansms", 25)
+bild_waffe = pygame.image.load("images/waffe.jpg")
+bild_herz = pygame.image.load("images/herz.png")
 
 def neu():
-	i=0
 	while 1:
 		time.sleep(0.1)
-		uhr=time.strftime("%H:%M:%S")
-		text = font.render(str(schuss), True, (0, 128, 0))
-		uhrzeit = klein.render(str(uhr), True, (0, 255,0))
-		leben = font.render("100%", True, (0,128,0))
+		text_schuss = font1.render(str(schuss), True, (0, 128, 0))
+		text_uhrzeit = font2.render(str(time.strftime("%H:%M:%S")), True, (0, 255,0))
+		text_leben = font1.render("100%", True, (0,128,0))
 		screen.fill((255, 255, 255))
 		pygame.draw.rect(screen,[0,0,0],[0,0,240,17],0)
 		pygame.draw.rect(screen,[0,255,0],[5,5,3,10],0)
@@ -30,11 +27,11 @@ def neu():
 		pygame.draw.rect(screen,[0,255,0],[15,12,3,3],0)
 		pygame.draw.rect(screen,[0,255,0],[0,70,240,3],0)
 		pygame.draw.rect(screen,[0,255,0],[0,120,240,3],0)
-		screen.blit(bild, (0, 30))
-		screen.blit(herz, (0, 75))
-		screen.blit(text,(100 - text.get_width() // 2, 45 - text.get_height() // 2))
-		screen.blit(leben,(100 - text.get_width() // 2, 95 - text.get_height() // 2))
-		screen.blit(uhrzeit,(220 - text.get_width() // 2, 25 - text.get_height() // 2))
+		screen.blit(bild_waffe, (0, 30))
+		screen.blit(bild_herz, (0, 75))
+		screen.blit(text_schuss,(100 - text_schuss.get_width() // 2, 45 - text_schuss.get_height() // 2))
+		screen.blit(text_leben,(100 - text_leben.get_width() // 2, 95 - text_leben.get_height() // 2))
+		screen.blit(text_uhrzeit,(220 - text_uhrzeit.get_width() // 2, 25 - text_uhrzeit.get_height() // 2))
 		pygame.display.update()
 
 thread.start_new_thread(neu,())
