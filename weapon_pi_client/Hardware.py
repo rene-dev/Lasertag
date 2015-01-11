@@ -5,9 +5,8 @@ import logging
 import smbus 
 
 """	addr 0x18
-	  0	  1	  2	  3	  4	  5	  6	  7		8		9		10	 11		12	  13	 14  15  16
-0x10  LED_R  LED_G  LED_B  LED_W																						  Live
-0x18  Fire   Key	Key	LED_R  LED_G  LED_B  LED_W  Laser_R  Laser_G  Laser_B  TxPID  TxDamage  Haptic  alive
+0		1		2		3		4		5		6		7		8		9		10		11		12		13				14
+key_1	key_2	key_3	led_r	led_g	led_b	led_w	laser_r	laser_g	laser_b	tx_pid	tx_dmg	shoot	treffer_fertig	haptik
 """
 
 logger = logging.getLogger(__name__)
@@ -18,7 +17,7 @@ class Hardware:
 
 	def __init__(self):
 		self.bus = smbus.SMBus(0)
-		self.getFire()
+		self.getFireButton()
 		self.getLive()
 		self.setLaser(R=0, G=0, B=0)
 		self.setFrontLED(R=0, G=0, B=0, W=0)
@@ -35,9 +34,26 @@ class Hardware:
 
 	def setTrefferModule(self, register, data):
 		self.bus.write_byte_data(self.adrTrefferModule, register, data)
-
-	def getFire(self):
-		return self.getLaserModule(0x00)
+				
+	def setIRInfo(self, id=None, dmg=None):
+		if id is not None:
+			self.bus.write_byte_data(self.adrLaserModule, 10, id)
+		if dmg is not None:
+			self.bus.write_byte_data(self.adrLaserModule, 11, dmg)
+	
+	def getFireLaser(self):
+		playerid = self.getLaserModule(10)
+		dmg = self.getLaserModule(11)
+		self.bus.write_byte_data(self.adrLaserModule, 13, 1)
+		return (playerid, dmg)
+		
+	#def getFireTreffer(self):
+		
+	def setFire(self):
+		self.bus.write_byte_data(self.adrLaserModule, 12, 1)
+		
+	def getFireButton(self):
+		return self.getLaserModule(0)
 
 	def getLive(self):
 		return self.getTrefferModule(0x10)

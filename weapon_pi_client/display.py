@@ -31,7 +31,7 @@ def neu():
 		screen.blit(bild_herz, (0, 75))
 		screen.blit(text_schuss,(100 - text_schuss.get_width() // 2, 45 - text_schuss.get_height() // 2))
 		screen.blit(text_leben,(100 - text_leben.get_width() // 2, 95 - text_leben.get_height() // 2))
-		screen.blit(text_uhrzeit,(220 - text_uhrzeit.get_width() // 2, 25 - text_uhrzeit.get_height() // 2))
+		screen.blit(text_uhrzeit,(175, 0))
 		pygame.display.update()
 
 thread.start_new_thread(neu,())

@@ -1,4 +1,4 @@
-import logging
+#import logging
 import time
 import pygame
 
@@ -7,8 +7,8 @@ import display
 import Sounds
 import Hardware
 import network
+end = 9999999999999999999999999999999
 
-end = 66666666666666666666666666666
 i = 0
 fire = 0
 leben = 0
@@ -20,14 +20,16 @@ cs = network.Client_server("10.0.8.200", 9005)
 pygame.init()
 
 hardware.setTopLED(G=255)
+hardware.setIRInfo(id=30, dmg=30)#randint(1,254)
 
 try:
 	while True:
 		#print network.Client_server.empf()
 		leben = hardware.getLive()
-		fire = hardware.getFire()
-		
-		if leben == 42:
+		fire = hardware.getFireButton() 
+		playerid, dmg = hardware.getFireLaser()
+		print playerid
+		if playerid != 30 and playerid != 0:
 			hardware.setTopLED(G=0)
 			cs.send("death")
 			sounds.play('tod', True)
@@ -38,7 +40,8 @@ try:
 			leben = 0
 		
 		if fire == 1 and display.schuss >=0:
-			sounds.play('pew')
+			sounds.play('pew5')
+			hardware.setFire()
 			hardware.setLaser(R=1)
 			hardware.setFrontLED(R=255)
 			time.sleep(0.1)

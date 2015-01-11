@@ -43,26 +43,6 @@ volatile uint16_t color[3];
 volatile uint8_t last_hit = 0;
 volatile uint8_t i2c_last_reg_access = -1;
 
-/* Einfache Funktion zum Entprellen eines Tasters */
-//http://www.mikrocontroller.net/articles/Entprellung
-inline uint8_t debounce(volatile uint8_t *port, uint8_t pin)
-{
-    if ( !(*port & (1 << pin)) )
-    {
-        /* Pin wurde auf Masse gezogen, 100ms warten   */
-        _delay_ms(50);   // Maximalwert des Parameters an _delay_ms 
-        _delay_ms(50);   // beachten, vgl. Dokumentation der avr-libc
-        if ( *port & (1 << pin) )
-        {
-            /* Anwender Zeit zum Loslassen des Tasters geben */
-            _delay_ms(50);
-            _delay_ms(50); 
-            return 1;
-        }
-    }
-    return 0;
-}
-
 uint8_t taster(volatile uint8_t *port, uint8_t pin)
 {
 	if(!(*port & (1 << pin))){
@@ -74,14 +54,35 @@ uint8_t taster(volatile uint8_t *port, uint8_t pin)
 	}
 }
 
+// ISR(USART_RX_vect){
+	// static unsigned char lastbyte = 0;
+	// unsigned char ch = UDR0;
+	// if(lastbyte == 'a' && ch == 'b'){
+		// alive = NO;
+	// }
+	// lastbyte = ch;
+// }
+
 ISR(USART_RX_vect){
-	static unsigned char lastbyte = 0;
-	unsigned char ch = UDR0;
-	if(lastbyte == 'a' && ch == 'b'){
-		alive = NO;
+				 //Startbyte PlayerID Schaden checksum
+	static uint8_t rx1=0,    rx2=0,   rx3=0,  rx4=0;
+	rx1 = rx2;
+	rx2 = rx3;
+	rx3 = rx4;
+	rx4 = UDR0;
+	if(rx1 == 0xff && (rx1^rx2^rx3) == rx4){
+		txbuffer[10] = rx2;
+		txbuffer[11] = rx3;
+		txbuffer[20] = rx4;
+		//alive = NO;
 	}
-	lastbyte = ch;
+	// rx1	rx2	rx3
+	// 0	0	0
+	// 0	0	a
+	// 0	a	b
+	// a	b	c
 }
+
 
 void USART_Transmit( unsigned char data )
 {
@@ -200,8 +201,8 @@ int main(void){
 	sei();                  // enable Interrupts global
 	
 	//i2c:
-	//0		1		2		3		4		5		6		7		8		9		10		11		12
-	//key_1	key_2	key_3	led_r	led_g	led_b	led_w	laser_r	laser_g	laser_b	tx_pid	tx_dmg	haptik
+	//0		1		2		3		4		5		6		7		8		9		10		11		12		13				14
+	//key_1	key_2	key_3	led_r	led_g	led_b	led_w	laser_r	laser_g	laser_b	tx_pid	tx_dmg	shoot	treffer_fertig	haptik
 	
  	while(1){
 		txbuffer[0] = taster(&PINB, KEY_1);
@@ -214,9 +215,18 @@ int main(void){
 		laser_r(rxbuffer[7]); //LASER_R
 		laser_g(rxbuffer[8]); //LASER_G
 		LASER_B = rxbuffer[9]; //LASER_B
-		if(rxbuffer[10] != 0 && rxbuffer[11] != 0){
+		if(rxbuffer[13] != 0){
+			txbuffer[10] = 0;
+			txbuffer[11] = 0;
+			rxbuffer[13] = 0;
+		}
+		if(rxbuffer[12] != 0){ //IR senden
+			USART_Transmit(0xff); //IR_TX: Startbyte
 			USART_Transmit(rxbuffer[10]); //IR_TX: PlayerID
 			USART_Transmit(rxbuffer[11]); //IR_TX: Schaden
+			USART_Transmit(0xff^rxbuffer[10]^rxbuffer[11]); //IR_TX: checksum
+			rxbuffer[12] = 0;
+			//_delay_ms(10);
 		}
 	}
 	return 0;

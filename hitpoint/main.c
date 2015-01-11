@@ -51,10 +51,10 @@ void long_delay(uint16_t ms)
 	for(; ms>0; ms--) _delay_ms(1);
 }
 
-//master greift auf lm zu, lesen oder schreiben
+//master greift auf lm zu, lesen oder schreiben (interrupt)
 void i2c_slave_poll_buffer(unsigned char reg_addr, volatile unsigned char** buffer, volatile unsigned char* buffer_length){
 	if ((reg_addr >= REG_LED_COLOR) && (reg_addr < (REG_LED_COLOR + 3))){ //
-		*buffer        = &color_buffer[reg_addr]; //
+		*buffer        = &color_buffer[reg_addr]; // & = adresse, *auf das schreiben auf das die add verweist, 
 		*buffer_length = (3-(reg_addr-REG_LED_COLOR));
 		i2c_last_reg_access = REG_LED_COLOR;
 	} else if (reg_addr == REG_LAST_HIT){
