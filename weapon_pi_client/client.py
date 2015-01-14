@@ -20,7 +20,7 @@ cs = network.Client_server("10.0.8.200", 9005)
 pygame.init()
 
 hardware.setTopLED(G=255)
-hardware.setIRInfo(id=30, dmg=30)#randint(1,254)
+hardware.setIRInfo(id=32, dmg=30)#randint(1,254)
 
 try:
 	while True:
@@ -29,21 +29,21 @@ try:
 		fire = hardware.getFireButton() 
 		playerid, dmg = hardware.getFireLaser()
 		print playerid
-		if playerid != 30 and playerid != 0:
+		if playerid != 32 and playerid != 0:
 			hardware.setTopLED(G=0)
 			cs.send("death")
 			sounds.play('tod', True)
 			sounds.play('down', True)
 			hardware.setTopLED(G=255)
-			hardware.getLive() # Einmal abrufen fals man nochmal getroffen wurde
+			hardware.getFireLaser() # Einmal abrufen fals man nochmal getroffen wurde
 			fire = 0
 			leben = 0
 		
 		if fire == 1 and display.schuss >=0:
-			sounds.play('pew5')
+			sounds.play('pew')
 			hardware.setFire()
 			hardware.setLaser(R=1)
-			hardware.setFrontLED(R=255)
+			hardware.setFrontLED(R=2)
 			time.sleep(0.1)
 			hardware.setLaser(R=0)
 			hardware.setFrontLED(R=0, B=0)

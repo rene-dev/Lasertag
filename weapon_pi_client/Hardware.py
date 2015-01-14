@@ -16,7 +16,7 @@ class Hardware:
 	adrLaserModule = 0x18
 
 	def __init__(self):
-		self.bus = smbus.SMBus(0)
+		self.bus = smbus.SMBus(1)
 		self.getFireButton()
 		self.getLive()
 		self.setLaser(R=0, G=0, B=0)
