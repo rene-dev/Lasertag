@@ -15,19 +15,19 @@ leben = 0
 
 sounds = Sounds.Sounds()
 hardware = Hardware.Hardware()
-cs = network.Client_server("10.0.8.200", 9005)
+#cs = network.Client_server("10.0.8.200", 9005)
 
 pygame.init()
 
 hardware.setTopLED(G=255)
-hardware.setIRInfo(id=32, dmg=30)#randint(1,254)
+hardware.setIR_TX(id=32, dmg=30)#randint(1,254)
 
 try:
 	while True:
 		#print network.Client_server.empf()
 		leben = hardware.getLive()
 		fire = hardware.getFireButton() 
-		playerid, dmg = hardware.getFireLaser()
+		playerid, dmg = hardware.getLmHit()
 		print playerid
 		if playerid != 32 and playerid != 0:
 			hardware.setTopLED(G=0)
@@ -35,7 +35,7 @@ try:
 			sounds.play('tod', True)
 			sounds.play('down', True)
 			hardware.setTopLED(G=255)
-			hardware.getFireLaser() # Einmal abrufen fals man nochmal getroffen wurde
+			hardware.getLmHit() # Einmal abrufen fals man nochmal getroffen wurde
 			fire = 0
 			leben = 0
 		

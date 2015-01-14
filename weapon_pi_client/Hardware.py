@@ -23,27 +23,27 @@ class Hardware:
 		self.setFrontLED(R=0, G=0, B=0, W=0)
 		self.setTopLED(R=0, G=0, B=0, W=0)
 
-	def getLaserModule(self, register):
+	def getLmData(self, register):
 		return self.bus.read_byte_data(self.adrLaserModule, register)
 
-	def setLaserModule(self, register, data):
+	def setLmData(self, register, data):
 		self.bus.write_byte_data(self.adrLaserModule, register, data)
 
-	def getTrefferModule(self, register):
+	def getTmData(self, register):
 		return self.bus.read_byte_data(self.adrTrefferModule, register)
 
-	def setTrefferModule(self, register, data):
+	def setTmData(self, register, data):
 		self.bus.write_byte_data(self.adrTrefferModule, register, data)
 				
-	def setIRInfo(self, id=None, dmg=None):
+	def setIR_TX(self, id=None, dmg=None):
 		if id is not None:
 			self.bus.write_byte_data(self.adrLaserModule, 10, id)
 		if dmg is not None:
 			self.bus.write_byte_data(self.adrLaserModule, 11, dmg)
 	
-	def getFireLaser(self):
-		playerid = self.getLaserModule(10)
-		dmg = self.getLaserModule(11)
+	def getLmHit(self):
+		playerid = self.getLmData(10)
+		dmg = self.getLmData(11)
 		self.bus.write_byte_data(self.adrLaserModule, 13, 1)
 		return (playerid, dmg)
 		
@@ -52,39 +52,39 @@ class Hardware:
 	def setFire(self):
 		self.bus.write_byte_data(self.adrLaserModule, 12, 1)
 		
-	def getFireButton(self):
-		return self.getLaserModule(0)
+	# def getFireButton(self):
+		# return self.getLmData(0)
 
 	def getLive(self):
-		return self.getTrefferModule(0x10)
+		return self.getTmData(0x10)
 
 	def setLaser(self, R=None, G=None, B=None):
 		if R is not None:
-			self.setLaserModule(7, R)
+			self.setLmData(7, R)
 		if G is not None:
-			self.setLaserModule(8, G)
+			self.setLmData(8, G)
 		if B is not None:
-			self.setLaserModule(9, B)
+			self.setLmData(9, B)
 
 	def setTopLED(self, R=None, G=None, B=None, W=None):
 		if R is not None:
-			self.setTrefferModule(0, R)
+			self.setTmData(0, R)
 		if G is not None:
-			self.setTrefferModule(1, G)
+			self.setTmData(1, G)
 		if B is not None:
-			self.setTrefferModule(2, B)
+			self.setTmData(2, B)
 		if W is not None:
-			self.setTrefferModule(3, W)
+			self.setTmData(3, W)
 
 	def setFrontLED(self, R=None, G=None, B=None, W=None):
 		if R is not None:
-			self.setLaserModule(3, R)
+			self.setLmData(3, R)
 		if G is not None:
-			self.setLaserModule(4, G)
+			self.setLmData(4, G)
 		if B is not None:
-			self.setLaserModule(5, B)
+			self.setLmData(5, B)
 		if W is not None:
-			self.setLaserModule(6, W)
+			self.setLmData(6, W)
 
 			
 if __name__ == '__main__':
