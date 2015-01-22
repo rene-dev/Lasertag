@@ -10,7 +10,7 @@ import network
 end = 9999999999999999999999999999999
 
 i = 0
-fire = 0
+FireButton = 0
 leben = 0
 
 sounds = Sounds.Sounds()
@@ -26,7 +26,7 @@ try:
 	while True:
 		#print network.Client_server.empf()
 		leben = hardware.getLive()
-		fire = hardware.getFireButton() 
+		FireButton = hardware.getFireButton() 
 		playerid, dmg = hardware.getLmHit()
 		print playerid
 		if playerid != 32 and playerid != 0:
@@ -36,12 +36,12 @@ try:
 			sounds.play('down', True)
 			hardware.setTopLED(G=255)
 			hardware.getLmHit() # Einmal abrufen fals man nochmal getroffen wurde
-			fire = 0
+			FireButton = 0
 			leben = 0
 		
-		if fire == 1 and display.schuss >=0:
+		if FireButton == 1 and display.schuss >=0:
 			sounds.play('pew')
-			hardware.setFire()
+			hardware.setFireButton()
 			hardware.setLaser(R=1)
 			hardware.setFrontLED(R=2)
 			time.sleep(0.1)
@@ -51,7 +51,7 @@ try:
 			display.schuss = display.schuss-1
 		if time.time() >= end:
 			break
-		print fire, i, display.schuss, leben
+		print FireButton, i, display.schuss, leben
 except KeyboardInterrupt:
 	print 'Keyboard interrupt...'
 	hardware.setLaser(R=0)

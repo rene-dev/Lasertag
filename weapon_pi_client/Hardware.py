@@ -52,8 +52,8 @@ class Hardware:
 	def setFire(self):
 		self.bus.write_byte_data(self.adrLaserModule, 12, 1)
 		
-	# def getFireButton(self):
-		# return self.getLmData(0)
+	def getFireButton(self):
+		return self.getLmData(0)
 
 	def getLive(self):
 		return self.getTmData(0x10)
