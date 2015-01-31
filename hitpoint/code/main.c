@@ -51,16 +51,16 @@ void long_delay(uint16_t ms)
 	for(; ms>0; ms--) _delay_ms(1);
 }
 
-//master greift auf lm zu, lesen oder schreiben (interrupt)
-void i2c_slave_poll_buffer(unsigned char reg_addr, volatile unsigned char** buffer, volatile unsigned char* buffer_length){
-	if ((reg_addr >= REG_LED_COLOR) && (reg_addr < (REG_LED_COLOR + 3))){ //
-		*buffer        = &color_buffer[reg_addr]; // & = adresse, *auf das schreiben auf das die add verweist, 
+//master greift auf lm zu, lesen oder schreiben (interrupt). reg_addr=stelle im i2c buffer die angefragt wird. buffer_length=wieviele zeichen angefragt werden dürfen (nur für lib)
+void i2c_slave_poll_buffer(uint8_t reg_addr, volatile uint8_t **buffer, volatile uint8_t *buffer_length){
+	if ((reg_addr >= REG_LED_COLOR) && (reg_addr < (REG_LED_COLOR + 3))){
+		*buffer        = &color_buffer[reg_addr];
 		*buffer_length = (3-(reg_addr-REG_LED_COLOR));
 		i2c_last_reg_access = REG_LED_COLOR;
 	} else if (reg_addr == REG_LAST_HIT){
-		*buffer        = &last_hit;
-		*buffer_length = 1;
-		i2c_last_reg_access = REG_LAST_HIT;
+		*buffer        = &last_hit; //buffer-pointer wird auf last_hit umgebogen
+		*buffer_length = 1; //aus last_hit darf 1 byte gelesen werden
+		i2c_last_reg_access = REG_LAST_HIT; //modul merkt sich was zuletzt angefordert wurde um nach abruf den buffer zu leeren
 	} else {
 // 		*buffer = i2c_buffer;
 // 		*buffer_length = 16;
@@ -103,7 +103,7 @@ int main(void) {
 	while(1){
 		long_delay(1);
 		if(alive){
-			color[0] = (uint16_t)color_buffer[0] + ((uint16_t)RED*99);
+			color[0] = (uint16_t)color_buffer[0] + ((uint16_t)RED*99); //color_buffer=zielwert vom i2c
 			RED = color[0]/100;
 			color[1] = (uint16_t)color_buffer[1] + ((uint16_t)GREEN*99);
 			GREEN = color[1]/100;

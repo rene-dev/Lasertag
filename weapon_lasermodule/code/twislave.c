@@ -19,7 +19,7 @@
 	Um den txbuffer vom Master aus zu lesen, überträgt man zunächst in einem Schreibzugriff die gewünschte Bufferposition und
 	liest dann nach einem repeated start die Daten aus. Die Bufferposition wird automatisch hochgezählt, sodass man mehrere
 	Datenbytes hintereinander lesen kann, ohne jedesmal die Bufferposition zu schreiben.
-
+	
 	Abgefangene Fehlbedienung durch den Master:
 	- Lesen über die Grenze des txbuffers hinaus
 	- Schreiben über die Grenzen des rxbuffers hinaus
@@ -27,16 +27,16 @@
 	- Lesezuggriff, ohne vorher Leseadresse geschrieben zu haben
 	
 	LICENSE:
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
 //#################################################################################################*/
 
 #include <util/twi.h> 								// Bezeichnungen für Statuscodes in TWSR
@@ -44,9 +44,11 @@
 #include <stdint.h> 								// definiert Datentyp uint8_t
 #include "twislave.h" 								
 
-volatile uint8_t rxbuffer[buffer_size];				//Der Empfangsbuffer, der vom Slave ausgelesen werden kann.
-volatile uint8_t txbuffer[buffer_size];				//Der Sendebuffe, der vom Master ausgelesen werden kann.
-volatile static uint8_t buffer_adr; 						//"Adressregister" für den Buffer
+static volatile uint8_t buffer_adr; 						//"Adressregister" für den Buffer
+volatile uint8_t* buffer;
+volatile uint8_t buffer_size;
+
+
 
 //#################################### Macros
 //ACK nach empfangenen Daten senden/ ACK nach gesendeten Daten erwarten
@@ -59,82 +61,74 @@ volatile static uint8_t buffer_adr; 						//"Adressregister" für den Buffer
 #define TWCR_RESET 	TWCR = (1<<TWEN)|(1<<TWIE)|(1<<TWINT)|(1<<TWEA)|(0<<TWSTA)|(0<<TWSTO)|(0<<TWWC);  
 
 //########################################################################################## init_twi_slave 
-void init_twi_slave(uint8_t adr)
-{
+void init_twi_slave(uint8_t adr){
 	TWAR= adr; //Adresse setzen
 	TWCR &= ~(1<<TWSTA)|(1<<TWSTO);
-	TWCR|= (1<<TWEA) | (1<<TWEN)|(1<<TWIE); 	
-	buffer_adr=0xFF;  
+	TWCR|= (1<<TWEA) | (1<<TWEN)|(1<<TWIE);
+	buffer = 0;
 	sei();
 }
 
 //########################################################################################## ISR (TWI_vect) 
 //ISR, die bei einem Ereignis auf dem Bus ausgelöst wird. Im Register TWSR befindet sich dann 
 //ein Statuscode, anhand dessen die Situation festgestellt werden kann.
-ISR (TWI_vect)  
-{
-	uint8_t data=0;
+ISR (TWI_vect){
+	uint8_t data = 0;
 	switch (TW_STATUS) 								// TWI-Statusregister prüfen und nötige Aktion bestimmen 
 		{
 		case TW_SR_SLA_ACK: 						// 0x60 Slave Receiver, wurde adressiert	
 			TWCR_ACK; 								// nächstes Datenbyte empfangen, ACK danach
-			buffer_adr=0xFF; 						// Bufferposition ist undefiniert
+			buffer = 0; 						// Buffer ist undefiniert
 			break;
 
 		case TW_SR_DATA_ACK: 						// 0x80 Slave Receiver,Daten empfangen
 			data=TWDR; 								// Empfangene Daten auslesen
-			if (buffer_adr == 0xFF) 				// erster Zugriff, Bufferposition setzen
-				{
-					if(data<=buffer_size)			// Kontrolle ob gewünschte Adresse im erlaubten bereich
-						{
-							buffer_adr= data; 		// Bufferposition wie adressiert setzen
-						}
-					else
-						{
-						buffer_adr=0; 				// Adresse auf Null setzen. Ist das sinnvoll?
-						}				
-					TWCR_ACK;						// nächstes Datenbyte empfangen, ACK danach, um nächstes Byte anzufordern
+			if (buffer == 0){ // erster Zugriff
+				i2c_slave_poll_buffer(data, &buffer, &buffer_size);
+				buffer_adr = 0;
+				TWCR_ACK;						// nächstes Datenbyte empfangen, ACK danach, um nächstes Byte anzufordern
+			} else {
+				buffer[buffer_adr]=data; 		// Daten in Buffer schreiben
+				buffer_adr++; 					// Buffer-Adresse weiterzählen für nächsten Schreibzugriff
+				if (buffer_adr<(buffer_size-1)){ // im Buffer ist noch Platz für mehr als ein Byte
+					TWCR_ACK;				// nächstes Datenbyte empfangen, ACK danach, um nächstes Byte anzufordern
+				} else {
+					TWCR_NACK;				// letztes Byte lesen, dann NACK, um vollen Buffer zu signaliseren
 				}
-			else 									// weiterer Zugriff, Daten empfangen
-				{
-					rxbuffer[buffer_adr]=data; 		// Daten in Buffer schreiben
-					buffer_adr++; 					// Buffer-Adresse weiterzählen für nächsten Schreibzugriff
-					if(buffer_adr<(buffer_size-1)) // im Buffer ist noch Platz für mehr als ein Byte
-						{
-							TWCR_ACK;				// nächstes Datenbyte empfangen, ACK danach, um nächstes Byte anzufordern
-						}
-					else   							// es kann nur noch ein Byte kommen, dann ist der Buffer voll
-						{
-							TWCR_NACK;				// letztes Byte lesen, dann NACK, um vollen Buffer zu signaliseren
-						}
-				}
+			}
 			break;
 
 		case TW_ST_SLA_ACK: 						//
 		case TW_ST_DATA_ACK: 						// 0xB8 Slave Transmitter, weitere Daten wurden angefordert
-
-			if (buffer_adr == 0xFF) 				// zuvor keine Leseadresse angegeben! 
-				{
-					buffer_adr=0;
-				}	
-			TWDR = txbuffer[buffer_adr]; 			// Datenbyte senden 
-			buffer_adr++; 							// bufferadresse für nächstes Byte weiterzählen
-			if(buffer_adr<(buffer_size-1)) 		// im Buffer ist mehr als ein Byte, das gesendet werden kann
-				{
-					TWCR_ACK; 						// nächstes Byte senden, danach ACK erwarten
-				}
-			else
-				{
-					TWCR_NACK; 						// letztes Byte senden, danach NACK erwarten
-				}
+			
+			if (buffer){
+				TWDR = buffer[buffer_adr]; 			// Datenbyte senden 
+				buffer_adr++; 							// bufferadresse für nächstes Byte weiterzählen
+			} else {
+				TWDR = 0; 					// zuvor keine Leseadresse angegeben! 	
+			}
+			
+			if (buffer_adr < (buffer_size-1)){				// im Buffer ist mehr als ein Byte, das gesendet werden kann
+				TWCR_ACK; 						// nächstes Byte senden, danach ACK erwarten
+			} else {
+				TWCR_NACK; 						// letztes Byte senden, danach NACK erwarten
+			}
 			break;
 
 		case TW_ST_DATA_NACK: 						// 0xC0 Keine Daten mehr gefordert 
-		case TW_SR_DATA_NACK: 						// 0x88 
 		case TW_ST_LAST_DATA: 						// 0xC8  Last data byte in TWDR has been transmitted (TWEA = “0”); ACK has been received
-		case TW_SR_STOP: 							// 0xA0 STOP empfangen
-		default: 	
+			i2c_slave_read_complete();
 			TWCR_RESET; 							// Übertragung beenden, warten bis zur nächsten Adressierung
-			break;	
-		} //end.switch (TW_STATUS)
+			break;
+			
+		case TW_SR_DATA_NACK: 						// 0x88 
+		case TW_SR_STOP: 						// 0xA0 STOP empfangen
+			i2c_slave_write_complete();
+			TWCR_RESET; 							// Übertragung beenden, warten bis zur nächsten Adressierung
+			break;
+			
+		default:
+			TWCR_RESET; 							// Übertragung beenden, warten bis zur nächsten Adressierung
+			break;
+	} //end.switch (TW_STATUS)
 } //end.ISR(TWI_vect)

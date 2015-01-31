@@ -46,25 +46,10 @@
 	#error "This library requires AVR-GCC 3.4.5 or later, update to newer AVR-GCC compiler !"
 #endif
 
-//#################################### von Benutzer konfigurierbare Einstellung 
-
-#define buffer_size 20 								//Grˆﬂe der Buffer in Byte (2..254)
-
-//#################################### Schutz vor unsinnigen Buffergrˆﬂen
-#if (buffer_size > 254)
-	#error Buffer zu groﬂ gew‰hlt! Maximal 254 Bytes erlaubt.
-#endif
-
-#if (buffer_size < 2)
-	#error Buffer muss mindestens zwei Byte groﬂ sein!
-#endif
-
-//#################################### Globale Variablen, die vom Hauptprogramm genutzt werden 
-
-extern volatile uint8_t rxbuffer[];				//Der Empfangsbuffer, der vom Slave ausgelesen werden kann.
-extern volatile uint8_t txbuffer[];				//Der Sendebuffe, der vom Master ausgelesen werden kann.
-
 //########################################################################################## init_twi_slave 
 void init_twi_slave(uint8_t adr);
-
+extern void i2c_slave_poll_buffer(unsigned char reg_addr, volatile unsigned char** buffer, volatile unsigned char* buffer_length);
+extern void i2c_slave_write_complete(void);
+extern void i2c_slave_read_complete(void);
+ 
 #endif //#ifdef _TWISLAVE_H
