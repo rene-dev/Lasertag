@@ -17,12 +17,14 @@ class Hardware:
 
 	def __init__(self):
 		self.bus = smbus.SMBus(1)
-		self.getFireButton()
+		self.getKey0()
 		self.getLive()
 		self.setLaser(R=0, G=0, B=0)
 		self.setFrontLED(R=0, G=0, B=0, W=0)
 		self.setTopLED(R=0, G=0, B=0, W=0)
-
+	
+	#----------------- low level -----------------
+	
 	def getLmData(self, register):
 		return self.bus.read_byte_data(self.adrLaserModule, register)
 
@@ -34,6 +36,8 @@ class Hardware:
 
 	def setTmData(self, register, data):
 		self.bus.write_byte_data(self.adrTrefferModule, register, data)
+				
+	#----------------- Lasermodul -----------------
 				
 	def setIR_TX(self, id=None, dmg=None):
 		if id is not None:
@@ -49,22 +53,29 @@ class Hardware:
 		
 	#def getFireTreffer(self):
 		
-	def setFire(self):
-		self.bus.write_byte_data(self.adrLaserModule, 12, 1)
+	def setShoot(self, enable=None, playerid=None, dmg=None, dauer=None, color=None):
+		if enable is not None:
+			self.bus.write_byte_data(self.adrLaserModule, 20, 1)
+		if playerid is not None:
+			self.bus.write_byte_data(self.adrLaserModule, 21, 1)
+		if dmg is not None:
+			self.bus.write_byte_data(self.adrLaserModule, 22, 1)
+		if dauer is not None:
+			self.bus.write_byte_data(self.adrLaserModule, 23, 1)
+		if color is not None:
+			self.bus.write_byte_data(self.adrLaserModule, 24, 1)
 		
-	def getFireButton(self):
-		return self.getLmData(0)
+	def getKey0(self):
+		return self.getLmData(10)
+		
+	def getKey1(self):
+		return self.getLmData(11)
+		
+	def getKey2(self):
+		return self.getLmData(12)
 
-	def getLive(self):
-		return self.getTmData(0x10)
-
-	def setLaser(self, R=None, G=None, B=None):
-		if R is not None:
-			self.setLmData(7, R)
-		if G is not None:
-			self.setLmData(8, G)
-		if B is not None:
-			self.setLmData(9, B)
+	#def getLive(self):
+	#	return self.getTmData(0x10)
 
 	def setTopLED(self, R=None, G=None, B=None, W=None):
 		if R is not None:
@@ -78,13 +89,21 @@ class Hardware:
 
 	def setFrontLED(self, R=None, G=None, B=None, W=None):
 		if R is not None:
-			self.setLmData(3, R)
+			self.setLmData(0, R)
 		if G is not None:
-			self.setLmData(4, G)
+			self.setLmData(1, G)
 		if B is not None:
-			self.setLmData(5, B)
+			self.setLmData(2, B)
 		if W is not None:
-			self.setLmData(6, W)
+			self.setLmData(3, W)
+
+	def setLaser(self, R=None, G=None, B=None):
+		if R is not None:
+			self.setLmData(4, R)
+		if G is not None:
+			self.setLmData(5, G)
+		if B is not None:
+			self.setLmData(6, B)
 
 			
 if __name__ == '__main__':

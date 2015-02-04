@@ -56,9 +56,9 @@
 #define REG_BUTTONS   0x30
 #define REG_TRIGGER   0x40
 
-volatile uint8_t alive = YES;
+//volatile uint8_t alive = YES;
 volatile uint8_t color_buffer[LEN_LED_COLOR];
-volatile uint16_t color[3];
+//volatile uint16_t color[3];
 volatile uint8_t last_hit = 0;
 
 typedef struct{
@@ -204,6 +204,40 @@ int main(void){
 	//  7 PB6 KEY_2
 	//  8 PB7 KEY_1
 	
+	
+	//i2c-Register	Funktion
+	//0				LED_R
+	//1				LED_G
+	//2				LED_B
+	//3				LED_W
+	//4				LASER_R
+	//5				LASER_G
+	//6				LASER_B
+	//7				Haptik
+	//...				
+	//10			KEY_0
+	//11			KEY_1
+	//12			KEY_2
+	//...				
+	//20			Shoot_Enable
+	//21			Shoot_PlayerID
+	//22			Shoot_DMG
+	//23			Shoot_Dauer
+	//24			Shoot_Color
+	//...
+	//30			Hit_Enable
+	//31			Hit_PlayerID
+	//32			Hit_DMG
+	//...			
+	//40			V_BATT 16 bit
+	//41			V_BATT 16 bit
+	//42			LDR 16 bit
+	//43			LDR 16 bit
+	
+	//i2c alt:
+	//0		1		2		3		4		5		6		7		8		9		10		11		12		13				14
+	//key_1	key_2	key_3	led_r	led_g	led_b	led_w	laser_r	laser_g	laser_b	tx_pid	tx_dmg	shoot	treffer_fertig	haptik
+	
 	cli();
 
 	//set pins
@@ -259,9 +293,6 @@ int main(void){
 	
 	sei();                  // enable Interrupts global
 	
-	//i2c:
-	//0		1		2		3		4		5		6		7		8		9		10		11		12		13				14
-	//key_1	key_2	key_3	led_r	led_g	led_b	led_w	laser_r	laser_g	laser_b	tx_pid	tx_dmg	shoot	treffer_fertig	haptik
 	
  	while(1){
 		buttons = BUTTON_READ();

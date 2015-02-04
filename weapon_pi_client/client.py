@@ -26,7 +26,7 @@ try:
 	while True:
 		#print network.Client_server.empf()
 		leben = hardware.getLive()
-		FireButton = hardware.getFireButton() 
+		FireButton = hardware.getKey1() 
 		playerid, dmg = hardware.getLmHit()
 		print playerid
 		if playerid != 32 and playerid != 0:
@@ -41,7 +41,7 @@ try:
 		
 		if FireButton == 1 and display.schuss >=0:
 			sounds.play('pew')
-			hardware.setFireButton()
+			hardware.setShootButton()
 			hardware.setLaser(R=1)
 			hardware.setFrontLED(R=2)
 			time.sleep(0.1)
