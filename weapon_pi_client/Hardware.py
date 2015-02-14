@@ -2,109 +2,98 @@
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
 
 import logging
-import smbus 
-
-"""	addr 0x18
-0		1		2		3		4		5		6		7		8		9		10		11		12		13				14
-key_1	key_2	key_3	led_r	led_g	led_b	led_w	laser_r	laser_g	laser_b	tx_pid	tx_dmg	shoot	treffer_fertig	haptik
-"""
+import smbus
 
 logger = logging.getLogger(__name__)
 
 class Hardware:
-	adrTrefferModule = 0x10
-	adrLaserModule = 0x18
+	adrWaffeLm = 1
+	adrWaffeTm = 2
 
 	def __init__(self):
-		self.bus = smbus.SMBus(1)
-		self.getKey0()
-		self.getLive()
-		self.setLaser(R=0, G=0, B=0)
-		self.setFrontLED(R=0, G=0, B=0, W=0)
-		self.setTopLED(R=0, G=0, B=0, W=0)
+		try:
+			self.bus = smbus.SMBus(0) #alte PIs
+		except:
+			self.bus = smbus.SMBus(1) #neuere PIs
+		self.setWaffeLaser(R=0, G=0, B=0)
+		self.setWaffeLEDFront(R=0, G=0, B=0, W=0)
+		self.setWaffeLEDTop(R=0, G=0, B=0)
 	
 	#----------------- low level -----------------
 	
-	def getLmData(self, register):
-		return self.bus.read_byte_data(self.adrLaserModule, register)
+	def getData(self, i2c_adr, register):
+		return self.bus.read_byte_data(i2c_adr, register)
 
-	def setLmData(self, register, data):
-		self.bus.write_byte_data(self.adrLaserModule, register, data)
+	def setData(self, i2c_adr, register, data):
+		self.bus.write_byte_data(i2c_adr, register, data)
 
-	def getTmData(self, register):
-		return self.bus.read_byte_data(self.adrTrefferModule, register)
-
-	def setTmData(self, register, data):
-		self.bus.write_byte_data(self.adrTrefferModule, register, data)
-				
 	#----------------- Lasermodul -----------------
-				
-	def setIR_TX(self, id=None, dmg=None):
-		if id is not None:
-			self.bus.write_byte_data(self.adrLaserModule, 10, id)
-		if dmg is not None:
-			self.bus.write_byte_data(self.adrLaserModule, 11, dmg)
-	
-	def getLmHit(self):
-		playerid = self.getLmData(10)
-		dmg = self.getLmData(11)
-		self.bus.write_byte_data(self.adrLaserModule, 13, 1)
-		return (playerid, dmg)
+
+	def getWaffeKey(self, key=0):
+		return self.getData(self.adrWaffeLm, 10+key)
+
+	def getWaffeHitFront(self):
+		playerid =	self.getData(self.adrWaffeLm, 31)
+		dmg =		self.getData(self.adrWaffeLm, 32)
+		enable =	self.getData(self.adrWaffeLm, 30)
+		return (enable, playerid, dmg)
+
+	def getWaffeVBatt(self):
+		links =  self.getData(self.adrWaffeLm, 40)
+		rechts = self.getData(self.adrWaffeLm, 41)
+		return links.append(rechts)
 		
-	#def getFireTreffer(self):
+	def getWaffeLDR(self):
+		links =  self.getData(self.adrWaffeLm, 42)
+		rechts = self.getData(self.adrWaffeLm, 43)
+		return links.append(rechts)
 		
-	def setShoot(self, enable=None, playerid=None, dmg=None, dauer=None, color=None):
-		if enable is not None:
-			self.bus.write_byte_data(self.adrLaserModule, 20, 1)
+	def setWaffeShoot(self, enable=None, playerid=None, dmg=None, laser_dauer=None, laser_r=0, laser_g=0, laser_b=0):
 		if playerid is not None:
-			self.bus.write_byte_data(self.adrLaserModule, 21, 1)
+			self.bus.write_byte_data(self.adrWaffeLm, 21, 1)
 		if dmg is not None:
-			self.bus.write_byte_data(self.adrLaserModule, 22, 1)
-		if dauer is not None:
-			self.bus.write_byte_data(self.adrLaserModule, 23, 1)
-		if color is not None:
-			self.bus.write_byte_data(self.adrLaserModule, 24, 1)
-		
-	def getKey0(self):
-		return self.getLmData(10)
-		
-	def getKey1(self):
-		return self.getLmData(11)
-		
-	def getKey2(self):
-		return self.getLmData(12)
+			self.bus.write_byte_data(self.adrWaffeLm, 22, 1)
+		if laser_dauer is not None:
+			self.bus.write_byte_data(self.adrWaffeLm, 23, 1)
+		self.setWaffeLaser(laser_r, laser_g, laser_b)
+		if enable is not None:
+			self.bus.write_byte_data(self.adrWaffeLm, 20, 1)
 
-	#def getLive(self):
-	#	return self.getTmData(0x10)
-
-	def setTopLED(self, R=None, G=None, B=None, W=None):
+	def setWaffeLEDFront(self, R=None, G=None, B=None, W=None):
 		if R is not None:
-			self.setTmData(0, R)
+			self.setData(self.adrWaffeLm, 0, R)
 		if G is not None:
-			self.setTmData(1, G)
+			self.setData(self.adrWaffeLm, 1, G)
 		if B is not None:
-			self.setTmData(2, B)
+			self.setData(self.adrWaffeLm, 2, B)
 		if W is not None:
-			self.setTmData(3, W)
+			self.setData(self.adrWaffeLm, 3, W)
 
-	def setFrontLED(self, R=None, G=None, B=None, W=None):
+	def setWaffeLaser(self, R=None, G=None, B=None):
 		if R is not None:
-			self.setLmData(0, R)
+			self.setData(self.adrWaffeLm, 4, R)
 		if G is not None:
-			self.setLmData(1, G)
+			self.setData(self.adrWaffeLm, 5, G)
 		if B is not None:
-			self.setLmData(2, B)
-		if W is not None:
-			self.setLmData(3, W)
+			self.setData(self.adrWaffeLm, 6, B)
 
-	def setLaser(self, R=None, G=None, B=None):
+	#----------------- Trefferzonenmodul -----------------
+
+	def getWaffeHitTop(self):
+		playerid =	self.getData(self.adrWaffeTm, 31)
+		dmg =		self.getData(self.adrWaffeTm, 32)
+		enable =	self.getData(self.adrWaffeTm, 30)
+		return (enable, playerid, dmg)
+	
+	def setWaffeLEDTop(self, R=None, G=None, B=None, W=None):
 		if R is not None:
-			self.setLmData(4, R)
+			self.setData(self.adrWaffeTm, 53, R)
 		if G is not None:
-			self.setLmData(5, G)
+			self.setData(self.adrWaffeTm, 54, G)
 		if B is not None:
-			self.setLmData(6, B)
+			self.setData(self.adrWaffeTm, 55, B)
 
+	#-----------------  -----------------
 			
 if __name__ == '__main__':
 	import time
@@ -112,22 +101,56 @@ if __name__ == '__main__':
 	logging.basicConfig(level=logging.DEBUG)
 	hardware = Hardware()
 	
-	hardware.setTopLED(R=255, G=0, B=0, W=0)
+	print("Waffe LED Front")
+	hardware.setWaffeLEDFront(R=255, G=0, B=0, W=0)
 	time.sleep(0.5)
-	hardware.setTopLED(R=0, G=255, B=0, W=0)
+	hardware.setWaffeLEDFront(R=0, G=255, B=0, W=0)
 	time.sleep(0.5)
-	hardware.setTopLED(R=0, G=0, B=255, W=0)
+	hardware.setWaffeLEDFront(R=0, G=0, B=255, W=0)
 	time.sleep(0.5)
-	hardware.setTopLED(R=0, G=0, B=0, W=0)
+	hardware.setWaffeLEDFront(R=0, G=0, B=0, W=255)
+	time.sleep(0.5)
+	hardware.setWaffeLEDFront(R=0, G=0, B=0, W=0)
+	time.sleep(0.5)
 	
-	hardware.setFrontLED(R=255, G=0, B=0, W=0)
+	print("Waffe LED Top")
+	hardware.setWaffeLEDTop(R=255, G=0, B=0)
 	time.sleep(0.5)
-	hardware.setFrontLED(R=0, G=255, B=0, W=0)
+	hardware.setWaffeLEDTop(R=0, G=255, B=0)
 	time.sleep(0.5)
-	hardware.setFrontLED(R=0, G=0, B=255, W=0)
+	hardware.setWaffeLEDTop(R=0, G=0, B=255)
 	time.sleep(0.5)
-	hardware.setFrontLED(R=0, G=0, B=0, W=0)
-	
-	hardware.setLaser(R=1)
+	hardware.setWaffeLEDTop(R=0, G=0, B=0)
+	time.sleep(0.5)
+
+	print("Waffe Laser")
+	hardware.setWaffeLaser(R=255, G=0, B=0)
+	time.sleep(0.5)
+	hardware.setWaffeLaser(R=0, G=255, B=0)
+	time.sleep(0.5)
+	hardware.setWaffeLaser(R=0, G=0, B=255)
+	time.sleep(0.5)
+	hardware.setWaffeLaser(R=0, G=0, B=0)
+	time.sleep(0.5)
+
+	print("Waffe Shoot: playerid=123, dmg=42, rot")
+	hardware.setWaffeShoot(enable=1, playerid=123, dmg=42, laser_dauer=100, laser_r=1, laser_g=0, laser_b=0)
 	time.sleep(1)
-	hardware.setLaser(R=0)
+
+	print("Waffe Key 0: "+getWaffeKey(0))
+	print("Waffe Key 1: "+getWaffeKey(1))
+	print("Waffe Key 2: "+getWaffeKey(2))
+
+	enable, playerid, dmg = getWaffeHitFront(self):
+	print("Waffe Hit Front enable: "+enable)
+	print("Waffe Hit Front playerid: "+playerid)
+	print("Waffe Hit Front dmg: "+dmg)
+
+	enable, playerid, dmg = getWaffeHitTop(self):
+	print("Waffe Hit Top enable: "+enable)
+	print("Waffe Hit Top playerid: "+playerid)
+	print("Waffe Hit Top dmg: "+dmg)
+
+	print("V_Batt: "getWaffeVBatt())
+
+	print("V_Batt: "getWaffeLDR())
