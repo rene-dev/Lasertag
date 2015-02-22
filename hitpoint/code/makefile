@@ -57,5 +57,7 @@ clean:
 	
 size:
 	$(SIZE) $(TRG).elf
-program: $(TRG).hex
-	avrdude -c usbasp -p t2313 -U flash:w:main.hex -U lfuse:w:0xe4:m -U hfuse:w:0xdb:m -U efuse:w:0xff:m
+load: $(TRG).hex
+	avrdude -c usbasp -p t2313 -U flash:w:main.hex
+fuses:
+	avrdude -c usbasp -p t2313 -B 150 -U lfuse:w:0xe4:m -U hfuse:w:0xdb:m -U efuse:w:0xff:m

@@ -50,14 +50,17 @@ class Hardware:
 		
 	def setWaffeShoot(self, enable=None, playerid=None, dmg=None, laser_dauer=None, laser_r=0, laser_g=0, laser_b=0):
 		if playerid is not None:
-			self.bus.write_byte_data(self.adrWaffeLm, 21, 1)
+			self.bus.write_byte_data(self.adrWaffeLm, 21, playerid)
 		if dmg is not None:
-			self.bus.write_byte_data(self.adrWaffeLm, 22, 1)
+			self.bus.write_byte_data(self.adrWaffeLm, 22, dmg)
 		if laser_dauer is not None:
-			self.bus.write_byte_data(self.adrWaffeLm, 23, 1)
-		self.setWaffeLaser(laser_r, laser_g, laser_b)
+			self.bus.write_byte_data(self.adrWaffeLm, 23, laser_dauer)
+		self.bus.write_byte_data(self.adrWaffeLm, 24, laser_r)
+		self.bus.write_byte_data(self.adrWaffeLm, 25, laser_g)
+		self.bus.write_byte_data(self.adrWaffeLm, 26, laser_b)
+		#self.setWaffeLaser(laser_r, laser_g, laser_b)
 		if enable is not None:
-			self.bus.write_byte_data(self.adrWaffeLm, 20, 1)
+			self.bus.write_byte_data(self.adrWaffeLm, 20, enable)
 
 	def setWaffeLEDFront(self, R=None, G=None, B=None, W=None):
 		if R is not None:
@@ -141,16 +144,16 @@ if __name__ == '__main__':
 	print("Waffe Key 1: "+getWaffeKey(1))
 	print("Waffe Key 2: "+getWaffeKey(2))
 
-	enable, playerid, dmg = getWaffeHitFront(self):
+	enable, playerid, dmg = getWaffeHitFront(self)
 	print("Waffe Hit Front enable: "+enable)
 	print("Waffe Hit Front playerid: "+playerid)
 	print("Waffe Hit Front dmg: "+dmg)
 
-	enable, playerid, dmg = getWaffeHitTop(self):
+	enable, playerid, dmg = getWaffeHitTop(self)
 	print("Waffe Hit Top enable: "+enable)
 	print("Waffe Hit Top playerid: "+playerid)
 	print("Waffe Hit Top dmg: "+dmg)
 
-	print("V_Batt: "getWaffeVBatt())
+	print("V_Batt: "+getWaffeVBatt())
 
-	print("V_Batt: "getWaffeLDR())
+	print("V_Batt: "+getWaffeLDR())
