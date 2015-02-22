@@ -1,0 +1,40 @@
+Lasermodul:
+0		1		2		3		4		5		6		7		8		9		10		11		12		13				14
+key_1	key_2	key_3	led_r	led_g	led_b	led_w	laser_r	laser_g	laser_b	tx_pid	tx_dmg	shoot	treffer_fertig	haptik
+
+Trefferzonenmodul:
+0x10
+getroffen: 0=nix, 42=getroffen
+
+
+sudo apt-get install python-smbus i2c-tools
+sudo modprobe i2c-dev
+sudo i2cdetect -y 1
+sudo i2cset -y 1 0x18 5 128
+sudo i2cget -y 1 0x18 0
+
+sudo i2cset -y 1 0x03 4 1
+sudo i2cset -y 1 0x03 4 0
+
+sudo i2cset -y 1 0x04 50 20
+sudo i2cset -y 1 0x04 50 0
+
+sudo i2cset -y 1 0x03 11 98
+sudo i2cset -y 1 0x03 12 1
+sudo i2cget -y 1 0x03 10
+sudo i2cget -y 1 0x03 11
+sudo i2cget -y 1 0x03 16
+sudo i2cget -y 1 0x03 17
+
+
+
+clock stretching
+
+http://www.instructables.com/id/Raspberry-Pi-I2C-Python/all/?lang=de
+sudo adduser pi i2c
+sudo python
+
+
+nö:
+sudo rmmod i2c_bcm2708
+sudo modprobe i2c_bcm2708 baudrate=750000 

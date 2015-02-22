@@ -1,1 +1,0 @@
-http://www.jtronics.de/avr-projekte/library-i2c-twi-slave.html

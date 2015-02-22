@@ -1,0 +1,67 @@
+sudo passwd pi
+ a
+
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install python-smbus i2c-tools
+sudo REPO_URI=https://github.com/notro/rpi-firmware BRANCH=builtin rpi-update
+
+sudo nano /etc/modules
+ i2c-dev
+
+sudo nano /boot/cmdline.txt
+ dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait fbtft_device.custom fbtft_device.name=fb_ili9341 fbtft_device.width=240 fbtft_device.height=320 fbtft_device.rotate=180 fbtft_device.speed=80000000 fbtft_device.buswidth=8 fbtft_device.bgr=1 fbtft_device.gpios=reset:25,led:18,dc:24 fbtft_device.cs=0 fbtft_device.debug=0 fbtft_device.verbose=0 fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo
+ 
+sudo nano /etc/kbd/config
+ BLANK_TIME=0
+
+sudo apt-get install libnetpbm10-dev
+git clone https://git.kernel.org/pub/scm/linux/kernel/git/geert/fbtest.git
+cd fbtest
+sudo make
+cd ..
+
+sudo nano /etc/network/interfaces
+<code>
+auto lo
+iface lo inet loopback
+iface eth0 inet dhcp
+
+auto wlan0
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+wpa-ap-scan 1
+wpa-scan-ssid 1
+wpa-ssid "warpzone"
+wpa-psk "Er20TUp+13soS"
+</code>
+
+sudo raspi-config
+ expand fs
+ i2c aktivieren
+ hostname eintragen
+ reboot
+
+sudo chmod +x ./start_client.sh
+
+
+starten:
+sudo ./start_client.sh
+
+autostart:
+sudo nano /etc/rc.local
+ sudo ./start_client.sh
+
+ 
+ 
+ 
+
+
+
+
+aaa > a.txt ersetzen
+aaa >> a.txt anhängen
+sed-i
+
+
+
