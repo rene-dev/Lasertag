@@ -2,16 +2,24 @@
 
 import socket
 
-
 TCP_IP = '127.0.0.1'
-TCP_PORT = 5005
+TCP_PORT = 1234
 BUFFER_SIZE = 1024
-MESSAGE = "Hello, World!"
 
+print "open socket..."
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+print "connecting..."
 s.connect((TCP_IP, TCP_PORT))
-s.send(MESSAGE)
-data = s.recv(BUFFER_SIZE)
-s.close()
 
+name = raw_input("name: ")
+print "sending name: ", name
+s.setblocking(0)
+s.send(name + "\n")
+s.setblocking(1)
+
+print "recieving data..."
+data = s.recv(BUFFER_SIZE)
 print "received data:", data
+
+print "closing socket..."
+s.close()

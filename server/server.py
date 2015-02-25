@@ -53,9 +53,9 @@ class PlayerFactory(Factory):		#gibts nur ein mal, verwaltet alle player
         self.playerid = 0
 
     def buildProtocol(self, addr):	#on every player connect
-        return Player(self)			#make new instance of Player, PlayerFactory übergibt sich selbst an Player
+        return Player(self)			#make new instance of Player, PlayerFactory ubergibt sich selbst an Player
 
-    def get_playerid(self):			#playerid für neuen player generieren
+    def get_playerid(self):			#playerid fur neuen player generieren
         self.playerid += 1
         return self.playerid
 

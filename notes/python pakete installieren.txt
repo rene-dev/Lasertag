@@ -1,0 +1,10 @@
+sudo apt-get install python-pip
+sudo apt-get install python-twisted
+
+
+pip updaten:
+sudo pip install -U pip
+sudo pip install --upgrade setuptools
+
+
+sudo pip install twisted

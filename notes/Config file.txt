@@ -1,0 +1,48 @@
+Config:
+
+Waffe
+ ID: uint16_t
+ Name: string
+ Schussmodi[]
+  ID: uint16_t
+  Munitionsname: string
+  Schaden_Schild: uint16_t, Schild/Treffer
+  Schaden_Körper: uint16_t, leben/Treffer
+  Leben_absaugen: uint16_t, leben/s
+  heilen: uint16_t, leben/s
+  Schussfrequenz: uint16_t, ms
+  Magazingröße: uint32_t
+  Anzahl_Schüsse: uint32_t
+  Nachladezeit: uint16_t, ms
+  Laser_Farbe: uint8_t
+  Laser_Schusslänge: uint16_t, ms
+  Sound_Schuss: string
+  Sound_Schuss_magazin_leer: string
+  Sound_nachladen: string
+  Sound_getroffen_werden: string
+  Haptik
+  
+Player
+ ID: uint16_t
+ Name: string
+ Team: uint8_t
+ Leben: uint16_t
+ Leben_max: uint16_t
+ Schild: uint16_td
+ Schild_max: uint16_t
+ aktuelle Waffe: uint16_t
+ verfügbare Waffen[]
+
+Spielmodus
+ Name: string
+ erlaubte Waffen[]
+ Teams_janein: boolean
+ Team_Anzahl: uint8_t
+ Team_maxSpieler: uint8_t
+ Scharfschalten mit Knopf vorne: boolean
+ Flashlight an bei scharf: teamfarbe, weiss, aus
+ TrefferzonenLED_Schultern: teamfarbe, weiss, aus
+ TrefferzonenLED_vorne: teamfarbe, weiss, aus
+ TrefferzonenLED_hinten: teamfarbe, weiss, aus
+ TrefferzonenLED_Waffe: teamfarbe, weiss, aus
+ 

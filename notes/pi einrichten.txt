@@ -44,6 +44,8 @@ sudo raspi-config
 
 sudo chmod +x ./start_client.sh
 
+sudo apt-get install python-twisted
+
 
 starten:
 sudo ./start_client.sh
