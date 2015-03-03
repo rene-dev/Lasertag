@@ -43,11 +43,10 @@ typedef struct{
 
 typedef struct{
 	led_10mm_t current;
-	led_10mm_t src;
-	led_10mm_t dst;
-	uint8_t t;
+	led_10mm_t src; //fading source
+	led_10mm_t dst; //fading destination
+	uint8_t t; //fading time
 } led_10mm_fade_t;
-
 volatile led_10mm_fade_t led_10mm_fade = {};
 
 //---------------------------- UART init ----------------------------

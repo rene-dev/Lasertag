@@ -4,7 +4,6 @@ import socket
 
 TCP_IP = '127.0.0.1'
 TCP_PORT = 1234
-BUFFER_SIZE = 1024
 
 print "open socket..."
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -18,7 +17,7 @@ s.send(name + "\n")
 s.setblocking(1)
 
 print "recieving data..."
-data = s.recv(BUFFER_SIZE)
+data = s.recv()
 print "received data:", data
 
 print "closing socket..."

@@ -117,6 +117,9 @@
 <layer number="222" name="222bmp" color="23" fill="1" visible="no" active="no"/>
 <layer number="223" name="223bmp" color="24" fill="1" visible="no" active="no"/>
 <layer number="224" name="224bmp" color="25" fill="1" visible="no" active="no"/>
+<layer number="231" name="Eagle3D_PG1" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="232" name="Eagle3D_PG2" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="233" name="Eagle3D_PG3" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="248" name="Housing" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="249" name="Edge" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="250" name="Descript" color="3" fill="1" visible="no" active="no"/>
@@ -347,7 +350,7 @@ W = angled&lt;p&gt;
 <text x="-3.81" y="3.81" size="1.27" layer="21">&gt;NAME</text>
 <text x="-3.81" y="-3.81" size="1.27" layer="26">&gt;VALUE</text>
 </package>
-<package name="SO20L">
+<package name="SO20LVERSTUMMELT">
 <description>&lt;B&gt;Small Outline Package&lt;/B&gt; SOIC 0.300"</description>
 <wire x1="-5.639" y1="-4.064" x2="6.909" y2="-4.064" width="0.1524" layer="21"/>
 <wire x1="6.909" y1="-4.064" x2="6.909" y2="3.277" width="0.1524" layer="21"/>
@@ -370,7 +373,7 @@ W = angled&lt;p&gt;
 <smd name="14" x="2.54" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
 <smd name="15" x="1.27" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
 <smd name="16" x="0" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
-<smd name="17" x="-1.27" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="17" x="-1.27" y="4.1402" dx="0.6604" dy="1.524" layer="1"/>
 <smd name="18" x="-2.54" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
 <smd name="19" x="-3.81" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
 <smd name="20" x="-5.08" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
@@ -744,12 +747,7 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="TINY2313A" library="wz" package="SO20L" value="AT90S2313S" x="29.21" y="23.495" rot="MR270">
-<attribute name="OC_NEWARK" value="unknown" x="35.56" y="-0.635" size="1.778" layer="28" rot="MR270" display="off"/>
-<attribute name="MPN" value="" x="35.56" y="-0.635" size="1.778" layer="28" rot="MR270" display="off"/>
-<attribute name="MF" value="" x="35.56" y="-0.635" size="1.778" layer="28" rot="MR270" display="off"/>
-<attribute name="OC_FARNELL" value="unknown" x="35.56" y="-0.635" size="1.778" layer="28" rot="MR270" display="off"/>
-</element>
+<element name="TINY2313A" library="wz" package="SO20LVERSTUMMELT" value="TINY2313A" x="29.21" y="23.495" rot="MR270"/>
 <element name="C1" library="wz" package="C0805" value="100n" x="21.355" y="26.77" rot="MR0"/>
 <element name="R1" library="wz" package="R0805" value="100" x="30.48" y="8.89" rot="MR270"/>
 <element name="ULN2803" library="wz" package="SO18W" value="" x="17.78" y="19.685" rot="MR270"/>
@@ -996,12 +994,10 @@ design rules under a new name.</description>
 <signal name="SDA">
 <contactref element="TINY2313A" pad="17"/>
 <contactref element="ISP" pad="4"/>
-<contactref element="ULN2803" pad="1"/>
-<wire x1="22.8092" y1="24.765" x2="24.8158" y2="24.765" width="0.4064" layer="16"/>
 <wire x1="25.4" y1="31.4325" x2="27.94" y2="28.8925" width="0.4064" layer="16"/>
 <wire x1="27.94" y1="28.8925" x2="27.94" y2="26.67" width="0.4064" layer="16"/>
 <wire x1="27.94" y1="26.67" x2="26.035" y2="24.765" width="0.4064" layer="16"/>
-<wire x1="26.035" y1="24.765" x2="24.8158" y2="24.765" width="0.4064" layer="16"/>
+<wire x1="26.035" y1="24.765" x2="25.0698" y2="24.765" width="0.4064" layer="16"/>
 <wire x1="15.24" y1="29.845" x2="15.875" y2="29.845" width="0.4064" layer="16"/>
 <wire x1="15.875" y1="29.845" x2="17.145" y2="31.115" width="0.4064" layer="16"/>
 <wire x1="17.145" y1="31.115" x2="19.05" y2="31.115" width="0.4064" layer="16"/>

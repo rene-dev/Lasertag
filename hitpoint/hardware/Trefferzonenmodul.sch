@@ -8,20 +8,20 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -30,8 +30,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -39,17 +39,17 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
-<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
-<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
-<layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="yes" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="yes" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="yes" active="no"/>
+<layer number="57" name="tCAD" color="7" fill="1" visible="yes" active="no"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
@@ -117,6 +117,9 @@
 <layer number="222" name="222bmp" color="23" fill="1" visible="no" active="no"/>
 <layer number="223" name="223bmp" color="24" fill="1" visible="no" active="no"/>
 <layer number="224" name="224bmp" color="25" fill="1" visible="no" active="no"/>
+<layer number="231" name="Eagle3D_PG1" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="232" name="Eagle3D_PG2" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="233" name="Eagle3D_PG3" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="248" name="Housing" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="249" name="Edge" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="250" name="Descript" color="3" fill="1" visible="no" active="no"/>
@@ -602,6 +605,56 @@ W = angled&lt;p&gt;
 <text x="-3.81" y="3.81" size="1.27" layer="21">&gt;NAME</text>
 <text x="-3.81" y="-3.81" size="1.27" layer="26">&gt;VALUE</text>
 </package>
+<package name="SO20LVERSTUMMELT">
+<description>&lt;B&gt;Small Outline Package&lt;/B&gt; SOIC 0.300"</description>
+<wire x1="-5.639" y1="-4.064" x2="6.909" y2="-4.064" width="0.1524" layer="21"/>
+<wire x1="6.909" y1="-4.064" x2="6.909" y2="3.277" width="0.1524" layer="21"/>
+<wire x1="6.909" y1="3.277" x2="-5.639" y2="3.277" width="0.1524" layer="21"/>
+<wire x1="-5.639" y1="3.277" x2="-5.639" y2="-4.064" width="0.1524" layer="21"/>
+<circle x="-4.7498" y="-3.1496" radius="0.5334" width="0.1524" layer="21"/>
+<smd name="1" x="-5.08" y="-5.1308" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="2" x="-3.81" y="-5.1308" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="3" x="-2.54" y="-5.1308" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="4" x="-1.27" y="-5.1308" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="5" x="0" y="-5.1308" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="6" x="1.27" y="-5.1308" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="7" x="2.54" y="-5.1308" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="8" x="3.81" y="-5.1308" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="9" x="5.08" y="-5.1308" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="10" x="6.35" y="-5.1308" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="12" x="5.08" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="11" x="6.35" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="13" x="3.81" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="14" x="2.54" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="15" x="1.27" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="16" x="0" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="17" x="-1.27" y="4.1402" dx="0.6604" dy="1.524" layer="1"/>
+<smd name="18" x="-2.54" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="19" x="-3.81" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
+<smd name="20" x="-5.08" y="4.3942" dx="0.6604" dy="2.032" layer="1"/>
+<text x="-6.0706" y="-3.81" size="1.778" layer="25" ratio="10" rot="R90">&gt;NAME</text>
+<text x="-4.445" y="-1.5494" size="1.778" layer="27" ratio="10">&gt;VALUE</text>
+<rectangle x1="6.1468" y1="3.3274" x2="6.5532" y2="4.6482" layer="51"/>
+<rectangle x1="4.8768" y1="3.3274" x2="5.2832" y2="4.6482" layer="51"/>
+<rectangle x1="3.6068" y1="3.3274" x2="4.0132" y2="4.6482" layer="51"/>
+<rectangle x1="2.3368" y1="3.3274" x2="2.7432" y2="4.6482" layer="51"/>
+<rectangle x1="1.0668" y1="3.3274" x2="1.4732" y2="4.6482" layer="51"/>
+<rectangle x1="-0.2032" y1="3.3274" x2="0.2032" y2="4.6482" layer="51"/>
+<rectangle x1="-1.4732" y1="3.3274" x2="-1.0668" y2="4.6482" layer="51"/>
+<rectangle x1="-2.7432" y1="3.3274" x2="-2.3368" y2="4.6482" layer="51"/>
+<rectangle x1="-4.0132" y1="3.3274" x2="-3.6068" y2="4.6482" layer="51"/>
+<rectangle x1="-5.2832" y1="3.3274" x2="-4.8768" y2="4.6482" layer="51"/>
+<rectangle x1="6.1468" y1="-5.4356" x2="6.5532" y2="-4.1148" layer="51"/>
+<rectangle x1="4.8768" y1="-5.4356" x2="5.2832" y2="-4.1148" layer="51"/>
+<rectangle x1="3.6068" y1="-5.4356" x2="4.0132" y2="-4.1148" layer="51"/>
+<rectangle x1="2.3368" y1="-5.4356" x2="2.7432" y2="-4.1148" layer="51"/>
+<rectangle x1="1.0668" y1="-5.4356" x2="1.4732" y2="-4.1148" layer="51"/>
+<rectangle x1="-0.2032" y1="-5.4356" x2="0.2032" y2="-4.1148" layer="51"/>
+<rectangle x1="-1.4732" y1="-5.4356" x2="-1.0668" y2="-4.1148" layer="51"/>
+<rectangle x1="-2.7432" y1="-5.4356" x2="-2.3368" y2="-4.1148" layer="51"/>
+<rectangle x1="-4.0132" y1="-5.4356" x2="-3.6068" y2="-4.1148" layer="51"/>
+<rectangle x1="-5.2832" y1="-5.4356" x2="-4.8768" y2="-4.1148" layer="51"/>
+</package>
 <package name="SO20L">
 <description>&lt;B&gt;Small Outline Package&lt;/B&gt; SOIC 0.300"</description>
 <wire x1="-5.639" y1="-4.064" x2="6.909" y2="-4.064" width="0.1524" layer="21"/>
@@ -1025,7 +1078,7 @@ Source: AVX .. aphvc.pdf</description>
 <text x="1.016" y="-0.762" size="1.524" layer="95">&gt;NAME</text>
 <pin name="1" x="-5.08" y="0" visible="off" length="middle" direction="pas"/>
 </symbol>
-<symbol name="15-I/O-2">
+<symbol name="TINY2313A">
 <wire x1="-12.7" y1="22.86" x2="12.7" y2="22.86" width="0.254" layer="94"/>
 <wire x1="12.7" y1="22.86" x2="12.7" y2="-20.32" width="0.254" layer="94"/>
 <wire x1="12.7" y1="-20.32" x2="-12.7" y2="-20.32" width="0.254" layer="94"/>
@@ -4752,14 +4805,14 @@ Source: AVX .. aphvc.pdf</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="AT90S2313" prefix="IC">
+<deviceset name="TINY2313A" prefix="IC">
 <description>&lt;b&gt;MICROCONTROLLER&lt;/b&gt;&lt;p&gt;
 2 Kbytes FLASH&lt;p&gt;
 128 bytes SRAM&lt;p&gt;
 128 bytes EEPROM&lt;p&gt;
 UART</description>
 <gates>
-<gate name="G$1" symbol="15-I/O-2" x="0" y="0"/>
+<gate name="G$1" symbol="TINY2313A" x="0" y="0"/>
 </gates>
 <devices>
 <device name="P" package="DIL20">
@@ -4848,6 +4901,33 @@ UART</description>
 <connect gate="G$1" pin="VCC" pad="18"/>
 <connect gate="G$1" pin="XTAL1" pad="3"/>
 <connect gate="G$1" pin="XTAL2" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="" package="SO20LVERSTUMMELT">
+<connects>
+<connect gate="G$1" pin="(AIN0)PB0" pad="12"/>
+<connect gate="G$1" pin="(AIN1)PB1" pad="13"/>
+<connect gate="G$1" pin="(ICP)PD6" pad="11"/>
+<connect gate="G$1" pin="(INT0)PD2" pad="6"/>
+<connect gate="G$1" pin="(INT1)PD3" pad="7"/>
+<connect gate="G$1" pin="(MISO)PB6" pad="18"/>
+<connect gate="G$1" pin="(MOSI)PB5" pad="17"/>
+<connect gate="G$1" pin="(OC0A)PB2" pad="14"/>
+<connect gate="G$1" pin="(OC1A)PB3" pad="15"/>
+<connect gate="G$1" pin="(OC1B)PB4" pad="16"/>
+<connect gate="G$1" pin="(RXD)PD0" pad="2"/>
+<connect gate="G$1" pin="(SCK)PB7" pad="19"/>
+<connect gate="G$1" pin="(T0)PD4" pad="8"/>
+<connect gate="G$1" pin="(T1/OC0B)PD5" pad="9"/>
+<connect gate="G$1" pin="(TXD)PD1" pad="3"/>
+<connect gate="G$1" pin="GND" pad="10"/>
+<connect gate="G$1" pin="RESET" pad="1"/>
+<connect gate="G$1" pin="VCC" pad="20"/>
+<connect gate="G$1" pin="XTAL1" pad="5"/>
+<connect gate="G$1" pin="XTAL2" pad="4"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -5212,7 +5292,7 @@ UART</description>
 </class>
 </classes>
 <parts>
-<part name="TINY2313A" library="wz" deviceset="AT90S2313" device="S"/>
+<part name="TINY2313A" library="wz" deviceset="TINY2313A" device=""/>
 <part name="C1" library="wz" deviceset="C-EU" device="C0805" value="100n"/>
 <part name="R1" library="wz" deviceset="R-EU_" device="R0805" value="100"/>
 <part name="ULN2803" library="wz" deviceset="ULN2803A" device="SO18"/>
@@ -5526,9 +5606,6 @@ UART</description>
 <wire x1="114.3" y1="63.5" x2="114.3" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="114.3" y1="83.82" x2="111.76" y2="83.82" width="0.1524" layer="91"/>
 <junction x="88.9" y="63.5"/>
-<pinref part="ULN2803" gate="G$1" pin="I1"/>
-<wire x1="116.84" y1="63.5" x2="114.3" y2="63.5" width="0.1524" layer="91"/>
-<junction x="114.3" y="63.5"/>
 </segment>
 <segment>
 <pinref part="BUS1" gate="-3" pin="1"/>
