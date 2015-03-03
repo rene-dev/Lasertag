@@ -40,7 +40,15 @@ typedef struct{
 	uint8_t g;
 	uint8_t b;
 } led_10mm_t;
-volatile led_10mm_t led_10mm_buffer;
+
+typedef struct{
+	led_10mm_t current;
+	led_10mm_t src;
+	led_10mm_t dst;
+	uint8_t t;
+} led_10mm_fade_t;
+
+volatile led_10mm_fade_t led_10mm_fade = {};
 
 //---------------------------- UART init ----------------------------
 
@@ -100,7 +108,9 @@ void i2c_slave_poll_buffer(uint8_t reg_addr, volatile uint8_t **buffer, volatile
 		*buffer_length = (sizeof(hit_t)-reg_addr);
 		i2c_last_reg_access = HIT_REG;
 	} else if ((reg_addr >= LED_10MM_REG) && (reg_addr < (LED_10MM_REG + sizeof(led_10mm_t)))){
-		*buffer        = &((uint8_t *)&led_10mm_buffer)[reg_addr-LED_10MM_REG];
+		led_10mm_fade.src = led_10mm_fade.current;
+		led_10mm_fade.t = 0;
+		*buffer        = &((uint8_t *)&led_10mm_fade.dst)[reg_addr-LED_10MM_REG];
 		*buffer_length = (sizeof(led_10mm_t)-reg_addr);
 		i2c_last_reg_access = LED_10MM_REG;
 	} else {
@@ -117,6 +127,28 @@ void i2c_slave_read_complete(void){
 }
 
 ISR (TIMER0_OVF_vect){
+}
+
+uint8_t lerp(uint8_t src, uint8_t dst, uint8_t t)
+{
+	uint16_t temp = (uint16_t)src * (uint16_t)(255 - t) + (uint16_t)dst * (uint16_t)t;
+	return (uint8_t)(temp / 255);
+}
+
+led_10mm_t lerp_led_10mm(led_10mm_t src, led_10mm_t dst, uint8_t t)
+{
+	led_10mm_t result;
+	result.r = lerp(src.r, dst.r, t);
+	result.g = lerp(src.g, dst.g, t);
+	result.b = lerp(src.b, dst.b, t);
+	return result;
+}
+
+void set_led_10mm(led_10mm_t value)
+{
+	LED_10MM_R = value.r;
+	LED_10MM_G = value.g;
+	LED_10MM_B = value.b;
 }
 
 int main(void) {
@@ -144,18 +176,14 @@ int main(void) {
 	UCSRC = _BV(UCSZ1) | _BV(UCSZ0);  // Asynchron 8N1 
 	UCSRB |= _BV(RXEN)| _BV(RXCIE);  // UART RX und RX Interrupt einschalten
 	
-	uint16_t fade_helper_r, fade_helper_g, fade_helper_b;
-	
 	while(1){
-		_delay_ms(1);
-		// fade_helper_r = (uint16_t)led_10mm_buffer.r + ((uint16_t)LED_10MM_R*99);
-		// LED_10MM_R = fade_helper_r/100;
-		// fade_helper_g = (uint16_t)led_10mm_buffer.g + ((uint16_t)LED_10MM_G*99);
-		// LED_10MM_G = fade_helper_g/100;
-		// fade_helper_b = (uint16_t)led_10mm_buffer.b + ((uint16_t)LED_10MM_B*99);
-		// LED_10MM_B = fade_helper_b/100;
-		LED_10MM_R = led_10mm_buffer.r;
-		LED_10MM_G = led_10mm_buffer.g;
-		LED_10MM_B = led_10mm_buffer.b;
+		_delay_us(300);
+		
+		if (led_10mm_fade.t < 255)
+		{
+			led_10mm_fade.t++;
+			led_10mm_fade.current = lerp_led_10mm(led_10mm_fade.src, led_10mm_fade.dst, led_10mm_fade.t);
+			set_led_10mm(led_10mm_fade.current);
+		}
 	}
 }
