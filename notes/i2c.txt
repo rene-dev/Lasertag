@@ -1,10 +1,8 @@
-Lasermodul:
-0		1		2		3		4		5		6		7		8		9		10		11		12		13				14
-key_1	key_2	key_3	led_r	led_g	led_b	led_w	laser_r	laser_g	laser_b	tx_pid	tx_dmg	shoot	treffer_fertig	haptik
+sudo nano /etc/modprobe.d/i2c.conf
+options i2c_bcm2708 baudrate=400000
 
-Trefferzonenmodul:
-0x10
-getroffen: 0=nix, 42=getroffen
+sudo modprobe -r i2c_bcm2708
+sudo modprobe i2c_bcm2708
 
 
 sudo apt-get install python-smbus i2c-tools
@@ -19,10 +17,28 @@ sudo i2cset -y 1 0x03 4 0
 sudo i2cset -y 1 0x04 50 20
 sudo i2cset -y 1 0x04 50 0
 
+sudo i2cset -y 1 0x03 0 20
+sudo i2cset -y 1 0x03 0 10
+sudo i2cset -y 1 0x03 1 10
+sudo i2cset -y 1 0x03 2 10
+sudo i2cset -y 1 0x03 3 10
+sudo i2cset -y 1 0x03 2 20
+sudo i2cset -y 1 0x03 3 5
+sudo i2cset -y 1 0x03 0 0
+sudo i2cset -y 1 0x03 1 20
+sudo i2cset -y 1 0x03 1 0
+sudo i2cset -y 1 0x03 2 0
+sudo i2cset -y 1 0x03 3 0
+
+sudo i2cset -y 1 0x03 11 98
 sudo i2cset -y 1 0x03 11 98
 sudo i2cset -y 1 0x03 12 1
+
 sudo i2cget -y 1 0x03 10
 sudo i2cget -y 1 0x03 11
+sudo i2cget -y 1 0x03 61
+
+
 sudo i2cget -y 1 0x03 16
 sudo i2cget -y 1 0x03 17
 

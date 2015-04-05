@@ -1,5 +1,8 @@
 https://github.com/notro/fbtft/wiki
 
+
+
+
 ---------------- muss jedes mal per modprobe gestartet werden ----------------
 
 --- install ---
@@ -65,12 +68,12 @@ make
 ./fbtest --fbdev /dev/fb1
 cd ..
 
------- beim start laden ------
+------ python framebuffer beim start laden ------
 
-export SDL_FBDEV=/dev/fb1
-export SDL_VIDEODRIVER=fbcon
-
-
+sudo nano /etc/profile.d/umgebungsvariablen_setzen.sh
+SDL_VIDEODRIVER=fbcon
+SDL_FBDEV=/dev/fb1
+SDL_NOMOUSE=0
 
 ------ notizen ------
 
@@ -112,28 +115,33 @@ sudo nano /usr/share/X11/xorg.conf.d/99-fbturbo.conf
 
 ---------------- muss jedes mal per modprobe gestartet werden ----------------
 
------ installieren -----
 #xinput dient zum Vertauschen der Achsen
 #evtest dient zum Testen und Kalibrieren des Touchpanells
 sudo apt-get -y install xinput evtest
 
-
-sudo modprobe ads7846 #?????????
-
-sudo modprobe ads7846_device cs=1 speed=2000000 model=7843 x_plate_ohms=60 pressure_max=255 gpio_pendown=27 keep_vref_on=1 x_min=500 x_max=3615 y_min=280 y_max=3583
+sudo modprobe ads7846_device cs=1 speed=2000000 model=7843 x_plate_ohms=60 pressure_max=255 gpio_pendown=27 keep_vref_on=1 x_min=216 x_max=3843 y_min=204 y_max=3736
 
 FRAMEBUFFER=/dev/fb1 startx &
 DISPLAY=:0 xinput --set-prop 'ADS7843 Touchscreen' 'Evdev Axis Inversion' 0 1
 
 
-#Kalibrieren und Parameter siehe Seite 5
-#eventnummer (event2) ggf. anpassen!
+---------------- bootkonsole wird direkt angezeigt ----------------
 
-evtest /dev/input/event2 | egrep ABS_PRESSURE
-evtest /dev/input/event2 | grep ABS_Y
-evtest /dev/input/event2 | grep ABS_X
-#Damit Touchscreen automatisch beim Booten geladen wird, in /etc/modules (kernel modules to load at boot time) als neue Zeile einfügen: ads7846_device cs=1 speed=2000000 model=7843 x_plate_ohms=60 pressure_max=255 gpio_pendown=17 keep_vref_on=1 x_min=500 x_max=3615 y_min=280 y_max=3583
+------ installieren ------
 
+#Damit Touchscreen automatisch beim Booten geladen wird, in /etc/modules (kernel modules to load at boot time) als neue Zeile einfügen: ads7846_device cs=1 speed=2000000 model=7843 x_plate_ohms=60 pressure_max=255 gpio_pendown=17 keep_vref_on=1 x_min=216 x_max=3843 y_min=204 y_max=3736
+
+
+------ kalibrieren ------
+
+klick event:
+evtest /dev/input/event0 | egrep ABS_PRESSURE
+
+x, y pos:
+evtest /dev/input/event0 | grep ABS_X
+lasertag2: 216-3843
+evtest /dev/input/event0 | grep ABS_Y
+lasertag2: 204-3736
 
 
 Wiring

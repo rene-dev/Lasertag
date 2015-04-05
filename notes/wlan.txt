@@ -1,24 +1,29 @@
 sudo nano /etc/network/interfaces
 
+auto lo
+iface lo inet loopback
+
+
+#ip per dhcp beziehen:
+#iface eth0 inet dhcp
+
+#feste ip:
 iface eth0 inet static
     address 10.20.30.50
     netmask 255.255.255.0
    # gateway 192.168.178.1
 
-auto lo
-iface lo inet loopback
-#iface eth0 inet dhcp
 
-auto wlan0
+iface wlan0 inet dhcp
+    auto wlan0
     allow-hotplug wlan0
-    iface wlan0 inet dhcp
     #mit passwort:
-        #wpa-ap-scan 1
-        #wpa-scan-ssid 1
-        #wpa-ssid "warpzone"
-        #wpa-psk "Er20TUp+13soS"
+        wpa-ap-scan 1
+        wpa-scan-ssid 1
+        wpa-ssid "warpzone"
+        wpa-psk "Er20TUp+13soS"
     #ohne passwort:
-        wireless-essid eth0-public-legacy
+        #wireless-essid blabla
 
 
 --- korrekt laut rene:
@@ -27,7 +32,7 @@ auto lo
 iface lo inet loopback
 iface eth0 inet dhcp
 
-auto wlan0
+
 allow-hotplug wlan0
 iface wlan0 inet dhcp
 wireless-essid muenster.freifunk.net

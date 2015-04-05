@@ -226,33 +226,46 @@ uint8_t laser_g(uint8_t on){
 volatile uint8_t i2c_last_reg_access = -1;
 
 void i2c_slave_poll_buffer(unsigned char reg_addr, volatile unsigned char** buffer, volatile unsigned char* buffer_length){
+	// switch(reg_addr){
+		// case LED_FRONT_REG ... LED_FRONT_REG + sizeof(led_front_t) - 1:
+			// *buffer        = &((uint8_t *)&led_front_buffer)[reg_addr-LED_FRONT_REG];
+			// *buffer_length = (sizeof(led_front_t)-reg_addr);
+			// i2c_last_reg_access = LED_FRONT_REG;
+			// break;
+		// case LASER_REG ... LASER_REG + sizeof(laser_front_t) - 1:
+			// *buffer        = &((uint8_t *)&laser_front_buffer)[reg_addr-LASER_REG];
+			// *buffer_length = (sizeof(laser_front_t)-reg_addr);
+			// i2c_last_reg_access = LASER_REG;
+			// break;
+
+
 	if ((reg_addr >= LED_FRONT_REG) && (reg_addr < (LED_FRONT_REG + sizeof(led_front_t)))){
 		*buffer        = &((uint8_t *)&led_front_buffer)[reg_addr-LED_FRONT_REG];
-		*buffer_length = (sizeof(led_front_t)-reg_addr);
+		*buffer_length = sizeof(led_front_t)-(reg_addr-LED_FRONT_REG);
 		i2c_last_reg_access = LED_FRONT_REG;
 	} else if ((reg_addr >= LASER_REG) && (reg_addr < (LASER_REG + sizeof(laser_t)))){
 		*buffer        = &((uint8_t *)&laser_buffer)[reg_addr-LASER_REG];
-		*buffer_length = (sizeof(laser_t)-reg_addr);
+		*buffer_length = sizeof(laser_t)-(reg_addr-LASER_REG);
 		i2c_last_reg_access = LASER_REG;
 	} else if ((reg_addr >= HAPTIK_REG) && (reg_addr < (HAPTIK_REG + sizeof(haptik_t)))){
 		*buffer        = &((uint8_t *)&haptik_buffer)[reg_addr-HAPTIK_REG];
-		*buffer_length = (sizeof(haptik_t)-reg_addr);
+		*buffer_length = sizeof(haptik_t)-(reg_addr-HAPTIK_REG);
 		i2c_last_reg_access = HAPTIK_REG;
 	} else if ((reg_addr >= BUTTON_REG) && (reg_addr < (BUTTON_REG + sizeof(button_t)))){
 		*buffer        = &((uint8_t *)&button_buffer)[reg_addr-BUTTON_REG];
-		*buffer_length = (sizeof(button_t)-reg_addr);
+		*buffer_length = sizeof(button_t)-(reg_addr-BUTTON_REG);
 		i2c_last_reg_access = BUTTON_REG;
 	} else if ((reg_addr >= SHOOT_REG) && (reg_addr < (SHOOT_REG + sizeof(shoot_t)))){
 		*buffer        = &((uint8_t *)&shoot_buffer)[reg_addr-SHOOT_REG];
-		*buffer_length = (sizeof(shoot_t)-reg_addr);
+		*buffer_length = sizeof(shoot_t)-(reg_addr-SHOOT_REG);
 		i2c_last_reg_access = SHOOT_REG;
 	} else if ((reg_addr >= HIT_REG) && (reg_addr < (HIT_REG + sizeof(hit_t)))){
 		*buffer        = &((uint8_t *)&hit_buffer)[reg_addr-HIT_REG];
-		*buffer_length = (sizeof(hit_t)-reg_addr);
+		*buffer_length = sizeof(hit_t)-(reg_addr-HIT_REG);
 		i2c_last_reg_access = HIT_REG;
 	} else if ((reg_addr >= MISC_REG) && (reg_addr < (MISC_REG + sizeof(misc_t)))){
 		*buffer        = &((uint8_t *)&misc_buffer)[reg_addr-MISC_REG];
-		*buffer_length = (sizeof(misc_t)-reg_addr);
+		*buffer_length = sizeof(misc_t)-(reg_addr-MISC_REG);
 		i2c_last_reg_access = MISC_REG;
 	} else {
 		*buffer_length = 0;
@@ -338,6 +351,14 @@ int main(void){
 	
 	uint32_t shoot_delay=0;
 	
+	// hit_buffer.enable=6;
+	// hit_buffer.playerid=7;
+	// hit_buffer.damage=8;
+	
+	// button_buffer.button_0 = 11;
+	// button_buffer.button_1 = 22;
+	// button_buffer.button_2 = 33;
+	
  	while(1){		
 		// if (shoot_buffer.enable){
 			// USART_Transmit(shoot_buffer.playerid); //IR_TX: PlayerID
@@ -366,9 +387,13 @@ int main(void){
 		laser_r(laser_buffer.r);
 		laser_g(laser_buffer.g);
 		LASER_B = laser_buffer.b;
+		
+		// _delay_ms(255);
+		cli();
+			button_buffer.button_0 = taster(&PINB, BUTTON_0);
+			button_buffer.button_1 = taster(&PINB, BUTTON_1);
+			button_buffer.button_2 = taster(&PIND, BUTTON_2);
+		sei();
 
- 		button_buffer.button_0 = taster(&PINB, BUTTON_0);
-		button_buffer.button_1 = taster(&PINB, BUTTON_1);
-		button_buffer.button_2 = taster(&PIND, BUTTON_2);
 	}
 }

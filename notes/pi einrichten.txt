@@ -1,8 +1,19 @@
 sudo passwd pi
  a
 
+mkdir .ssh
+chmod 0700 .ssh -R
+chown pi:pi .ssh -R
+nano .ssh/authorized_keys
+ ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAgEAh2mNXq/l7QCrb4c8Hh2devHUNJCMT1GgGooBfvYyIJsNvZM9ZasPi9mESrfplKiDVTPBsBX9RYQNFG+1Nmrz08YXUC5wJEUNWbMN3jPobcS3LPG2ceSPvmvgHrb+dEqX13QQyB9seYsV/Hoh0c16LeGfiRfdOEgscMh7m5oZbynWFlSVfACc4tAjG1NlpIFwoTkyZ/jV7YLy6hFETW1qPpUDhgLHDRcsfYFXZnwWbMzTFHVJ6iyoM8tjlMODpWRmYfXEMuxUxVX/JPH3cmB7nJOI6L17v0L9DliTMD+R3nK9tZU5S6RJq0z/ybIFhNTIEdjhUDIjCjaw+ebpsADKSIaCyx2Uei4bgdyzfZP0Kiuj/wmAko9sbAeBUv56H26/DwGrN7Dk63sbqa3bHzfhK5ldPrD9vwgiXYqd5IAReig31Gd7O1ABmaaahtzHkrnRDn/F2SgrDchs4UGbRLkDxgOPou7Uqs39BuIaW5MU59rFZRPlBnNTBj5VS2VlZh6eZqn5obC8Nfo184UOxplAJycBwHV5l2VB1olkeq8XqN3drMesl0Qym1E8b5ekKPGFlt+kqmA10pUfuoJ+2eFUB2Ax/PMCw9If/j2UwUHBPj8OceVNANaHDjBLii8H1o2AKyKeydPaQJ4LSqZDjmcRixsYOPS8UNGXNCU4plkhbms= larsm
+sudo nano /etc/ssh/sshd_config
+ PasswordAuthentication no
+ PermitRootLogin no
+sudo service ssh restart
+
+
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get dist-upgrade
 sudo apt-get install python-smbus i2c-tools
 sudo REPO_URI=https://github.com/notro/rpi-firmware BRANCH=builtin rpi-update
 
