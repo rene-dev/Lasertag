@@ -1,5 +1,11 @@
 sudo passwd pi
  a
+ 
+sudo raspi-config
+ expand
+ i2c
+ spi
+ hostname
 
 mkdir .ssh
 chmod 0700 .ssh -R

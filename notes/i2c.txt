@@ -19,7 +19,7 @@ sudo i2cset -y 1 0x04 50 0
 
 sudo i2cset -y 1 0x03 0 20
 sudo i2cset -y 1 0x03 0 10
-sudo i2cset -y 1 0x03 1 10
+sudo i2cset -y 1 0x03 1 9
 sudo i2cset -y 1 0x03 2 10
 sudo i2cset -y 1 0x03 3 10
 sudo i2cset -y 1 0x03 2 20
@@ -34,9 +34,9 @@ sudo i2cset -y 1 0x03 11 98
 sudo i2cset -y 1 0x03 11 98
 sudo i2cset -y 1 0x03 12 1
 
+sudo i2cget -y 1 0x03 30
+sudo i2cget -y 1 0x03 31
 sudo i2cget -y 1 0x03 10
-sudo i2cget -y 1 0x03 11
-sudo i2cget -y 1 0x03 61
 
 
 sudo i2cget -y 1 0x03 16

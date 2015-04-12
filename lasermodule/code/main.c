@@ -238,11 +238,14 @@ void i2c_slave_poll_buffer(unsigned char reg_addr, volatile unsigned char** buff
 			// i2c_last_reg_access = LASER_REG;
 			// break;
 
-
 	if ((reg_addr >= LED_FRONT_REG) && (reg_addr < (LED_FRONT_REG + sizeof(led_front_t)))){
 		*buffer        = &((uint8_t *)&led_front_buffer)[reg_addr-LED_FRONT_REG];
 		*buffer_length = sizeof(led_front_t)-(reg_addr-LED_FRONT_REG);
 		i2c_last_reg_access = LED_FRONT_REG;
+	} else if ((reg_addr >= BUTTON_REG) && (reg_addr < (BUTTON_REG + sizeof(button_t)))){ //10-12
+		*buffer        = &((uint8_t *)&button_buffer)[reg_addr-BUTTON_REG];
+		*buffer_length = sizeof(button_t)-(reg_addr-BUTTON_REG);
+		i2c_last_reg_access = BUTTON_REG;
 	} else if ((reg_addr >= LASER_REG) && (reg_addr < (LASER_REG + sizeof(laser_t)))){
 		*buffer        = &((uint8_t *)&laser_buffer)[reg_addr-LASER_REG];
 		*buffer_length = sizeof(laser_t)-(reg_addr-LASER_REG);
@@ -251,10 +254,6 @@ void i2c_slave_poll_buffer(unsigned char reg_addr, volatile unsigned char** buff
 		*buffer        = &((uint8_t *)&haptik_buffer)[reg_addr-HAPTIK_REG];
 		*buffer_length = sizeof(haptik_t)-(reg_addr-HAPTIK_REG);
 		i2c_last_reg_access = HAPTIK_REG;
-	} else if ((reg_addr >= BUTTON_REG) && (reg_addr < (BUTTON_REG + sizeof(button_t)))){
-		*buffer        = &((uint8_t *)&button_buffer)[reg_addr-BUTTON_REG];
-		*buffer_length = sizeof(button_t)-(reg_addr-BUTTON_REG);
-		i2c_last_reg_access = BUTTON_REG;
 	} else if ((reg_addr >= SHOOT_REG) && (reg_addr < (SHOOT_REG + sizeof(shoot_t)))){
 		*buffer        = &((uint8_t *)&shoot_buffer)[reg_addr-SHOOT_REG];
 		*buffer_length = sizeof(shoot_t)-(reg_addr-SHOOT_REG);
@@ -350,6 +349,8 @@ int main(void){
 	sei(); // enable Interrupts global
 	
 	uint32_t shoot_delay=0;
+	uint16_t ir_delay=0;
+	uint8_t ir_count=0;
 	
 	// hit_buffer.enable=6;
 	// hit_buffer.playerid=7;
@@ -359,26 +360,37 @@ int main(void){
 	// button_buffer.button_1 = 22;
 	// button_buffer.button_2 = 33;
 	
+	uint8_t array[] = {shoot_buffer.playerid, shoot_buffer.damage};
+	
  	while(1){		
-		// if (shoot_buffer.enable){
-			// USART_Transmit(shoot_buffer.playerid); //IR_TX: PlayerID
-			// USART_Transmit(shoot_buffer.damage); //IR_TX: Schaden
-			// uint8_t array[] = {shoot_buffer.playerid, shoot_buffer.damage};
-			// USART_Transmit(crc8(array, 2)); //IR_TX: crc8 checksum
-			// laser_buffer.r = shoot_buffer.laser_r;
-			// laser_buffer.g = shoot_buffer.laser_g;
-			// laser_buffer.b = shoot_buffer.laser_b;
-			// shoot_delay = shoot_buffer.duration*100;
-			// shoot_buffer.enable = 0;
-		// }
+		if (shoot_buffer.enable){
+			laser_buffer.r = shoot_buffer.laser_r;
+			laser_buffer.g = shoot_buffer.laser_g;
+			laser_buffer.b = shoot_buffer.laser_b;
+			shoot_delay = (uint32_t)shoot_buffer.duration*2500;
+			shoot_buffer.enable = 0;
+			ir_count=0;
+		}
 		
-		// if(shoot_delay > 0){
-			// shoot_delay--;
-		// }else{
-			// laser_buffer.r = 0;
-			// laser_buffer.g = 0;
-			// laser_buffer.b = 0;
-		// }
+		if(ir_delay < 1500){ //delay zwischen ir paketen
+			ir_delay++;
+		}else{
+			if(ir_count < 3){ //x ir pakete
+				USART_Transmit(shoot_buffer.playerid); //IR_TX: PlayerID
+				USART_Transmit(shoot_buffer.damage); //IR_TX: Schaden
+				USART_Transmit(crc8(array, 2)); //IR_TX: crc8 checksum
+				ir_count++;
+			}
+			ir_delay = 0;
+		}
+		
+		if(shoot_delay > 0){ //laser an zeit
+			shoot_delay--;
+		}else{
+			laser_buffer.r = 0;
+			laser_buffer.g = 0;
+			laser_buffer.b = 0;
+		}
 	
 		LED_FRONT_R = 255-led_front_buffer.r;
 		LED_FRONT_G = ICR1-map(led_front_buffer.g, 0, 255, 0, ICR1);
@@ -389,11 +401,9 @@ int main(void){
 		LASER_B = laser_buffer.b;
 		
 		// _delay_ms(255);
-		cli();
-			button_buffer.button_0 = taster(&PINB, BUTTON_0);
-			button_buffer.button_1 = taster(&PINB, BUTTON_1);
-			button_buffer.button_2 = taster(&PIND, BUTTON_2);
-		sei();
+		button_buffer.button_0 = taster(&PINB, BUTTON_0);
+		button_buffer.button_1 = taster(&PINB, BUTTON_1);
+		button_buffer.button_2 = taster(&PIND, BUTTON_2);
 
 	}
 }
