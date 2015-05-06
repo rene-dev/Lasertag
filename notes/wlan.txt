@@ -9,9 +9,9 @@ iface lo inet loopback
 
 #feste ip:
 iface eth0 inet static
-    address 10.20.30.50
+    address 192.168.178.10
     netmask 255.255.255.0
-   # gateway 192.168.178.1
+    gateway 192.168.178.1
 
 
 iface wlan0 inet dhcp
