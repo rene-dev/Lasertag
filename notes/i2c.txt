@@ -2,7 +2,7 @@
 //0x00				Broadcast
 //0x03				Weapon Lasermodule
 //0x04				Weapon Hitmodule
-//0x10, 0x11, ...	Weste Hitmodules
+//0x05, 0x06, ...	Weste Hitmodules
 
 //i2c-register	Funktion		Modul
 //0				LED_FRONT_R		LM
