@@ -1407,33 +1407,6 @@ Source: AVX .. aphvc.pdf</description>
 <rectangle x1="13.716" y1="-0.254" x2="14.224" y2="0.254" layer="51"/>
 <wire x1="17.78" y1="0.635" x2="17.78" y2="-0.635" width="0.1524" layer="21"/>
 </package>
-<package name="TSSOP8-4.4MM">
-<description>&lt;b&gt;Thin Shrink Small Outline Package&lt;/b&gt;&lt;br&gt;
-0.65mm Pitch, 4.4mm x 3.0mm Body</description>
-<wire x1="-2.2" y1="-1.4" x2="2.2" y2="-1.4" width="0.2032" layer="21"/>
-<wire x1="2.2" y1="-1.4" x2="2.2" y2="1.4" width="0.2032" layer="21"/>
-<wire x1="2.2" y1="1.4" x2="-2.2" y2="1.4" width="0.2032" layer="21"/>
-<wire x1="-2.2" y1="1.4" x2="-2.2" y2="-1.4" width="0.2032" layer="21"/>
-<circle x="-1.587" y="0.75" radius="0.325" width="0" layer="21"/>
-<smd name="1" x="-3.1" y="0.975" dx="1.2" dy="0.35" layer="1"/>
-<smd name="2" x="-3.1" y="0.325" dx="1.2" dy="0.35" layer="1"/>
-<smd name="3" x="-3.1" y="-0.325" dx="1.2" dy="0.35" layer="1"/>
-<smd name="4" x="-3.1" y="-0.975" dx="1.2" dy="0.35" layer="1"/>
-<smd name="5" x="3.1" y="-0.975" dx="1.2" dy="0.35" layer="1"/>
-<smd name="6" x="3.1" y="-0.325" dx="1.2" dy="0.35" layer="1"/>
-<smd name="7" x="3.1" y="0.325" dx="1.2" dy="0.35" layer="1"/>
-<smd name="8" x="3.1" y="0.975" dx="1.2" dy="0.35" layer="1"/>
-<text x="-1.778" y="-0.381" size="0.8128" layer="25" ratio="18">&gt;NAME</text>
-<text x="-1.778" y="-0.889" size="0.4064" layer="27" ratio="10">&gt;VALUE</text>
-<rectangle x1="-3.5" y1="0.85" x2="-2.5" y2="1.1" layer="51"/>
-<rectangle x1="-3.5" y1="0.2" x2="-2.5" y2="0.45" layer="51"/>
-<rectangle x1="-3.5" y1="-0.45" x2="-2.5" y2="-0.2" layer="51"/>
-<rectangle x1="-3.5" y1="-1.1" x2="-2.5" y2="-0.85" layer="51"/>
-<rectangle x1="2.5" y1="-1.1" x2="3.5" y2="-0.85" layer="51"/>
-<rectangle x1="2.5" y1="-0.45" x2="3.5" y2="-0.2" layer="51"/>
-<rectangle x1="2.5" y1="0.2" x2="3.5" y2="0.45" layer="51"/>
-<rectangle x1="2.5" y1="0.85" x2="3.5" y2="1.1" layer="51"/>
-</package>
 </packages>
 <symbols>
 <symbol name="ULN2803A">
@@ -5199,101 +5172,6 @@ Step Up</text>
 <pin name="14" x="7.62" y="17.78" visible="pad" length="middle" direction="pas" swaplevel="1" rot="R180"/>
 <wire x1="1.27" y1="17.78" x2="2.54" y2="17.78" width="0.6096" layer="94"/>
 </symbol>
-<symbol name="CEG8205_DOPPEL_N_FET">
-<wire x1="5.842" y1="0.762" x2="5.842" y2="0" width="0.254" layer="94"/>
-<wire x1="5.842" y1="0" x2="5.842" y2="-0.762" width="0.254" layer="94"/>
-<wire x1="5.842" y1="3.175" x2="5.842" y2="2.54" width="0.254" layer="94"/>
-<wire x1="5.842" y1="2.54" x2="5.842" y2="1.905" width="0.254" layer="94"/>
-<wire x1="5.842" y1="0" x2="7.62" y2="0" width="0.1524" layer="94"/>
-<wire x1="7.62" y1="0" x2="7.62" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="5.842" y1="-1.905" x2="5.842" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="5.842" y1="-2.54" x2="5.842" y2="-3.175" width="0.254" layer="94"/>
-<wire x1="5.08" y1="2.54" x2="5.08" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="7.62" y1="-2.54" x2="5.842" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="8.89" y1="2.54" x2="8.89" y2="0.508" width="0.1524" layer="94"/>
-<wire x1="8.89" y1="0.508" x2="8.89" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="7.62" y1="-2.54" x2="8.89" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="5.842" y1="2.54" x2="7.62" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="7.62" y1="2.54" x2="8.89" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="9.652" y1="0.762" x2="9.398" y2="0.508" width="0.1524" layer="94"/>
-<wire x1="9.398" y1="0.508" x2="8.89" y2="0.508" width="0.1524" layer="94"/>
-<wire x1="8.89" y1="0.508" x2="8.382" y2="0.508" width="0.1524" layer="94"/>
-<wire x1="8.382" y1="0.508" x2="8.128" y2="0.254" width="0.1524" layer="94"/>
-<circle x="7.62" y="-2.54" radius="0.3592" width="0" layer="94"/>
-<circle x="7.62" y="2.54" radius="0.3592" width="0" layer="94"/>
-<text x="8.255" y="3.175" size="0.8128" layer="93">D</text>
-<text x="8.255" y="-3.81" size="0.8128" layer="93">S</text>
-<text x="3.81" y="-1.905" size="0.8128" layer="93">G</text>
-<pin name="G2" x="12.7" y="-7.62" visible="off" length="short" rot="R180"/>
-<pin name="S2" x="12.7" y="-5.08" visible="off" length="short" rot="R180"/>
-<pin name="D" x="-12.7" y="5.08" visible="off" length="short"/>
-<polygon width="0.1524" layer="94">
-<vertex x="8.89" y="0.508"/>
-<vertex x="8.382" y="-0.254"/>
-<vertex x="9.398" y="-0.254"/>
-</polygon>
-<polygon width="0.1524" layer="94">
-<vertex x="6.096" y="0"/>
-<vertex x="7.112" y="0.762"/>
-<vertex x="7.112" y="-0.762"/>
-</polygon>
-<wire x1="-5.842" y1="0.762" x2="-5.842" y2="0" width="0.254" layer="94"/>
-<wire x1="-5.842" y1="0" x2="-5.842" y2="-0.762" width="0.254" layer="94"/>
-<wire x1="-5.842" y1="3.175" x2="-5.842" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-5.842" y1="2.54" x2="-5.842" y2="1.905" width="0.254" layer="94"/>
-<wire x1="-5.842" y1="0" x2="-7.62" y2="0" width="0.1524" layer="94"/>
-<wire x1="-7.62" y1="0" x2="-7.62" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="-5.842" y1="-1.905" x2="-5.842" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="-5.842" y1="-2.54" x2="-5.842" y2="-3.175" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="5.08" x2="-5.08" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="-7.62" y1="-2.54" x2="-5.842" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="-8.89" y1="2.54" x2="-8.89" y2="0.508" width="0.1524" layer="94"/>
-<wire x1="-8.89" y1="0.508" x2="-8.89" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="-7.62" y1="-2.54" x2="-8.89" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="-5.842" y1="2.54" x2="-8.89" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="-9.652" y1="0.762" x2="-9.398" y2="0.508" width="0.1524" layer="94"/>
-<wire x1="-9.398" y1="0.508" x2="-8.89" y2="0.508" width="0.1524" layer="94"/>
-<wire x1="-8.89" y1="0.508" x2="-8.382" y2="0.508" width="0.1524" layer="94"/>
-<wire x1="-8.382" y1="0.508" x2="-8.128" y2="0.254" width="0.1524" layer="94"/>
-<circle x="-7.62" y="-2.54" radius="0.3592" width="0" layer="94"/>
-<circle x="-7.62" y="2.54" radius="0.3592" width="0" layer="94"/>
-<text x="-10.16" y="0.635" size="1.27" layer="95" rot="MR0">&gt;NAME</text>
-<text x="-10.16" y="-1.27" size="1.27" layer="96" rot="MR0">&gt;VALUE</text>
-<text x="-8.255" y="3.175" size="0.8128" layer="93" rot="MR0">D</text>
-<text x="-8.255" y="-3.81" size="0.8128" layer="93" rot="MR0">S</text>
-<text x="-3.81" y="-1.905" size="0.8128" layer="93" rot="MR0">G</text>
-<pin name="G1" x="-12.7" y="-7.62" visible="off" length="short"/>
-<pin name="S1" x="-12.7" y="-5.08" visible="off" length="short"/>
-<polygon width="0.1524" layer="94">
-<vertex x="-8.89" y="0.508"/>
-<vertex x="-8.382" y="-0.254"/>
-<vertex x="-9.398" y="-0.254"/>
-</polygon>
-<polygon width="0.1524" layer="94">
-<vertex x="-6.096" y="0"/>
-<vertex x="-7.112" y="0.762"/>
-<vertex x="-7.112" y="-0.762"/>
-</polygon>
-<wire x1="-12.7" y1="5.08" x2="-5.08" y2="5.08" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="5.08" x2="7.62" y2="5.08" width="0.254" layer="94"/>
-<wire x1="7.62" y1="5.08" x2="12.7" y2="5.08" width="0.254" layer="94"/>
-<wire x1="7.62" y1="-5.08" x2="12.7" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="-7.62" y1="-5.08" x2="-12.7" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="-2.54" x2="-2.54" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="-7.62" x2="-12.7" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="2.54" y1="-2.54" x2="2.54" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="2.54" y1="-7.62" x2="12.7" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="7.62" y1="2.54" x2="7.62" y2="5.08" width="0.254" layer="94"/>
-<wire x1="7.62" y1="-5.08" x2="7.62" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="-7.62" y1="-5.08" x2="-7.62" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="-2.54" x2="-2.54" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="2.54" y1="-2.54" x2="5.08" y2="-2.54" width="0.254" layer="94"/>
-<text x="-12.7" y="5.08" size="1.27" layer="94">D</text>
-<text x="-12.7" y="-5.08" size="1.27" layer="94">S1</text>
-<text x="-12.7" y="-7.62" size="1.27" layer="94">G1</text>
-<text x="10.16" y="-5.08" size="1.27" layer="94">S2</text>
-<text x="10.16" y="-7.62" size="1.27" layer="94">G2</text>
-</symbol>
 </symbols>
 <devicesets>
 <deviceset name="ULN2803A" prefix="IC" uservalue="yes">
@@ -5606,30 +5484,6 @@ Step Up</text>
 <attribute name="OC_FARNELL" value="unknown" constant="no"/>
 <attribute name="OC_NEWARK" value="unknown" constant="no"/>
 </technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="CEG8205_DOPPEL_N_FET" prefix="Q" uservalue="yes">
-<description>&lt;b&gt;N-Channel Mosfet&lt;/b&gt;
-&lt;ul&gt;
-&lt;li&gt;2N7002E - 60V 260mA SOT23 [Digikey: 2N7002ET1GOSTR-ND] - &lt;b&gt;REEL&lt;/b&gt;&lt;/li&gt;
-&lt;li&gt;BSH103 - 30V 850mA SOT23 [Digikey: 568-5013-1-ND]&lt;/li&gt;
-&lt;/ul&gt;</description>
-<gates>
-<gate name="G$1" symbol="CEG8205_DOPPEL_N_FET" x="-2.54" y="0"/>
-</gates>
-<devices>
-<device name="" package="TSSOP8-4.4MM">
-<connects>
-<connect gate="G$1" pin="D" pad="1 8"/>
-<connect gate="G$1" pin="G1" pad="4"/>
-<connect gate="G$1" pin="G2" pad="5"/>
-<connect gate="G$1" pin="S1" pad="2 3"/>
-<connect gate="G$1" pin="S2" pad="6 7"/>
-</connects>
-<technologies>
-<technology name=""/>
 </technologies>
 </device>
 </devices>
@@ -8117,7 +7971,7 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <part name="R2" library="wz" deviceset="R_EU" device="0603"/>
 <part name="IC1" library="atmel" deviceset="MEGA8" device="-AI"/>
 <part name="R4" library="wz" deviceset="R_EU" device="0603" value="120k"/>
-<part name="R5" library="wz" deviceset="R_EU" device="0603" value="10k"/>
+<part name="R5" library="wz" deviceset="R_EU" device="0603" value="180k"/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="FUSE" library="resistor" deviceset="L-EU" device="L1812" value="PTC"/>
 <part name="P-FET" library="zetex" deviceset="NMOSSOT23" device=""/>
@@ -8184,13 +8038,15 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <part name="DISPLAY" library="wz" deviceset="PIN-HEADER-DISPLAY" device=""/>
 <part name="EXT_SCL_BUS" library="wz" deviceset="PIN-HEADER-1" device=""/>
 <part name="EXT_SDA_BUS" library="wz" deviceset="PIN-HEADER-1" device=""/>
-<part name="Q1" library="wz" deviceset="CEG8205_DOPPEL_N_FET" device=""/>
-<part name="R3" library="wz" deviceset="R_EU" device="0603" value="100k"/>
+<part name="R3" library="wz" deviceset="R_EU" device="0603" value="10k"/>
 <part name="KEY_ON_1" library="wz" deviceset="PIN-HEADER-1" device=""/>
 <part name="KEY_ON_2" library="wz" deviceset="PIN-HEADER-1" device=""/>
-<part name="R17" library="wz" deviceset="R_EU" device="0603" value="47k"/>
+<part name="R17" library="wz" deviceset="R_EU" device="0603" value="1k"/>
 <part name="KEY_OFF_1" library="wz" deviceset="PIN-HEADER-1" device=""/>
 <part name="KEY_OFF_2" library="wz" deviceset="PIN-HEADER-1" device=""/>
+<part name="GND16" library="supply1" deviceset="GND" device=""/>
+<part name="STEP_UP_ENABLE" library="wz" deviceset="PIN-HEADER-1" device=""/>
+<part name="R18" library="wz" deviceset="R_EU" device="0603" value="10k"/>
 </parts>
 <sheets>
 <sheet>
@@ -8216,20 +8072,20 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <text x="93.98" y="81.28" size="1.778" layer="91">Flashlight connector</text>
 <text x="73.66" y="129.54" size="1.778" layer="91">Laser connector with over voltage protection</text>
 <text x="139.7" y="-12.7" size="1.778" layer="91">BUS connector</text>
-<text x="88.9" y="-17.78" size="1.778" layer="91">ESD and i2c bus protection</text>
+<text x="88.9" y="-10.16" size="1.778" layer="91">ESD and i2c bus protection</text>
 <text x="-43.18" y="60.96" size="1.778" layer="91">IR Reciever</text>
 <text x="-20.32" y="-55.88" size="1.778" layer="91">Audio amplifier</text>
 <text x="-20.32" y="-17.78" size="1.778" layer="91">Battery --&gt; 5V Step-Up --&gt; 3.3V Regulator </text>
 <text x="-88.9" y="25.4" size="1.778" layer="91">Pi- and Display-connector</text>
-<text x="-43.18" y="129.54" size="1.778" layer="91">Battery voltage sensor</text>
-<text x="-88.9" y="129.54" size="1.778" layer="91">Ambient light sensor</text>
+<text x="-43.18" y="129.54" size="1.778" layer="91">Battery voltage sensor (ref = vcc)</text>
+<text x="-88.9" y="129.54" size="1.778" layer="91">Ambient light sensor (ref = vcc)</text>
 <text x="-88.9" y="83.82" size="1.778" layer="91">IR LED driver</text>
 <text x="2.54" y="129.54" size="1.778" layer="91">Signal amplifier</text>
 <text x="139.7" y="12.7" size="1.778" layer="91">IR LED connector</text>
 <text x="139.7" y="129.54" size="1.778" layer="91">Battery connector</text>
 <text x="139.7" y="63.5" size="1.778" layer="91">Buttons</text>
 <text x="139.7" y="104.14" size="1.778" layer="91">Extension port</text>
-<text x="86.36" y="-86.36" size="1.778" layer="91">Poweroff</text>
+<text x="81.28" y="-60.96" size="1.778" layer="91">Poweroff</text>
 </plain>
 <instances>
 <instance part="C1" gate="G$1" x="60.96" y="-33.02"/>
@@ -8283,10 +8139,10 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <instance part="BUS" gate="-2" x="154.94" y="-22.86" rot="R180"/>
 <instance part="BUS" gate="-3" x="154.94" y="-20.32" rot="R180"/>
 <instance part="BUS" gate="-4" x="154.94" y="-17.78" rot="R180"/>
-<instance part="D2" gate="G$1" x="116.84" y="-48.26" rot="R90"/>
-<instance part="GND6" gate="1" x="116.84" y="-55.88"/>
-<instance part="R6" gate="G$1" x="104.14" y="-33.02"/>
-<instance part="R7" gate="G$1" x="104.14" y="-25.4"/>
+<instance part="D2" gate="G$1" x="116.84" y="-40.64" rot="R90"/>
+<instance part="GND6" gate="1" x="116.84" y="-48.26"/>
+<instance part="R6" gate="G$1" x="104.14" y="-25.4"/>
+<instance part="R7" gate="G$1" x="104.14" y="-17.78"/>
 <instance part="R1" gate="G$1" x="109.22" y="124.46"/>
 <instance part="GND2" gate="1" x="93.98" y="93.98"/>
 <instance part="EXT_GND" gate="G$1" x="160.02" y="76.2"/>
@@ -8331,13 +8187,15 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <instance part="DISPLAY" gate="1" x="-63.5" y="20.32" rot="R270"/>
 <instance part="EXT_SCL_BUS" gate="G$1" x="160.02" y="96.52"/>
 <instance part="EXT_SDA_BUS" gate="G$1" x="160.02" y="91.44"/>
-<instance part="Q1" gate="G$1" x="124.46" y="-96.52"/>
-<instance part="R3" gate="G$1" x="104.14" y="-99.06" rot="R90"/>
-<instance part="KEY_ON_1" gate="G$1" x="91.44" y="-114.3" rot="R180"/>
-<instance part="KEY_ON_2" gate="G$1" x="119.38" y="-114.3" rot="R180"/>
-<instance part="R17" gate="G$1" x="104.14" y="-109.22" rot="R90"/>
-<instance part="KEY_OFF_1" gate="G$1" x="91.44" y="-127" rot="R180"/>
-<instance part="KEY_OFF_2" gate="G$1" x="119.38" y="-127" rot="R180"/>
+<instance part="R3" gate="G$1" x="93.98" y="-88.9" rot="R270"/>
+<instance part="KEY_ON_1" gate="G$1" x="109.22" y="-73.66"/>
+<instance part="KEY_ON_2" gate="G$1" x="109.22" y="-66.04"/>
+<instance part="R17" gate="G$1" x="93.98" y="-78.74" rot="R270"/>
+<instance part="KEY_OFF_1" gate="G$1" x="109.22" y="-93.98"/>
+<instance part="KEY_OFF_2" gate="G$1" x="109.22" y="-101.6"/>
+<instance part="GND16" gate="1" x="93.98" y="-104.14"/>
+<instance part="STEP_UP_ENABLE" gate="G$1" x="109.22" y="-83.82"/>
+<instance part="R18" gate="G$1" x="86.36" y="-83.82"/>
 </instances>
 <busses>
 </busses>
@@ -8522,14 +8380,17 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <label x="-73.66" y="-38.1" size="1.778" layer="95" rot="R90"/>
 </segment>
 <segment>
-<pinref part="Q1" gate="G$1" pin="D"/>
-<label x="99.06" y="-91.44" size="1.778" layer="95" rot="MR0"/>
-<wire x1="111.76" y1="-91.44" x2="99.06" y2="-91.44" width="0.1524" layer="91"/>
+<pinref part="R3" gate="G$1" pin="2"/>
+<pinref part="GND16" gate="1" pin="GND"/>
+<wire x1="93.98" y1="-101.6" x2="93.98" y2="-93.98" width="0.1524" layer="91"/>
+<pinref part="KEY_OFF_2" gate="G$1" pin="1"/>
+<wire x1="106.68" y1="-101.6" x2="93.98" y2="-101.6" width="0.1524" layer="91"/>
+<junction x="93.98" y="-101.6"/>
 </segment>
 <segment>
-<pinref part="KEY_OFF_2" gate="G$1" pin="1"/>
-<wire x1="121.92" y1="-127" x2="127" y2="-127" width="0.1524" layer="91"/>
-<label x="127" y="-127" size="1.778" layer="95"/>
+<pinref part="B-" gate="G$1" pin="1"/>
+<wire x1="157.48" y1="116.84" x2="149.86" y2="116.84" width="0.1524" layer="91"/>
+<label x="139.7" y="116.84" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="BATT_+" class="0">
@@ -8550,8 +8411,8 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 </segment>
 <segment>
 <pinref part="KEY_ON_2" gate="G$1" pin="1"/>
-<wire x1="121.92" y1="-114.3" x2="127" y2="-114.3" width="0.1524" layer="91"/>
-<label x="127" y="-114.3" size="1.778" layer="95"/>
+<wire x1="106.68" y1="-66.04" x2="99.06" y2="-66.04" width="0.1524" layer="91"/>
+<label x="88.9" y="-66.04" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="LED_W" class="0">
@@ -8901,10 +8762,10 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 </net>
 <net name="N$33" class="0">
 <segment>
-<wire x1="86.36" y1="-15.24" x2="86.36" y2="-60.96" width="0.1524" layer="91"/>
-<wire x1="86.36" y1="-60.96" x2="132.08" y2="-60.96" width="0.1524" layer="91"/>
-<wire x1="132.08" y1="-60.96" x2="132.08" y2="-15.24" width="0.1524" layer="91"/>
-<wire x1="132.08" y1="-15.24" x2="86.36" y2="-15.24" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="-7.62" x2="86.36" y2="-53.34" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="-53.34" x2="132.08" y2="-53.34" width="0.1524" layer="91"/>
+<wire x1="132.08" y1="-53.34" x2="132.08" y2="-7.62" width="0.1524" layer="91"/>
+<wire x1="132.08" y1="-7.62" x2="86.36" y2="-7.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$35" class="0">
@@ -9248,13 +9109,13 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <wire x1="58.42" y1="53.34" x2="60.96" y2="53.34" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<label x="119.38" y="-33.02" size="1.778" layer="95"/>
+<label x="119.38" y="-25.4" size="1.778" layer="95"/>
 <pinref part="R6" gate="G$1" pin="2"/>
-<wire x1="109.22" y1="-33.02" x2="111.76" y2="-33.02" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="-25.4" x2="111.76" y2="-25.4" width="0.1524" layer="91"/>
 <pinref part="D2" gate="G$1" pin="C2"/>
-<wire x1="111.76" y1="-33.02" x2="119.38" y2="-33.02" width="0.1524" layer="91"/>
-<wire x1="111.76" y1="-38.1" x2="111.76" y2="-33.02" width="0.1524" layer="91"/>
-<junction x="111.76" y="-33.02"/>
+<wire x1="111.76" y1="-25.4" x2="119.38" y2="-25.4" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="-30.48" x2="111.76" y2="-25.4" width="0.1524" layer="91"/>
+<junction x="111.76" y="-25.4"/>
 </segment>
 <segment>
 <pinref part="EXT_SDA_BUS" gate="G$1" pin="1"/>
@@ -9269,13 +9130,13 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 </net>
 <net name="SCL_BUS" class="0">
 <segment>
-<label x="119.38" y="-25.4" size="1.778" layer="95"/>
-<wire x1="109.22" y1="-25.4" x2="116.84" y2="-25.4" width="0.1524" layer="91"/>
+<label x="119.38" y="-17.78" size="1.778" layer="95"/>
+<wire x1="109.22" y1="-17.78" x2="116.84" y2="-17.78" width="0.1524" layer="91"/>
 <pinref part="R7" gate="G$1" pin="2"/>
 <pinref part="D2" gate="G$1" pin="C3"/>
-<wire x1="116.84" y1="-25.4" x2="119.38" y2="-25.4" width="0.1524" layer="91"/>
-<wire x1="116.84" y1="-38.1" x2="116.84" y2="-25.4" width="0.1524" layer="91"/>
-<junction x="116.84" y="-25.4"/>
+<wire x1="116.84" y1="-17.78" x2="119.38" y2="-17.78" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="-30.48" x2="116.84" y2="-17.78" width="0.1524" layer="91"/>
+<junction x="116.84" y="-17.78"/>
 </segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="PC5(ADC5/SCL)"/>
@@ -9296,8 +9157,8 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <net name="SCL_PI" class="0">
 <segment>
 <pinref part="R7" gate="G$1" pin="1"/>
-<wire x1="99.06" y1="-25.4" x2="96.52" y2="-25.4" width="0.1524" layer="91"/>
-<label x="88.9" y="-25.4" size="1.778" layer="95"/>
+<wire x1="99.06" y1="-17.78" x2="96.52" y2="-17.78" width="0.1524" layer="91"/>
+<label x="88.9" y="-17.78" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="PI" gate="G$1" pin="5"/>
@@ -9308,8 +9169,8 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <net name="SDA_PI" class="0">
 <segment>
 <pinref part="R6" gate="G$1" pin="1"/>
-<wire x1="99.06" y1="-33.02" x2="96.52" y2="-33.02" width="0.1524" layer="91"/>
-<label x="88.9" y="-33.02" size="1.778" layer="95"/>
+<wire x1="99.06" y1="-25.4" x2="96.52" y2="-25.4" width="0.1524" layer="91"/>
+<label x="88.9" y="-25.4" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="PI" gate="G$1" pin="3"/>
@@ -9410,23 +9271,6 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <wire x1="137.16" y1="71.12" x2="137.16" y2="106.68" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="BATT_-" class="0">
-<segment>
-<pinref part="Q1" gate="G$1" pin="S1"/>
-<wire x1="111.76" y1="-101.6" x2="109.22" y2="-101.6" width="0.1524" layer="91"/>
-<label x="99.06" y="-93.98" size="1.778" layer="95" rot="MR0"/>
-<wire x1="109.22" y1="-101.6" x2="109.22" y2="-93.98" width="0.1524" layer="91"/>
-<pinref part="R3" gate="G$1" pin="2"/>
-<wire x1="109.22" y1="-93.98" x2="104.14" y2="-93.98" width="0.1524" layer="91"/>
-<junction x="104.14" y="-93.98"/>
-<wire x1="104.14" y1="-93.98" x2="99.06" y2="-93.98" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="B-" gate="G$1" pin="1"/>
-<wire x1="157.48" y1="116.84" x2="149.86" y2="116.84" width="0.1524" layer="91"/>
-<label x="139.7" y="116.84" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="ONOFF" class="0">
 <segment>
 <pinref part="IC1" gate="G$1" pin="PD2(INT0)"/>
@@ -9434,34 +9278,38 @@ Source: http://optoelectronics.perkinelmer.com/content/Datasheets/DTS_vt800serie
 <label x="60.96" y="35.56" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="Q1" gate="G$1" pin="G1"/>
-<label x="99.06" y="-104.14" size="1.778" layer="95" rot="MR0"/>
 <pinref part="R3" gate="G$1" pin="1"/>
-<wire x1="104.14" y1="-104.14" x2="109.22" y2="-104.14" width="0.1524" layer="91"/>
-<wire x1="109.22" y1="-104.14" x2="111.76" y2="-104.14" width="0.1524" layer="91"/>
-<wire x1="104.14" y1="-104.14" x2="99.06" y2="-104.14" width="0.1524" layer="91"/>
-<junction x="104.14" y="-104.14"/>
-<wire x1="104.14" y1="-104.14" x2="104.14" y2="-106.68" width="0.1524" layer="91"/>
+<wire x1="93.98" y1="-83.82" x2="99.06" y2="-83.82" width="0.1524" layer="91"/>
+<junction x="93.98" y="-83.82"/>
 <pinref part="R17" gate="G$1" pin="2"/>
 <pinref part="KEY_OFF_1" gate="G$1" pin="1"/>
-<wire x1="93.98" y1="-127" x2="109.22" y2="-127" width="0.1524" layer="91"/>
-<wire x1="109.22" y1="-127" x2="109.22" y2="-104.14" width="0.1524" layer="91"/>
-<junction x="109.22" y="-104.14"/>
+<wire x1="106.68" y1="-93.98" x2="99.06" y2="-93.98" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="-93.98" x2="99.06" y2="-83.82" width="0.1524" layer="91"/>
+<junction x="99.06" y="-83.82"/>
+<wire x1="93.98" y1="-83.82" x2="91.44" y2="-83.82" width="0.1524" layer="91"/>
+<pinref part="STEP_UP_ENABLE" gate="G$1" pin="1"/>
+<wire x1="106.68" y1="-83.82" x2="99.06" y2="-83.82" width="0.1524" layer="91"/>
+<pinref part="R18" gate="G$1" pin="2"/>
+</segment>
+<segment>
+<pinref part="R18" gate="G$1" pin="1"/>
+<wire x1="81.28" y1="-83.82" x2="78.74" y2="-83.82" width="0.1524" layer="91"/>
+<label x="71.12" y="-83.82" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$26" class="0">
 <segment>
 <pinref part="KEY_ON_1" gate="G$1" pin="1"/>
 <pinref part="R17" gate="G$1" pin="1"/>
-<wire x1="93.98" y1="-114.3" x2="104.14" y2="-114.3" width="0.1524" layer="91"/>
+<wire x1="106.68" y1="-73.66" x2="93.98" y2="-73.66" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$27" class="0">
 <segment>
-<wire x1="83.82" y1="-83.82" x2="83.82" y2="-134.62" width="0.1524" layer="91"/>
-<wire x1="83.82" y1="-134.62" x2="139.7" y2="-134.62" width="0.1524" layer="91"/>
-<wire x1="139.7" y1="-134.62" x2="139.7" y2="-83.82" width="0.1524" layer="91"/>
-<wire x1="139.7" y1="-83.82" x2="83.82" y2="-83.82" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="-109.22" x2="124.46" y2="-109.22" width="0.1524" layer="91"/>
+<wire x1="124.46" y1="-109.22" x2="124.46" y2="-58.42" width="0.1524" layer="91"/>
+<wire x1="124.46" y1="-58.42" x2="68.58" y2="-58.42" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="-58.42" x2="68.58" y2="-109.22" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
