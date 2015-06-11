@@ -54,21 +54,41 @@ logger = logging.getLogger(__name__)
 
 class Hardware:
 	def __init__(self):
+		self.connect()
+		self.setWeaponLasers(0, 0)
+		self.setWeaponLED(R=0, G=0, B=0, W=0)
+		self.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=0, G=0, B=0)
+		
+	#----------------- low level -----------------
+	def connect(self):
 		try:
 			self.bus = smbus.SMBus(0) #alte PIs
 		except:
 			self.bus = smbus.SMBus(1) #neuere PIs
-		self.setWeaponLasers(0, 0)
-		self.setWeaponLED(R=0, G=0, B=0, W=0)
-		self.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=0, G=0, B=0)
-
-	#----------------- low level -----------------
+			
+	def disconnect(self):
+		del self.bus
+		
+	def reconnect(self):
+		self.disconnect()
+		self.connect()
 
 	def read(self, i2c_adr, register):
-		return self.bus.read_byte_data(i2c_adr, register)
+		while True:
+			try:
+				return self.bus.read_byte_data(i2c_adr, register)
+			except IOError:
+				self.reconnect()
+				#print "i2c reopened"
 
 	def write(self, i2c_adr, register, data):
-		self.bus.write_byte_data(i2c_adr, register, data)
+		while True:
+			try:
+				self.bus.write_byte_data(i2c_adr, register, data)
+				break
+			except IOError:
+				self.reconnect()
+				#print "i2c reopened"
 
 	#----------------- Lasermodul -----------------
 
@@ -78,7 +98,7 @@ class Hardware:
 	def getWeaponHitResults(self):
 		playerid =	self.read(i2cAddresses.WEAPON, weaponRegisters.HIT_PLAYERID)
 		damage =	self.read(i2cAddresses.WEAPON, weaponRegisters.HIT_DMG)
-		enable =	self.read(i2cAddresses.WEAPON, weaponRegisters.HIT_ENABLE)
+		enable =	self.read(i2cAddresses.WEAPON, weaponRegisters.HIT_ENABLE) != 0
 		return (enable, playerid, damage)
 
 	def getWeaponVBatt(self):
@@ -116,7 +136,7 @@ class Hardware:
 	def getHitpointResults(self, hitpoint_address):
 		playerid =	self.read(hitpoint_address, hitpointRegisters.HIT_PLAYERID)
 		damage =	self.read(hitpoint_address, hitpointRegisters.HIT_DMG)
-		enable =	self.read(hitpoint_address, hitpointRegisters.HIT_ENABLE)
+		enable =	self.read(hitpoint_address, hitpointRegisters.HIT_ENABLE) != 0
 		return (enable, playerid, damage)
 
 	def setHitpointLED(self, hitpoint_address, R, G, B):
@@ -161,6 +181,16 @@ if __name__ == '__main__':
 	time.sleep(0.5)
 	hardware.setWeaponLasers(laser0=0, laser1=0)
 	time.sleep(1.5)
+	
+	enable, playerid, damage = hardware.getWeaponHitResults()
+	print("Waffe Hit Front enable: " + str(enable))
+	print("Waffe Hit Front playerid: " + str(playerid))
+	print("Waffe Hit Front damage: " + str(damage))
+
+	enable, playerid, damage = hardware.getHitpointResults(i2cAddresses.HITPOINT_WEAPON)
+	print("Waffe Hit Top enable: " + str(enable))
+	print("Waffe Hit Top playerid: " + str(playerid))
+	print("Waffe Hit Top damage: " + str(damage))
 
 	print("Waffe Shoot: playerid=123, damage=5, rot")
 	#dauer in 0.1s

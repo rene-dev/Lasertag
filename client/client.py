@@ -4,57 +4,51 @@ import pygame
 
 pygame.mixer.pre_init(44100, -16, 1, 512)
 import display
-import Sounds
-import Hardware
+import sounds
+import hardware
 import network
-end = 9999999999999999999999999999999
-
+myid = 32
 i = 0
-FireButton = 0
-leben = 0
+fireButton = 0
 
-sounds = Sounds.Sounds()
-hardware = Hardware.Hardware()
+sounds = sounds.Sounds()
+hardware = hardware.Hardware()
+from hardware import i2cAddresses
 #cs = network.Client_server("10.0.8.200", 9005)
 
 pygame.init()
 
-hardware.setTopLED(G=255)
-hardware.setIR_TX(id=32, dmg=30)#randint(1,254)
+hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, 0, 255, 0)
+hardware.setWeaponCharacteristics(playerid=32, damage=30, laser_duration=1)#randint(1,254)
 
 try:
 	while True:
 		#print network.Client_server.empf()
-		leben = hardware.getLive()
-		FireButton = hardware.getKey1() 
-		playerid, dmg = hardware.getLmHit()
-		print playerid
-		if playerid != 32 and playerid != 0:
-			hardware.setTopLED(G=0)
-			cs.send("death")
+		fireButton = hardware.isWeaponButtonDown(0) 
+		enable, playerid, dmg = hardware.getWeaponHitResults()
+		if enable and playerid != myid:
+			print playerid
+			hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, 0, 0, 0)
+			#cs.send("death")
 			sounds.play('tod', True)
 			sounds.play('down', True)
-			hardware.setTopLED(G=255)
-			hardware.getLmHit() # Einmal abrufen fals man nochmal getroffen wurde
-			FireButton = 0
-			leben = 0
+			hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, 0, 255, 0)
+			hardware.getWeaponHitResults() # flush in case of another hit
+			fireButton = 0
 		
-		if FireButton == 1 and display.schuss >=0:
+		if fireButton == 1 and display.schuss >=0:
 			sounds.play('pew')
-			hardware.setShootButton()
-			hardware.setLaser(R=1)
-			hardware.setFrontLED(R=2)
+			hardware.setWeaponLasers(laser0=1, laser1=0)
+			hardware.setWeaponLED(2, 0, 0)
 			time.sleep(0.1)
-			hardware.setLaser(R=0)
-			hardware.setFrontLED(R=0, B=0)
+			hardware.setWeaponLasers(laser0=0, laser1=0)
+			hardware.setWeaponLED(0, 0, 0)
 			i= i+1
 			display.schuss = display.schuss-1
-		if time.time() >= end:
-			break
-		print FireButton, i, display.schuss, leben
+		print fireButton, i, display.schuss
 except KeyboardInterrupt:
 	print 'Keyboard interrupt...'
-	hardware.setLaser(R=0)
-	hardware.setTopLED(R=0, G=0, B=0, W=0)
-	hardware.setFrontLED(R=0, G=0, B=0, W=0)
+	hardware.setWeaponLasers(laser0=0, laser1=0)
+	hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, 0, 0, 0)
+	hardware.setWeaponLED(0, 0, 0)
 	pygame.quit()
