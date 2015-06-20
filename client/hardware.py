@@ -78,13 +78,13 @@ class Hardware:
 		if W is not None:
 			self.setData(self.adrWaffeLm, 3, W)
 
-	def setWaffeLaser(self, R=None, G=None, B=None):
+	def setWaffeLaser(self, R=0, G=0, B=0):
 		if R is not None:
-			self.setData(self.adrWaffeLm, 4, R)
+			self.setData(self.adrWaffeLm, 24, R)
 		if G is not None:
-			self.setData(self.adrWaffeLm, 5, G)
+			self.setData(self.adrWaffeLm, 25, G)
 		if B is not None:
-			self.setData(self.adrWaffeLm, 6, B)
+			self.setData(self.adrWaffeLm, 26, B)
 
 	#----------------- Trefferzonenmodul -----------------
 
@@ -132,15 +132,15 @@ if __name__ == '__main__':
 	hardware.setWaffeLEDTop(R=0, G=0, B=0)
 	time.sleep(0.5)
 
-	# print("Waffe Laser")
-	# hardware.setWaffeLaser(R=1, G=0, B=0)
-	# time.sleep(0.5)
-	# hardware.setWaffeLaser(R=0, G=1, B=0)
-	# time.sleep(0.5)
-	# hardware.setWaffeLaser(R=0, G=0, B=1)
-	# time.sleep(0.5)
-	# hardware.setWaffeLaser(R=0, G=0, B=0)
-	# time.sleep(1.5)
+	print("Waffe Laser")
+	hardware.setWaffeLaser(R=1, G=0, B=0)
+	time.sleep(0.5)
+	hardware.setWaffeLaser(R=0, G=1, B=0)
+	time.sleep(0.5)
+	hardware.setWaffeLaser(R=0, G=0, B=1)
+	time.sleep(0.5)
+	hardware.setWaffeLaser(R=0, G=0, B=0)
+	time.sleep(1.5)
 
 	print("Waffe Shoot: playerid=123, damage=5, rot")
 	#dauer in 0.1s
