@@ -21,47 +21,7 @@
 
 //---------------------------- i2c Settings ----------------------------
 
-//i2c-bus adress
-//0x00				Broadcast
-//0x03				Weapon Lasermodule
-//0x04				Weapon Hitmodule
-//0x10, 0x11, ...	Weste Hitmodules
-#define I2C_BUS_ADRESS 0x03
-
-//i2c-register	Funktion		Modul
-//0				LED_FRONT_R		LM
-//1				LED_FRONT_G		LM
-//2				LED_FRONT_B		LM
-//3				LED_FRONT_W		LM
-//4				LASER_R			LM
-//5				LASER_G			LM
-//6				LASER_B			LM
-//7				Haptik 			LM/TM
-//...
-//10			Button_0		LM
-//11			Button_1		LM
-//12			Button_2		LM
-//...
-//20			Shoot_Enable	LM
-//21			Shoot_PlayerID	LM
-//22			Shoot_Damage	LM
-//23			Shoot_Duration	LM
-//24			Shoot_Color_R	LM
-//25			Shoot_Color_G	LM
-//26			Shoot_Color_B	LM
-//...
-//30			HIT_Enable		LM/TM
-//31			HIT_PlayerID	LM/TM
-//32			HIT_DMG			LM/TM
-//...
-//40			V_BATT 16 bit	LM
-//41			V_BATT 16 bit	LM
-//42			LDR 16 bit		LM
-//43			LDR 16 bit		LM
-//...
-//50			LED_10MM_R		TM
-//51			LED_10MM_G		TM
-//52			LED_10MM_B		TM
+#define I2C_BUS_ADRESS 0x03 //Weapon Lasermodule
 
 #define LED_FRONT_REG 0
 typedef struct{
