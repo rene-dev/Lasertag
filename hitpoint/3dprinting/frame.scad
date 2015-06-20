@@ -47,7 +47,7 @@ difference()
 			{
 				translate([0, 0, 21])
 					rotate(90, [1, 0, 0])
-						cylinder(r = 10/2, h = 5, center = true, $fn = 360);
+						cylinder(r = 12/2, h = 5, center = true, $fn = 360);
 			}
 		}
 	}
