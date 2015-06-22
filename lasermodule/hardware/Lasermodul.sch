@@ -7868,12 +7868,12 @@ http://www.zetex.com&lt;p&gt;
 <part name="L1-" library="wz" deviceset="PIN-HEADER-1" device=""/>
 <part name="L1+" library="wz" deviceset="PIN-HEADER-1" device=""/>
 <part name="L2+" library="wz" deviceset="PIN-HEADER-1" device=""/>
-<part name="TG" library="wz" deviceset="PIN-HEADER-1" device=""/>
-<part name="TR" library="wz" deviceset="PIN-HEADER-1" device=""/>
-<part name="TW" library="wz" deviceset="PIN-HEADER-1" device=""/>
-<part name="TB" library="wz" deviceset="PIN-HEADER-1" device=""/>
+<part name="F_G" library="wz" deviceset="PIN-HEADER-1" device=""/>
+<part name="F_R" library="wz" deviceset="PIN-HEADER-1" device=""/>
+<part name="F_W" library="wz" deviceset="PIN-HEADER-1" device=""/>
+<part name="F_B" library="wz" deviceset="PIN-HEADER-1" device=""/>
 <part name="IR_SNIPER_+" library="wz" deviceset="PIN-HEADER-1" device=""/>
-<part name="T5V" library="wz" deviceset="PIN-HEADER-1" device=""/>
+<part name="F_5V" library="wz" deviceset="PIN-HEADER-1" device=""/>
 <part name="EXT_+5V" library="wz" deviceset="PIN-HEADER-1" device=""/>
 <part name="IR_-_2" library="wz" deviceset="PIN-HEADER-1" device=""/>
 <part name="BATT-" library="wz" deviceset="PIN-HEADER-1" device=""/>
@@ -7966,6 +7966,7 @@ http://www.zetex.com&lt;p&gt;
 <part name="R24" library="wz" deviceset="R_EU" device="0603" value="10"/>
 <part name="IR_SHOTGUN_+" library="wz" deviceset="PIN-HEADER-1" device=""/>
 <part name="IR_-_1" library="wz" deviceset="PIN-HEADER-1" device=""/>
+<part name="P+4" library="supply1" deviceset="+5V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -8023,12 +8024,12 @@ http://www.zetex.com&lt;p&gt;
 <instance part="L1-" gate="G$1" x="157.48" y="-66.04"/>
 <instance part="L1+" gate="G$1" x="157.48" y="-83.82"/>
 <instance part="L2+" gate="G$1" x="157.48" y="-91.44"/>
-<instance part="TG" gate="G$1" x="129.54" y="43.18"/>
-<instance part="TR" gate="G$1" x="129.54" y="60.96"/>
-<instance part="TW" gate="G$1" x="129.54" y="7.62"/>
-<instance part="TB" gate="G$1" x="129.54" y="25.4"/>
+<instance part="F_G" gate="G$1" x="129.54" y="43.18"/>
+<instance part="F_R" gate="G$1" x="129.54" y="60.96"/>
+<instance part="F_W" gate="G$1" x="129.54" y="7.62"/>
+<instance part="F_B" gate="G$1" x="129.54" y="25.4"/>
 <instance part="IR_SNIPER_+" gate="G$1" x="177.8" y="-30.48"/>
-<instance part="T5V" gate="G$1" x="129.54" y="-10.16"/>
+<instance part="F_5V" gate="G$1" x="129.54" y="-10.16"/>
 <instance part="EXT_+5V" gate="G$1" x="157.48" y="101.6"/>
 <instance part="IR_-_2" gate="G$1" x="177.8" y="-48.26"/>
 <instance part="BATT-" gate="G$1" x="162.56" y="71.12"/>
@@ -8124,13 +8125,14 @@ http://www.zetex.com&lt;p&gt;
 <instance part="R24" gate="G$1" x="-33.02" y="7.62" rot="R90"/>
 <instance part="IR_SHOTGUN_+" gate="G$1" x="177.8" y="-35.56"/>
 <instance part="IR_-_1" gate="G$1" x="177.8" y="-43.18"/>
+<instance part="P+4" gate="1" x="-76.2" y="-71.12"/>
 </instances>
 <busses>
 </busses>
 <nets>
 <net name="+5V" class="0">
 <segment>
-<pinref part="T5V" gate="G$1" pin="1"/>
+<pinref part="F_5V" gate="G$1" pin="1"/>
 <wire x1="127" y1="-10.16" x2="119.38" y2="-10.16" width="0.1524" layer="91"/>
 <label x="114.3" y="-10.16" size="1.778" layer="95"/>
 </segment>
@@ -8171,7 +8173,7 @@ http://www.zetex.com&lt;p&gt;
 <wire x1="-73.66" y1="-76.2" x2="-73.66" y2="-78.74" width="0.1524" layer="91"/>
 <wire x1="-76.2" y1="-76.2" x2="-76.2" y2="-73.66" width="0.1524" layer="91"/>
 <junction x="-76.2" y="-76.2"/>
-<label x="-76.2" y="-73.66" size="1.778" layer="95" rot="R90"/>
+<pinref part="P+4" gate="1" pin="+5V"/>
 </segment>
 <segment>
 <pinref part="L2+" gate="G$1" pin="1"/>
@@ -8202,6 +8204,7 @@ http://www.zetex.com&lt;p&gt;
 <pinref part="C2" gate="G$1" pin="2"/>
 <pinref part="ZD1" gate="1" pin="A"/>
 <wire x1="30.48" y1="-43.18" x2="40.64" y2="-43.18" width="0.1524" layer="91"/>
+<junction x="40.64" y="-43.18"/>
 </segment>
 <segment>
 <pinref part="ULN2803" gate="G$1" pin="GND"/>
@@ -8231,6 +8234,7 @@ http://www.zetex.com&lt;p&gt;
 <pinref part="R5" gate="G$1" pin="1"/>
 <pinref part="C5" gate="G$1" pin="2"/>
 <wire x1="-12.7" y1="93.98" x2="-20.32" y2="93.98" width="0.1524" layer="91"/>
+<junction x="-20.32" y="93.98"/>
 </segment>
 <segment>
 <pinref part="D2" gate="G$1" pin="A"/>
@@ -8565,20 +8569,10 @@ http://www.zetex.com&lt;p&gt;
 <wire x1="147.32" y1="-73.66" x2="154.94" y2="-73.66" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$20" class="0">
-<segment>
-<pinref part="R14" gate="G$1" pin="1"/>
-<pinref part="R14" gate="G$1" pin="1"/>
-<pinref part="P-FET1" gate="A" pin="G"/>
-<pinref part="R8" gate="G$1" pin="2"/>
-<wire x1="-53.34" y1="50.8" x2="-53.34" y2="48.26" width="0.1524" layer="91"/>
-<junction x="-53.34" y="48.26"/>
-</segment>
-</net>
 <net name="N$15" class="0">
 <segment>
 <pinref part="R10" gate="G$1" pin="2"/>
-<pinref part="TR" gate="G$1" pin="1"/>
+<pinref part="F_R" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="60.96" x2="127" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="C7" gate="G$1" pin="2"/>
 <wire x1="119.38" y1="50.8" x2="119.38" y2="60.96" width="0.1524" layer="91"/>
@@ -8588,7 +8582,7 @@ http://www.zetex.com&lt;p&gt;
 <net name="N$21" class="0">
 <segment>
 <pinref part="R11" gate="G$1" pin="2"/>
-<pinref part="TG" gate="G$1" pin="1"/>
+<pinref part="F_G" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="43.18" x2="127" y2="43.18" width="0.1524" layer="91"/>
 <pinref part="C8" gate="G$1" pin="2"/>
 <wire x1="119.38" y1="43.18" x2="119.38" y2="33.02" width="0.1524" layer="91"/>
@@ -8598,7 +8592,7 @@ http://www.zetex.com&lt;p&gt;
 <net name="N$22" class="0">
 <segment>
 <pinref part="R12" gate="G$1" pin="2"/>
-<pinref part="TB" gate="G$1" pin="1"/>
+<pinref part="F_B" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="25.4" x2="127" y2="25.4" width="0.1524" layer="91"/>
 <pinref part="C9" gate="G$1" pin="2"/>
 <wire x1="119.38" y1="25.4" x2="119.38" y2="15.24" width="0.1524" layer="91"/>
@@ -8608,7 +8602,7 @@ http://www.zetex.com&lt;p&gt;
 <net name="N$23" class="0">
 <segment>
 <pinref part="R15" gate="G$1" pin="2"/>
-<pinref part="TW" gate="G$1" pin="1"/>
+<pinref part="F_W" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="7.62" x2="127" y2="7.62" width="0.1524" layer="91"/>
 <pinref part="C10" gate="G$1" pin="2"/>
 <wire x1="119.38" y1="7.62" x2="119.38" y2="-2.54" width="0.1524" layer="91"/>
@@ -8982,11 +8976,15 @@ http://www.zetex.com&lt;p&gt;
 <segment>
 <pinref part="ISP" gate="1" pin="4"/>
 <pinref part="IC1" gate="G$1" pin="PB3(MOSI/OC2)"/>
-<wire x1="78.74" y1="5.08" x2="60.96" y2="5.08" width="0.1524" layer="91"/>
-<wire x1="78.74" y1="-7.62" x2="78.74" y2="5.08" width="0.1524" layer="91"/>
-<label x="81.28" y="5.08" size="1.778" layer="95"/>
-<wire x1="78.74" y1="5.08" x2="81.28" y2="5.08" width="0.1524" layer="91"/>
-<junction x="78.74" y="5.08"/>
+<wire x1="81.28" y1="5.08" x2="71.12" y2="5.08" width="0.1524" layer="91"/>
+<label x="73.66" y="2.54" size="1.778" layer="95"/>
+<wire x1="71.12" y1="5.08" x2="60.96" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="5.08" x2="81.28" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="78.74" y1="-7.62" x2="86.36" y2="-7.62" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="-7.62" x2="86.36" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="5.08" x2="71.12" y2="2.54" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="2.54" x2="73.66" y2="2.54" width="0.1524" layer="91"/>
+<junction x="71.12" y="5.08"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -9243,16 +9241,6 @@ http://www.zetex.com&lt;p&gt;
 <pinref part="R21" gate="G$1" pin="2"/>
 </segment>
 </net>
-<net name="N$46" class="0">
-<segment>
-<pinref part="R20" gate="G$1" pin="1"/>
-<pinref part="R20" gate="G$1" pin="1"/>
-<pinref part="P-FET2" gate="A" pin="G"/>
-<pinref part="R19" gate="G$1" pin="2"/>
-<wire x1="-71.12" y1="22.86" x2="-71.12" y2="20.32" width="0.1524" layer="91"/>
-<junction x="-71.12" y="20.32"/>
-</segment>
-</net>
 <net name="N$53" class="0">
 <segment>
 <pinref part="P-FET3" gate="A" pin="D"/>
@@ -9278,16 +9266,6 @@ http://www.zetex.com&lt;p&gt;
 <junction x="-66.04" y="33.02"/>
 <junction x="-48.26" y="38.1"/>
 <junction x="-38.1" y="33.02"/>
-</segment>
-</net>
-<net name="N$54" class="0">
-<segment>
-<pinref part="R23" gate="G$1" pin="1"/>
-<pinref part="R23" gate="G$1" pin="1"/>
-<pinref part="P-FET3" gate="A" pin="G"/>
-<pinref part="R22" gate="G$1" pin="2"/>
-<wire x1="-38.1" y1="22.86" x2="-38.1" y2="20.32" width="0.1524" layer="91"/>
-<junction x="-38.1" y="20.32"/>
 </segment>
 </net>
 <net name="I_IR_SHOTGUN" class="0">
@@ -9326,9 +9304,115 @@ http://www.zetex.com&lt;p&gt;
 <label x="147.32" y="-30.48" size="1.778" layer="95"/>
 </segment>
 </net>
+<net name="N$16" class="0">
+<segment>
+<pinref part="P-FET1" gate="A" pin="G"/>
+<pinref part="R8" gate="G$1" pin="2"/>
+<pinref part="R14" gate="G$1" pin="1"/>
+<pinref part="R14" gate="G$1" pin="1"/>
+<wire x1="-53.34" y1="48.26" x2="-53.34" y2="50.8" width="0.1524" layer="91"/>
+<junction x="-53.34" y="48.26"/>
+<junction x="-53.34" y="50.8"/>
+</segment>
+</net>
+<net name="N$20" class="0">
+<segment>
+<pinref part="R20" gate="G$1" pin="1"/>
+<pinref part="R20" gate="G$1" pin="1"/>
+<pinref part="P-FET2" gate="A" pin="G"/>
+<pinref part="R19" gate="G$1" pin="2"/>
+<wire x1="-71.12" y1="22.86" x2="-71.12" y2="20.32" width="0.1524" layer="91"/>
+<junction x="-71.12" y="20.32"/>
+<junction x="-71.12" y="22.86"/>
+</segment>
+</net>
+<net name="N$55" class="0">
+<segment>
+<pinref part="R23" gate="G$1" pin="1"/>
+<pinref part="R23" gate="G$1" pin="1"/>
+<pinref part="P-FET3" gate="A" pin="G"/>
+<pinref part="R22" gate="G$1" pin="2"/>
+<wire x1="-38.1" y1="22.86" x2="-38.1" y2="20.32" width="0.1524" layer="91"/>
+<junction x="-38.1" y="20.32"/>
+<junction x="-38.1" y="22.86"/>
+</segment>
+</net>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="104,1,12.7,22.86,IC1,VCC,+3V3,,,"/>
+<approved hash="104,1,12.7,20.32,IC1,VCC,+3V3,,,"/>
+<approved hash="104,1,12.7,48.26,IC1,AVCC,+3V3,,,"/>
+<approved hash="104,1,15.24,-35.56,U$3,OUT+,N$28,,,"/>
+<approved hash="104,1,7.62,-71.12,U$4,VCC,+5V,,,"/>
+<approved hash="104,1,7.62,-73.66,U$4,PGND,GND,,,"/>
+<approved hash="105,1,-22.86,86.36,N$3,,,,,"/>
+<approved hash="105,1,-25.4,-59.69,N$4,,,,,"/>
+<approved hash="105,1,-68.58,78.74,N$7,,,,,"/>
+<approved hash="105,1,-54.61,-5.08,N$8,,,,,"/>
+<approved hash="105,1,35.56,83.82,N$9,,,,,"/>
+<approved hash="105,1,167.64,-53.34,N$10,,,,,"/>
+<approved hash="105,1,153.67,66.04,N$14,,,,,"/>
+<approved hash="105,1,139.7,38.1,N$17,,,,,"/>
+<approved hash="105,1,151.13,127,N$19,,,,,"/>
+<approved hash="105,1,101.6,76.2,N$27,,,,,"/>
+<approved hash="105,1,93.98,27.94,N$30,,,,,"/>
+<approved hash="105,1,121.92,-77.47,N$31,,,,,"/>
+<approved hash="105,1,139.7,-1.27,N$32,,,,,"/>
+<approved hash="105,1,71.12,-81.28,N$33,,,,,"/>
+<approved hash="105,1,121.92,-50.8,N$41,,,,,"/>
+<approved hash="105,1,22.86,-99.06,N$42,,,,,"/>
+<approved hash="105,1,39.37,-53.34,N$43,,,,,"/>
+<approved hash="113,1,38.1,108.145,ULN2803,,,,,"/>
+<approved hash="113,1,71.12,-9.08473,ISP,,,,,"/>
+<approved hash="113,1,155.177,-72.2588,L2-,,,,,"/>
+<approved hash="113,1,155.177,-64.6388,L1-,,,,,"/>
+<approved hash="113,1,155.177,-82.4188,L1+,,,,,"/>
+<approved hash="113,1,155.177,-90.0388,L2+,,,,,"/>
+<approved hash="113,1,127.237,44.5812,F_G,,,,,"/>
+<approved hash="113,1,127.237,62.3612,F_R,,,,,"/>
+<approved hash="113,1,127.237,9.02123,F_W,,,,,"/>
+<approved hash="113,1,127.237,26.8012,F_B,,,,,"/>
+<approved hash="113,1,179.265,-29.0788,IR_SNIPER_+,,,,,"/>
+<approved hash="113,1,127.237,-8.75877,F_5V,,,,,"/>
+<approved hash="113,1,156.396,103.001,EXT_+5V,,,,,"/>
+<approved hash="113,1,175.497,-46.8588,IR_-_2,,,,,"/>
+<approved hash="113,1,160.257,72.5212,BATT-,,,,,"/>
+<approved hash="113,1,160.257,77.6012,BATT+,,,,,"/>
+<approved hash="113,1,142.24,-72.6652,R2,,,,,"/>
+<approved hash="113,1,-47.4117,45.72,P-FET1,,,,,"/>
+<approved hash="113,1,99.5468,-88.9,D2,,,,,"/>
+<approved hash="113,1,142.24,-65.0452,R1,,,,,"/>
+<approved hash="113,1,156.575,97.9212,EXT_GND,,,,,"/>
+<approved hash="113,1,160.257,52.2012,KEY1,,,,,"/>
+<approved hash="113,1,160.257,47.1212,KEY2,,,,,"/>
+<approved hash="113,1,160.257,42.0412,KEY3,,,,,"/>
+<approved hash="113,1,160.257,31.8812,KEY1G,,,,,"/>
+<approved hash="113,1,160.257,26.8012,KEY2G,,,,,"/>
+<approved hash="113,1,160.257,21.7212,KEY3G,,,,,"/>
+<approved hash="113,1,-59.4953,-86.36,PI,,,,,"/>
+<approved hash="113,1,-1.98289,-85.2212,AMP_IN_L,,,,,"/>
+<approved hash="113,1,-2.13909,-92.8412,AMP_IN_R,,,,,"/>
+<approved hash="113,1,55.0992,-64.6388,AMP_OUT_L_-,,,,,"/>
+<approved hash="113,1,55.5588,-72.2588,AMP_OUT_L_+,,,,,"/>
+<approved hash="113,1,55.2554,-82.4188,AMP_OUT_R_-,,,,,"/>
+<approved hash="113,1,55.715,-90.0388,AMP_OUT_R_+,,,,,"/>
+<approved hash="113,1,-58.2253,-22.8177,DISPLAY,,,,,"/>
+<approved hash="113,1,159.114,118.241,EXT_SCL_BUS,,,,,"/>
+<approved hash="113,1,159.342,113.161,EXT_SDA_BUS,,,,,"/>
+<approved hash="113,1,113.984,113.161,KEY_ON_1,,,,,"/>
+<approved hash="113,1,113.984,120.781,KEY_ON_2,,,,,"/>
+<approved hash="113,1,114.466,92.8412,KEY_OFF_1,,,,,"/>
+<approved hash="113,1,114.466,85.2212,KEY_OFF_2,,,,,"/>
+<approved hash="113,1,118.166,103.001,STEP_UP_ENABLE,,,,,"/>
+<approved hash="113,1,-55.6429,105.541,LDR_2,,,,,"/>
+<approved hash="113,1,-55.6429,115.701,LDR_1,,,,,"/>
+<approved hash="113,1,-65.1917,17.78,P-FET2,,,,,"/>
+<approved hash="113,1,-32.1717,17.78,P-FET3,,,,,"/>
+<approved hash="113,1,180.769,-34.1588,IR_SHOTGUN_+,,,,,"/>
+<approved hash="113,1,175.497,-41.7788,IR_-_1,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 <compatibility>
