@@ -1,3 +1,4 @@
+*.skb
 *.o
 *.swp
 *.elf
