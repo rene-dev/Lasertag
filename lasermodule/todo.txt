@@ -1,0 +1,3 @@
+alle gnd pinne vom pi nehmen
+extension port evtl jst-xh?
+analog spule, 100n?
