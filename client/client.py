@@ -1,3 +1,4 @@
+import sys
 import time
 import pygame
 import display
@@ -14,11 +15,11 @@ class ClientState(Enum):
 	DEAD = 3
 
 class Client:
-	def __init__(self, pygame_instance):
+	def __init__(self, pygame_instance, playerid):
 		self.pygame = pygame_instance
 		
 		#config
-		self.myid = 32
+		self.myid = playerid
 		self.health = 100.0
 		self.ammo = 1000
 		self.shotDuration = 100 #milliseconds
@@ -30,14 +31,14 @@ class Client:
 		self.cooldownEnd = 0
 		self.deathEnd = 0
 		self.state = ClientState.IDLE
-		self.sounds = sounds.Sounds()
+		self.sounds = sounds.Sounds(self.pygame)
 		self.display = display.Display(self.pygame, self.health, self.ammo)
 		self.hardware = hardware.Hardware()
 		#self.cs = network.Client_server("10.0.8.200", 9005)
 
 		#initialize hardware
 		self.hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, 0, 255, 0)
-		self.hardware.setWeaponCharacteristics(playerid=32, damage=30, laser_duration=self.shotDuration/100)
+		self.hardware.setWeaponCharacteristics(playerid=playerid, damage=30, laser_duration=self.shotDuration/100)
 
 	def shoot(self):
 		if self.ammo > 0:
@@ -50,7 +51,7 @@ class Client:
 	
 	def handleDeath(self):
 		enable, playerid, dmg = self.hardware.getWeaponHitResults()
-		if enable and playerid != myid:
+		if enable and playerid != self.myid:
 			self.state = ClientState.DEAD
 			self.deathEnd = self.milliseconds + self.deathDuration
 			print "killed by player ", playerid
@@ -98,10 +99,16 @@ class Client:
 		self.hardware.setWeaponLED(0, 0, 0, 0)
 
 if __name__ == '__main__':
+	playerid = 23
+	if len(sys.argv) > 1:
+		playerid = int(sys.argv[1])
+	else:
+		print "Usage: ", sys.argv[0], "<playerid>\nUsing default player id 23\n"
+
 	pygame.mixer.pre_init(44100, -16, 1, 512)
 	pygame.init()
 	
-	client = Client(pygame)
+	client = Client(pygame, playerid)
 	try:
 		while True:
 			client.update()
