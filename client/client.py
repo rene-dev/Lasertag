@@ -30,7 +30,7 @@ class Client:
 		self.cooldownEnd = 0
 		self.deathEnd = 0
 		self.state = ClientState.IDLE
-		self.sounds = sounds.Sounds()
+		self.sounds = sounds.Sounds(self.pygame)
 		self.display = display.Display(self.pygame, self.health, self.ammo)
 		self.hardware = hardware.Hardware()
 		#self.cs = network.Client_server("10.0.8.200", 9005)
