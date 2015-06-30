@@ -24,7 +24,7 @@
 typedef struct{
 	uint8_t vibrate;
 } haptik_t;
-volatile haptik_t haptik_buffer;
+static volatile haptik_t haptik_buffer;
 
 #define HIT_REG 30
 typedef struct{
@@ -32,7 +32,7 @@ typedef struct{
 	uint8_t playerid;
 	uint8_t damage;
 } hit_t;
-volatile hit_t hit_buffer;
+static volatile hit_t hit_buffer;
 
 #define LED_10MM_REG 50
 typedef struct{
@@ -47,7 +47,7 @@ typedef struct{
 	led_10mm_t dst; //fading destination
 	uint8_t t; //fading time
 } led_10mm_fade_t;
-volatile led_10mm_fade_t led_10mm_fade = {};
+static volatile led_10mm_fade_t led_10mm_fade = {};
 
 //---------------------------- UART init ----------------------------
 
@@ -100,17 +100,17 @@ volatile uint8_t i2c_last_reg_access = -1;
 void i2c_slave_poll_buffer(uint8_t reg_addr, volatile uint8_t **buffer, volatile uint8_t *buffer_length){
 	if ((reg_addr >= HAPTIK_REG) && (reg_addr < (HAPTIK_REG + sizeof(haptik_t)))){
 		*buffer        = &((uint8_t *)&haptik_buffer)[reg_addr-HAPTIK_REG];
-		*buffer_length = (sizeof(haptik_t)-reg_addr);
+		*buffer_length = sizeof(haptik_t)-(reg_addr-HAPTIK_REG);
 		i2c_last_reg_access = HAPTIK_REG;
 	} else if ((reg_addr >= HIT_REG) && (reg_addr < (HIT_REG + sizeof(hit_t)))){
 		*buffer        = &((uint8_t *)&hit_buffer)[reg_addr-HIT_REG];
-		*buffer_length = (sizeof(hit_t)-reg_addr);
+		*buffer_length = sizeof(hit_t)-(reg_addr-HIT_REG);
 		i2c_last_reg_access = HIT_REG;
 	} else if ((reg_addr >= LED_10MM_REG) && (reg_addr < (LED_10MM_REG + sizeof(led_10mm_t)))){
 		led_10mm_fade.src = led_10mm_fade.current;
 		led_10mm_fade.t = 0;
 		*buffer        = &((uint8_t *)&led_10mm_fade.dst)[reg_addr-LED_10MM_REG];
-		*buffer_length = (sizeof(led_10mm_t)-reg_addr);
+		*buffer_length = sizeof(led_10mm_t)-(reg_addr-LED_10MM_REG);
 		i2c_last_reg_access = LED_10MM_REG;
 	} else {
 		*buffer_length = 0;
@@ -123,6 +123,7 @@ void i2c_slave_write_complete(void){
 
 void i2c_slave_read_complete(void){
 	if (i2c_last_reg_access == HIT_REG) hit_buffer.enable = 0;
+	hit_buffer.enable = 0;
 }
 
 ISR (TIMER0_OVF_vect){
