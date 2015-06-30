@@ -1,0 +1,14 @@
+IEC-Normen 60825-1 und 62471
+
+10° Reichelt: Osram LD274
+https://cdn-reichelt.de/documents/datenblatt/X100/ld_274-3.pdf
+
+5° Völkner: Osram SFH4545
+http://files.voelkner.de/525000-549999/525218-da-01-ml-IR_EMITTER_5MM_SFH4545_de_en.pdf
+
+3° Mouser: Visi VSLY5940
+http://www.mouser.com/ds/2/427/vsly5940-537303.pdf
+
+
+http://www.osram-os.com/Graphics/XPic6/00060767_0.pdf/High%20Power%20Emitters%20for%20Illumination%20Applications.pdf
+http://www.osram-os.com/Graphics/XPic5/00135349_0.pdf/High-Speed%20Switching%20of%20IR-LEDs%20%28Part%20I%29.pdf

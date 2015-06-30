@@ -1623,6 +1623,16 @@ Source: www.bourns.com .. 6000_series.pdf</description>
 <text x="-1.27" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
 <rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
 </package>
+<package name="PTC_FUSE_2920_UNIVERSAL">
+<description>MC331XX Footprint for MULTICOMP PTC
+&lt;br&gt;
+&lt;br&gt;
+WARNING: Not compatible with other 1812 PTC footprint.</description>
+<wire x1="1.0762" y1="2.77" x2="6.6924" y2="2.77" width="0.127" layer="21"/>
+<wire x1="1.0762" y1="-2.77" x2="6.6924" y2="-2.77" width="0.127" layer="21"/>
+<smd name="P$1" x="1.07" y="0" dx="5.6" dy="4.5" layer="1" rot="R90"/>
+<smd name="P$2" x="6.365" y="0" dx="5.6" dy="4.5" layer="1" rot="R90"/>
+</package>
 <package name="PTC_FUSE_2920">
 <description>MC331XX Footprint for MULTICOMP PTC
 &lt;br&gt;
@@ -1630,8 +1640,8 @@ Source: www.bourns.com .. 6000_series.pdf</description>
 WARNING: Not compatible with other 1812 PTC footprint.</description>
 <wire x1="1.0762" y1="2.77" x2="6.6924" y2="2.77" width="0.127" layer="21"/>
 <wire x1="1.0762" y1="-2.77" x2="6.6924" y2="-2.77" width="0.127" layer="21"/>
-<smd name="P$1" x="0" y="0" dx="5.6" dy="3.3" layer="1" rot="R90"/>
-<smd name="P$2" x="7.4" y="0" dx="5.6" dy="3.3" layer="1" rot="R90"/>
+<smd name="P$1" x="0" y="0" dx="5.6" dy="2.3" layer="1" rot="R90"/>
+<smd name="P$2" x="7.4" y="0" dx="5.6" dy="2.3" layer="1" rot="R90"/>
 </package>
 </packages>
 <symbols>
@@ -5839,7 +5849,16 @@ super fast rectifier, 2 A</description>
 <gate name="G$1" symbol="PTC_FUSE" x="2.54" y="0"/>
 </gates>
 <devices>
-<device name="" package="PTC_FUSE_2920">
+<device name="PTC_FUSE_2920" package="PTC_FUSE_2920">
+<connects>
+<connect gate="G$1" pin="1" pad="P$1"/>
+<connect gate="G$1" pin="2" pad="P$2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="PTC_FUSE_2920_UNIVERSAL" package="PTC_FUSE_2920_UNIVERSAL">
 <connects>
 <connect gate="G$1" pin="1" pad="P$1"/>
 <connect gate="G$1" pin="2" pad="P$2"/>
@@ -6373,7 +6392,7 @@ Source: &lt;a href="http://www.vishay.com/docs/83673/sfh618.pdf"&gt; Data sheet 
 <part name="R3(O)" library="wz" deviceset="R_EU" device="0805_CLOSED"/>
 <part name="AMP_IN_AGND" library="wz" deviceset="PIN-HEADER-1" device="PIN-HEADER-1"/>
 <part name="C13" library="wz" deviceset="C_EU" device="0603" value="100n"/>
-<part name="2A_4A" library="wz" deviceset="PTC_FUSE" device=""/>
+<part name="2A_4A" library="wz" deviceset="PTC_FUSE" device="PTC_FUSE_2920_UNIVERSAL"/>
 </parts>
 <sheets>
 <sheet>

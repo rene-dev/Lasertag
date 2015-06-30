@@ -30,7 +30,7 @@ typedef struct{
 	uint8_t b;
 	uint8_t w;
 } led_front_t;
-volatile led_front_t led_front_buffer;
+static volatile led_front_t led_front_buffer;
 
 #define LASER_REG 4
 typedef struct{
@@ -38,13 +38,13 @@ typedef struct{
 	uint8_t g;
 	uint8_t b;
 } laser_t;
-volatile laser_t laser_buffer;
+static volatile laser_t laser_buffer;
 
 #define HAPTIK_REG 7
 typedef struct{
 	uint8_t vibrate;
 } haptik_t;
-volatile haptik_t haptik_buffer;
+static volatile haptik_t haptik_buffer;
 
 #define BUTTON_REG 10
 typedef struct{
@@ -52,7 +52,7 @@ typedef struct{
 	uint8_t button_1;
 	uint8_t button_2;
 } button_t;
-volatile button_t button_buffer;
+static volatile button_t button_buffer;
 
 #define SHOOT_REG 20
 typedef struct{
@@ -64,7 +64,7 @@ typedef struct{
 	uint8_t laser_g;
 	uint8_t laser_b;
 } shoot_t;
-volatile shoot_t shoot_buffer;
+static volatile shoot_t shoot_buffer;
 
 #define HIT_REG 30
 typedef struct{
@@ -72,7 +72,7 @@ typedef struct{
 	uint8_t playerid;
 	uint8_t damage;
 } hit_t;
-volatile hit_t hit_buffer;
+static volatile hit_t hit_buffer;
 
 #define MISC_REG 40
 typedef struct{
@@ -81,7 +81,7 @@ typedef struct{
 	uint8_t ldr_l;
 	uint8_t ldr_r;
 } misc_t;
-volatile misc_t misc_buffer;
+static volatile misc_t misc_buffer;
 
 //---------------------------- UART init ----------------------------
 
@@ -310,7 +310,7 @@ int main(void){
 	
 	uint32_t shoot_delay=0;
 	uint16_t ir_delay=0;
-	uint8_t ir_count=0;
+	uint8_t ir_count=255;
 	
 	// hit_buffer.enable=6;
 	// hit_buffer.playerid=7;
@@ -320,7 +320,6 @@ int main(void){
 	// button_buffer.button_1 = 22;
 	// button_buffer.button_2 = 33;
 	
-	uint8_t array[] = {shoot_buffer.playerid, shoot_buffer.damage};
 	
  	while(1){		
 		if (shoot_buffer.enable){
@@ -336,6 +335,7 @@ int main(void){
 			ir_delay++;
 		}else{
 			if(ir_count < 3){ //x ir pakete
+				uint8_t array[] = {shoot_buffer.playerid, shoot_buffer.damage};
 				USART_Transmit(shoot_buffer.playerid); //IR_TX: PlayerID
 				USART_Transmit(shoot_buffer.damage); //IR_TX: Schaden
 				USART_Transmit(crc8(array, 2)); //IR_TX: crc8 checksum
@@ -364,6 +364,5 @@ int main(void){
 		button_buffer.button_0 = taster(&PINB, BUTTON_0);
 		button_buffer.button_1 = taster(&PINB, BUTTON_1);
 		button_buffer.button_2 = taster(&PIND, BUTTON_2);
-
 	}
 }
