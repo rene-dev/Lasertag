@@ -50,7 +50,7 @@ class Client:
 	
 	def handleDeath(self):
 		enable, playerid, dmg = self.hardware.getWeaponHitResults()
-		if enable and playerid != myid:
+		if enable and playerid != self.myid:
 			self.state = ClientState.DEAD
 			self.deathEnd = self.milliseconds + self.deathDuration
 			print "killed by player ", playerid
