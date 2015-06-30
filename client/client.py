@@ -16,7 +16,7 @@ class ClientState(Enum):
 class Client:
 	def __init__(self, pygame_instance):
 		self.pygame = pygame_instance
-		
+
 		#config
 		self.myid = 32
 		self.health = 100.0
@@ -24,7 +24,7 @@ class Client:
 		self.shotDuration = 100 #milliseconds
 		self.cooldownDuration = 400 #milliseconds
 		self.deathDuration = 5000 #milliseconds
-		
+
 		#runtime state
 		self.shotEnd = 0
 		self.cooldownEnd = 0
@@ -47,9 +47,8 @@ class Client:
 			self.display.setAmmo(self.ammo)
 			self.sounds.play('pew')
 			self.hardware.shootWeapon(laser0=1, laser1=0);
-	
-	def handleDeath(self):
-		enable, playerid, dmg = self.hardware.getWeaponHitResults()
+
+	def handleHit(self, enable, playerid, dmg):
 		if enable and playerid != self.myid:
 			self.state = ClientState.DEAD
 			self.deathEnd = self.milliseconds + self.deathDuration
@@ -58,36 +57,45 @@ class Client:
 			self.sounds.play('tod')
 			self.hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, 0, 0, 0)
 
+	def handleHits(self):
+		enable, playerid, dmg = self.hardware.getWeaponHitResults()
+		self.handleHit(enable, playerid, dmg)
+		enable, playerid, dmg = self.hardware.getHitpointResults(i2cAddresses.HITPOINT_WEAPON)
+		self.handleHit(enable, playerid, dmg)
+		#TODO: loop over all hitpoints here later!
+
 	def update(self):
 		self.milliseconds = self.pygame.time.get_ticks()
-		
+
 		#print network.Client_server.empf() where should this go?
-		
+
 		#state machine
 		if self.state == ClientState.IDLE:
 			if self.hardware.isWeaponButtonDown(0):
 				self.shoot()
-			self.handleDeath()
-			
+			self.handleHits()
+
 		elif self.state == ClientState.SHOOTING:
 			#go back to idle state if the shot is over
 			if self.milliseconds >= self.shotEnd:
 				self.state = ClientState.COOLDOWN
 				self.cooldownEnd = self.milliseconds + self.cooldownDuration
 				#TODO: reset hardware here later!
-			self.handleDeath()
-			
+			self.handleHits()
+
 		elif self.state == ClientState.COOLDOWN:
 			if self.milliseconds >= self.cooldownEnd:
 				self.state = ClientState.IDLE
-			self.handleDeath()
-			
+			self.handleHits()
+
 		elif self.state == ClientState.DEAD:
 			#reset hardware and jump to idle state
 			if self.milliseconds >= self.deathEnd:
 				self.state = ClientState.IDLE
 				self.hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, 0, 255, 0)
-				self.hardware.getWeaponHitResults() # flush in case of another hit
+				# flush hits during death
+				self.hardware.getWeaponHitResults()
+				self.hardware.getHitpointResults(i2cAddresses.HITPOINT_WEAPON)
 
 		self.display.redraw()
 
@@ -100,12 +108,12 @@ class Client:
 if __name__ == '__main__':
 	pygame.mixer.pre_init(44100, -16, 1, 512)
 	pygame.init()
-	
+
 	client = Client(pygame)
 	try:
 		while True:
 			client.update()
 	except KeyboardInterrupt:
 		client.shutdown()
-	
+
 	pygame.quit()
