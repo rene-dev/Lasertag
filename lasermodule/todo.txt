@@ -1,0 +1,16 @@
+analog spule, 100n?
+pgnd, agnd? am amp? masseführung?
+benennung
+min leiterbahnbreite 0,032 inch =0,8mm für 4a
+
+
+pi connector spiegelung
+atmega vor den step up? nö
+battery connector mehr als 1a
+kann backlight pwm pi pin auch pwm?
+4,7u nach ldo reichen??
+lötjumper r kombipad zum durchschneiden am amp
+spule
+lötjumper an p-fet pi
+extension port evtl jst-xh?
+alle gnd pinne vom pi nehmen
