@@ -123,7 +123,6 @@ void i2c_slave_write_complete(void){
 
 void i2c_slave_read_complete(void){
 	if (i2c_last_reg_access == HIT_REG) hit_buffer.enable = 0;
-	hit_buffer.enable = 0;
 }
 
 ISR (TIMER0_OVF_vect){
