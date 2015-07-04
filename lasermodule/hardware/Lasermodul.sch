@@ -8,20 +8,20 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -30,8 +30,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -39,17 +39,17 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="yes" active="no"/>
-<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="yes" active="no"/>
-<layer number="56" name="wert" color="7" fill="1" visible="yes" active="no"/>
-<layer number="57" name="tCAD" color="7" fill="1" visible="yes" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
+<layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
@@ -1328,6 +1328,8 @@ Source: AVX .. aphvc.pdf</description>
 <pad name="1B" x="-2.54" y="0" drill="0.8128" diameter="2.54"/>
 <pad name="2B" x="2.54" y="0" drill="0.8128" diameter="2.54"/>
 <circle x="0" y="0" radius="5.08" width="0.127" layer="21"/>
+<smd name="3" x="-2.204" y="0" dx="4.064" dy="3.81" layer="16" rot="R180"/>
+<smd name="4" x="2.204" y="0" dx="4.064" dy="3.81" layer="16" rot="R180"/>
 </package>
 <package name="0805">
 <description>&lt;b&gt;RESISTOR&lt;/b&gt;&lt;p&gt;</description>
@@ -6851,26 +6853,26 @@ warpzone.ms/wiki/projekte:lasertag</text>
 </net>
 <net name="FLASHL_R" class="0">
 <segment>
-<pinref part="ULN2803" gate="G$1" pin="O1"/>
-<wire x1="116.84" y1="-22.86" x2="119.38" y2="-22.86" width="0.1524" layer="91"/>
-<label x="119.38" y="-22.86" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="R10" gate="G$1" pin="1"/>
 <wire x1="231.14" y1="-22.86" x2="228.6" y2="-22.86" width="0.1524" layer="91"/>
 <label x="228.6" y="-22.86" size="1.778" layer="95" rot="MR0"/>
 </segment>
-</net>
-<net name="FLASHL_G" class="0">
 <segment>
 <pinref part="ULN2803" gate="G$1" pin="O2"/>
 <wire x1="116.84" y1="-25.4" x2="119.38" y2="-25.4" width="0.1524" layer="91"/>
 <label x="119.38" y="-25.4" size="1.778" layer="95"/>
 </segment>
+</net>
+<net name="FLASHL_G" class="0">
 <segment>
 <pinref part="R11" gate="G$1" pin="1"/>
 <wire x1="231.14" y1="-40.64" x2="228.6" y2="-40.64" width="0.1524" layer="91"/>
 <label x="228.6" y="-40.64" size="1.778" layer="95" rot="MR0"/>
+</segment>
+<segment>
+<pinref part="ULN2803" gate="G$1" pin="O3"/>
+<wire x1="116.84" y1="-27.94" x2="119.38" y2="-27.94" width="0.1524" layer="91"/>
+<label x="119.38" y="-27.94" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="FLASHL_B" class="0">
@@ -6892,14 +6894,14 @@ warpzone.ms/wiki/projekte:lasertag</text>
 <label x="198.12" y="-99.06" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="ULN2803" gate="G$1" pin="O3"/>
-<wire x1="116.84" y1="-27.94" x2="119.38" y2="-27.94" width="0.1524" layer="91"/>
-<label x="119.38" y="-27.94" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="IR_SNIPER-" gate="G$1" pin="1"/>
 <wire x1="160.02" y1="-99.06" x2="165.1" y2="-99.06" width="0.1524" layer="91"/>
 <label x="165.1" y="-99.06" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="ULN2803" gate="G$1" pin="O4"/>
+<wire x1="116.84" y1="-30.48" x2="119.38" y2="-30.48" width="0.1524" layer="91"/>
+<label x="119.38" y="-30.48" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RESET" class="0">
@@ -7316,26 +7318,26 @@ warpzone.ms/wiki/projekte:lasertag</text>
 </net>
 <net name="BACKLIGHT" class="0">
 <segment>
-<pinref part="ULN2803" gate="G$1" pin="O4"/>
-<wire x1="116.84" y1="-30.48" x2="119.38" y2="-30.48" width="0.1524" layer="91"/>
-<label x="119.38" y="-30.48" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="DISPLAY" gate="1" pin="8"/>
 <wire x1="251.46" y1="114.3" x2="251.46" y2="111.76" width="0.1524" layer="91"/>
 <label x="251.46" y="99.06" size="1.778" layer="95" rot="R90"/>
 </segment>
+<segment>
+<pinref part="ULN2803" gate="G$1" pin="O1"/>
+<wire x1="116.84" y1="-22.86" x2="119.38" y2="-22.86" width="0.1524" layer="91"/>
+<label x="119.38" y="-22.86" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="I_BACKLIGHT" class="0">
-<segment>
-<pinref part="ULN2803" gate="G$1" pin="I4"/>
-<wire x1="91.44" y1="-30.48" x2="88.9" y2="-30.48" width="0.1524" layer="91"/>
-<label x="88.9" y="-30.48" size="1.778" layer="95" rot="MR0"/>
-</segment>
 <segment>
 <wire x1="246.38" y1="60.96" x2="246.38" y2="63.5" width="0.1524" layer="91"/>
 <label x="246.38" y="63.5" size="1.778" layer="95" rot="R90"/>
 <pinref part="PI" gate="G$1" pin="12"/>
+</segment>
+<segment>
+<pinref part="ULN2803" gate="G$1" pin="I1"/>
+<wire x1="91.44" y1="-22.86" x2="88.9" y2="-22.86" width="0.1524" layer="91"/>
+<label x="73.66" y="-22.86" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="I_FLASHL_W" class="0">
@@ -7388,34 +7390,29 @@ warpzone.ms/wiki/projekte:lasertag</text>
 </net>
 <net name="I_IR_CLK_-" class="0">
 <segment>
-<pinref part="ULN2803" gate="G$1" pin="I3"/>
-<wire x1="91.44" y1="-27.94" x2="88.9" y2="-27.94" width="0.1524" layer="91"/>
-<label x="88.9" y="-27.94" size="1.778" layer="95" rot="MR0"/>
-</segment>
-<segment>
 <pinref part="IC1" gate="G$1" pin="PB1(OC1A)"/>
 <wire x1="25.4" y1="-22.86" x2="27.94" y2="-22.86" width="0.1524" layer="91"/>
 <label x="27.94" y="-22.86" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="ULN2803" gate="G$1" pin="I4"/>
+<wire x1="91.44" y1="-30.48" x2="88.9" y2="-30.48" width="0.1524" layer="91"/>
+<label x="73.66" y="-30.48" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="I_FLASHL_G" class="0">
-<segment>
-<pinref part="ULN2803" gate="G$1" pin="I2"/>
-<wire x1="91.44" y1="-25.4" x2="88.9" y2="-25.4" width="0.1524" layer="91"/>
-<label x="88.9" y="-25.4" size="1.778" layer="95" rot="MR0"/>
-</segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="PB2(SS/OC1B)"/>
 <wire x1="25.4" y1="-25.4" x2="27.94" y2="-25.4" width="0.1524" layer="91"/>
 <label x="27.94" y="-25.4" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="ULN2803" gate="G$1" pin="I3"/>
+<wire x1="91.44" y1="-27.94" x2="88.9" y2="-27.94" width="0.1524" layer="91"/>
+<label x="88.9" y="-27.94" size="1.778" layer="95" rot="MR0"/>
+</segment>
 </net>
 <net name="I_FLASHL_R" class="0">
-<segment>
-<pinref part="ULN2803" gate="G$1" pin="I1"/>
-<wire x1="91.44" y1="-22.86" x2="88.9" y2="-22.86" width="0.1524" layer="91"/>
-<label x="88.9" y="-22.86" size="1.778" layer="95" rot="MR0"/>
-</segment>
 <segment>
 <pinref part="ISP" gate="1" pin="4"/>
 <pinref part="IC1" gate="G$1" pin="PB3(MOSI/OC2)"/>
@@ -7427,6 +7424,11 @@ warpzone.ms/wiki/projekte:lasertag</text>
 <wire x1="33.02" y1="-27.94" x2="33.02" y2="-30.48" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="-30.48" x2="35.56" y2="-30.48" width="0.1524" layer="91"/>
 <junction x="33.02" y="-27.94"/>
+</segment>
+<segment>
+<pinref part="ULN2803" gate="G$1" pin="I2"/>
+<wire x1="91.44" y1="-25.4" x2="88.9" y2="-25.4" width="0.1524" layer="91"/>
+<label x="88.9" y="-25.4" size="1.778" layer="95" rot="MR0"/>
 </segment>
 </net>
 <net name="LCD_TOUCH_IRQ" class="0">
@@ -7466,11 +7468,11 @@ warpzone.ms/wiki/projekte:lasertag</text>
 <segment>
 <label x="101.6" y="38.1" size="1.778" layer="95"/>
 <pinref part="R6" gate="G$1" pin="2"/>
-<wire x1="91.44" y1="38.1" x2="93.98" y2="38.1" width="0.1524" layer="91"/>
-<pinref part="D2" gate="G$1" pin="C2"/>
-<wire x1="93.98" y1="38.1" x2="101.6" y2="38.1" width="0.1524" layer="91"/>
-<wire x1="93.98" y1="33.02" x2="93.98" y2="38.1" width="0.1524" layer="91"/>
-<junction x="93.98" y="38.1"/>
+<wire x1="91.44" y1="38.1" x2="99.06" y2="38.1" width="0.1524" layer="91"/>
+<pinref part="D2" gate="G$1" pin="C3"/>
+<wire x1="99.06" y1="38.1" x2="101.6" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="33.02" x2="99.06" y2="38.1" width="0.1524" layer="91"/>
+<junction x="99.06" y="38.1"/>
 </segment>
 <segment>
 <pinref part="EXT_PORT" gate="-3" pin="1"/>
@@ -7486,12 +7488,12 @@ warpzone.ms/wiki/projekte:lasertag</text>
 <net name="SCL_BUS" class="0">
 <segment>
 <label x="101.6" y="45.72" size="1.778" layer="95"/>
-<wire x1="91.44" y1="45.72" x2="99.06" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="91.44" y1="45.72" x2="93.98" y2="45.72" width="0.1524" layer="91"/>
 <pinref part="R7" gate="G$1" pin="2"/>
-<pinref part="D2" gate="G$1" pin="C3"/>
-<wire x1="99.06" y1="45.72" x2="101.6" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="99.06" y1="33.02" x2="99.06" y2="45.72" width="0.1524" layer="91"/>
-<junction x="99.06" y="45.72"/>
+<pinref part="D2" gate="G$1" pin="C2"/>
+<wire x1="93.98" y1="45.72" x2="101.6" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="93.98" y1="33.02" x2="93.98" y2="45.72" width="0.1524" layer="91"/>
+<junction x="93.98" y="45.72"/>
 </segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="PC5(ADC5/SCL)"/>
@@ -7912,10 +7914,8 @@ warpzone.ms/wiki/projekte:lasertag</text>
 <approved hash="104,1,-30.48,-86.36,U$3,OUT+,N$27,,,"/>
 <approved hash="104,1,106.68,109.22,U$4,VCC,N$46,,,"/>
 <approved hash="104,1,106.68,106.68,U$4,PGND,GND,,,"/>
-<approved hash="105,1,-36.83,99.06,N$1,,,,,"/>
 <approved hash="105,1,113.03,63.5,N$2,,,,,"/>
 <approved hash="105,1,-111.76,-48.26,N$3,,,,,"/>
-<approved hash="105,1,307.34,81.28,N$4,,,,,"/>
 <approved hash="105,1,-111.76,-2.54,N$7,,,,,"/>
 <approved hash="105,1,176.53,-104.14,N$8,,,,,"/>
 <approved hash="105,1,101.6,-55.88,N$9,,,,,"/>
@@ -7937,17 +7937,6 @@ warpzone.ms/wiki/projekte:lasertag</text>
 <approved hash="108,1,154.94,129.54,N$14,,,,,"/>
 <approved hash="113,1,104.14,-31.5553,ULN2803,,,,,"/>
 <approved hash="113,1,35.56,-42.1047,ISP,,,,,"/>
-<approved hash="113,1,298.837,-26.5388,LASER_2-,,,,,"/>
-<approved hash="113,1,298.837,-18.9188,LASER_1-,,,,,"/>
-<approved hash="113,1,299.297,-36.6988,LASER_1+,,,,,"/>
-<approved hash="113,1,299.297,-44.3188,LASER_2+,,,,,"/>
-<approved hash="113,1,250.916,-39.2388,FLASHL_G,,,,,"/>
-<approved hash="113,1,250.858,-21.4588,FLASHL_R,,,,,"/>
-<approved hash="113,1,251.215,-74.7988,FLASHL_W,,,,,"/>
-<approved hash="113,1,250.818,-57.0188,FLASHL_B,,,,,"/>
-<approved hash="113,1,156.712,-90.0388,IR_SNIPER+,,,,,"/>
-<approved hash="113,1,251.523,-92.5788,FLASHL_5V,,,,,"/>
-<approved hash="113,1,188.687,-97.6588,IR_SHOTGUN-,,,,,"/>
 <approved hash="113,1,-124.697,-90.0388,BATT-,,,,,"/>
 <approved hash="113,1,-124.697,-82.4188,BATT+,,,,,"/>
 <approved hash="113,1,284.48,-26.9452,R2(O),,,,,"/>
@@ -7956,32 +7945,13 @@ warpzone.ms/wiki/projekte:lasertag</text>
 <approved hash="113,1,-65.8029,36.9612,KEY1,,,,,"/>
 <approved hash="113,1,-65.8029,29.3412,KEY2,,,,,"/>
 <approved hash="113,1,-65.8029,21.7212,KEY3,,,,,"/>
-<approved hash="113,1,-65.8029,11.5612,KEY1G,,,,,"/>
-<approved hash="113,1,-65.8029,3.94123,KEY2G,,,,,"/>
-<approved hash="113,1,-65.8029,-3.67877,KEY3G,,,,,"/>
-<approved hash="113,1,94.5371,92.5788,AMP_IN_L,,,,,"/>
-<approved hash="113,1,94.3809,84.9588,AMP_IN_R,,,,,"/>
-<approved hash="113,1,153.463,115.701,AMP_OUT_L-,,,,,"/>
-<approved hash="113,1,153.923,108.081,AMP_OUT_L+,,,,,"/>
-<approved hash="113,1,153.619,97.9212,AMP_OUT_R-,,,,,"/>
-<approved hash="113,1,154.079,90.3012,AMP_OUT_R+,,,,,"/>
-<approved hash="113,1,256.735,121.962,DISPLAY,,,,,"/>
 <approved hash="113,1,-98.8229,24.2612,LDR_2,,,,,"/>
 <approved hash="113,1,-98.8229,34.4212,LDR_1,,,,,"/>
-<approved hash="113,1,188.228,-90.0388,IR_SHOTGUN+,,,,,"/>
-<approved hash="113,1,157.171,-97.6588,IR_SNIPER-,,,,,"/>
-<approved hash="113,1,264.355,58.42,PI,,,,,"/>
-<approved hash="113,1,165.948,-68.58,P-FET2,,,,,"/>
-<approved hash="113,1,198.968,-68.58,P-FET3,,,,,"/>
-<approved hash="113,1,183.728,-40.64,P-FET1,,,,,"/>
-<approved hash="113,1,-68.58,-92.8232,ON,,,,,"/>
-<approved hash="113,1,-88.9,-90.57,REV,,,,,"/>
 <approved hash="113,1,-63.7371,-115.701,ON_1,,,,,"/>
 <approved hash="113,1,-63.2629,-105.279,ON_2,,,,,"/>
 <approved hash="113,1,-124.697,-115.701,OFF_1,,,,,"/>
 <approved hash="113,1,-124.697,-105.279,OFF_2,,,,,"/>
 <approved hash="113,1,86.36,110.215,R3(O),,,,,"/>
-<approved hash="113,1,91.8504,100.199,AMP_IN_AGND,,,,,"/>
 </errors>
 </schematic>
 </drawing>
