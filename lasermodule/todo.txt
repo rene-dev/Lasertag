@@ -2,6 +2,8 @@ analog spule, 100n?
 pgnd, agnd? am amp? masseführung?
 benennung
 min leiterbahnbreite 0,032 inch =0,8mm für 4a
+layer cream und mask
+ripup @;
 
 
 pi connector spiegelung

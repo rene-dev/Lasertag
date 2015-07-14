@@ -1,0 +1,11 @@
+tNames:
+
+Umrandung WIRE: 20 Dimension, Width 0,254mm
+Umrandung Polygone: Width 0,254mm
+
+Spacing fürs Polygon: Einstellungen vom Polygon: 0.254mm
+Spacing fürs Thermals: DRC: Supply: Thermal isolation: 6mil
+
+0.254mm=10mil
+
+Vias Bohrung: 0,4mm
