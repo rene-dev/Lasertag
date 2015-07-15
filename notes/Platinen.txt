@@ -1,5 +1,15 @@
-tNames:
-
+Druck-Layer:
+ tNames: Pin Beschriftung oben, "Lasertag v1.0..."
+ bNames: R1, R2, ...
+ tPlace, bPlace: Baiteilränder
+ _tsilk, _bsilk: Bauteilnamen "ULN2803"
+ 
+ 
+Nicht-Druck-Layer: tDocu, bDocu
+ 
+Text von Teil lösen: Smash
+ 
+ 
 Umrandung WIRE: 20 Dimension, Width 0,254mm
 Umrandung Polygone: Width 0,254mm
 
@@ -9,3 +19,7 @@ Spacing fürs Thermals: DRC: Supply: Thermal isolation: 6mil
 0.254mm=10mil
 
 Vias Bohrung: 0,4mm
+
+Hotkeys:
+F11: ratsnest; ripup @;move
+F12: Ratsnest
