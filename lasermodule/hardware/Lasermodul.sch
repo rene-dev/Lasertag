@@ -8,20 +8,20 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -30,8 +30,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -39,19 +39,19 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="yes" active="no"/>
-<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="yes" active="no"/>
-<layer number="56" name="wert" color="7" fill="1" visible="yes" active="no"/>
-<layer number="57" name="tCAD" color="7" fill="1" visible="yes" active="no"/>
-<layer number="59" name="tCarbon" color="7" fill="1" visible="yes" active="no"/>
-<layer number="60" name="bCarbon" color="7" fill="1" visible="yes" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
+<layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
+<layer number="59" name="tCarbon" color="7" fill="1" visible="no" active="no"/>
+<layer number="60" name="bCarbon" color="7" fill="1" visible="no" active="no"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
@@ -9762,7 +9762,7 @@ Source: www.bourns.com .. 6000_series.pdf</description>
 <part name="REV" library="wz" deviceset="N-MOSFET" device=""/>
 <part name="OK1" library="optocoupler" deviceset="SFH618?*" device="6" technology="-2"/>
 <part name="R9" library="wz" deviceset="R_EU" device="0603" value="10k"/>
-<part name="R25" library="wz" deviceset="R_EU" device="0603" value="270"/>
+<part name="R25" library="wz" deviceset="R_EU" device="0603" value="470"/>
 <part name="+3V9" library="supply1" deviceset="+3V3" device=""/>
 <part name="ON_1" library="wz" deviceset="PIN-HEADER-1" device="PIN-HEADER-1"/>
 <part name="ON_2" library="wz" deviceset="PIN-HEADER-1" device="PIN-HEADER-1"/>
@@ -11252,50 +11252,77 @@ warpzone.ms/wiki/projekte:lasertag</text>
 </sheet>
 </sheets>
 <errors>
+<approved hash="101,1,20.32,63.5,H1,MOUNT,,,,"/>
+<approved hash="101,1,2.54,63.5,H2,MOUNT,,,,"/>
 <approved hash="104,1,-22.86,-10.16,IC1,VCC,+3V3,,,"/>
 <approved hash="104,1,-22.86,-12.7,IC1,VCC,+3V3,,,"/>
 <approved hash="104,1,-22.86,15.24,IC1,AVCC,+3V3,,,"/>
 <approved hash="104,1,-30.48,-86.36,U$3,OUT+,N$27,,,"/>
+<approved hash="202,1,106.68,96.52,U$4,IN_R,,,,"/>
+<approved hash="202,1,106.68,99.06,U$4,IN_L,,,,"/>
 <approved hash="104,1,106.68,109.22,U$4,VCC,N$46,,,"/>
 <approved hash="104,1,106.68,106.68,U$4,PGND,GND,,,"/>
+<approved hash="105,1,-36.83,88.9,N$1,,,,,"/>
 <approved hash="105,1,113.03,63.5,N$2,,,,,"/>
 <approved hash="105,1,-111.76,-48.26,N$3,,,,,"/>
+<approved hash="105,1,302.26,76.2,N$4,,,,,"/>
 <approved hash="105,1,-111.76,-2.54,N$7,,,,,"/>
 <approved hash="105,1,176.53,-104.14,N$8,,,,,"/>
 <approved hash="105,1,101.6,-55.88,N$9,,,,,"/>
 <approved hash="105,1,-95.25,53.34,N$10,,,,,"/>
-<approved hash="105,1,187.96,-5.08,N$12,,,,,"/>
-<approved hash="105,1,116.84,129.54,N$14,,,,,"/>
-<approved hash="105,1,-86.36,17.78,N$17,,,,,"/>
+<approved hash="105,1,189.23,-5.08,N$12,,,,,"/>
+<approved hash="105,1,107.95,129.54,N$14,,,,,"/>
+<approved hash="105,1,-86.36,34.29,N$17,,,,,"/>
+<approved hash="105,1,-36.83,91.44,N$19,,,,,"/>
 <approved hash="105,1,119.38,44.45,N$26,,,,,"/>
 <approved hash="105,1,215.9,-55.88,N$30,,,,,"/>
-<approved hash="105,1,264.16,-31.75,N$31,,,,,"/>
+<approved hash="105,1,266.7,-31.75,N$31,,,,,"/>
 <approved hash="105,1,119.38,16.51,N$32,,,,,"/>
 <approved hash="105,1,68.58,33.02,N$33,,,,,"/>
-<approved hash="105,1,-68.58,-45.72,N$41,,,,,"/>
-<approved hash="105,1,116.84,78.74,N$42,,,,,"/>
-<approved hash="105,1,-33.02,-121.92,N$43,,,,,"/>
+<approved hash="105,1,-68.58,-12.7,N$41,,,,,"/>
+<approved hash="105,1,106.68,88.9,N$42,,,,,"/>
+<approved hash="105,1,-27.94,-121.92,N$43,,,,,"/>
 <approved hash="108,1,147.32,63.5,N$2,,,,,"/>
-<approved hash="108,1,297.18,-5.08,N$12,,,,,"/>
+<approved hash="108,1,299.72,-5.08,N$12,,,,,"/>
 <approved hash="108,1,-66.04,53.34,N$10,,,,,"/>
-<approved hash="108,1,154.94,129.54,N$14,,,,,"/>
+<approved hash="108,1,137.16,129.54,N$14,,,,,"/>
 <approved hash="113,1,104.14,-31.5553,ULN2803,,,,,"/>
 <approved hash="113,1,35.56,-42.1047,ISP,,,,,"/>
+<approved hash="113,1,301.377,-26.5388,LASER_2-,,,,,"/>
+<approved hash="113,1,301.377,-18.9188,LASER_1-,,,,,"/>
+<approved hash="113,1,301.837,-36.6988,LASER_1+,,,,,"/>
+<approved hash="113,1,301.837,-44.3188,LASER_2+,,,,,"/>
+<approved hash="113,1,252.809,-39.2388,FRONTLED_G,,,,,"/>
+<approved hash="113,1,252.751,-21.4588,FRONTLED_R,,,,,"/>
+<approved hash="113,1,253.108,-74.7988,FRONTLED_W,,,,,"/>
+<approved hash="113,1,252.71,-57.0188,FRONTLED_B,,,,,"/>
+<approved hash="113,1,156.712,-90.0388,IR_SNIPER+,,,,,"/>
+<approved hash="113,1,253.416,-92.5788,FRONTLED_5V,,,,,"/>
+<approved hash="113,1,190.37,-97.6588,IR_SHOTG-,,,,,"/>
 <approved hash="113,1,-124.697,-90.0388,BATT-,,,,,"/>
 <approved hash="113,1,-124.697,-82.4188,BATT+,,,,,"/>
-<approved hash="113,1,284.48,-26.9452,R2(O),,,,,"/>
+<approved hash="113,1,287.02,-26.9452,R20(O),,,,,"/>
 <approved hash="113,1,97.0068,25.4,D2,,,,,"/>
-<approved hash="113,1,284.48,-19.3252,R1(O),,,,,"/>
-<approved hash="113,1,-65.8029,36.9612,KEY1,,,,,"/>
-<approved hash="113,1,-65.8029,29.3412,KEY2,,,,,"/>
-<approved hash="113,1,-65.8029,21.7212,KEY3,,,,,"/>
+<approved hash="113,1,287.02,-19.3252,R1(O),,,,,"/>
+<approved hash="113,1,251.655,116.882,DISPLAY,,,,,"/>
 <approved hash="113,1,-98.8229,24.2612,LDR_2,,,,,"/>
 <approved hash="113,1,-98.8229,34.4212,LDR_1,,,,,"/>
+<approved hash="113,1,189.91,-90.0388,IR_SHOTG+,,,,,"/>
+<approved hash="113,1,157.171,-97.6588,IR_SNIPER-,,,,,"/>
+<approved hash="113,1,259.275,53.34,PI,,,,,"/>
+<approved hash="113,1,165.948,-68.58,P-FET2,,,,,"/>
+<approved hash="113,1,198.968,-68.58,P-FET3,,,,,"/>
+<approved hash="113,1,183.728,-40.64,P-FET1,,,,,"/>
+<approved hash="113,1,-68.58,-92.8232,ON,,,,,"/>
+<approved hash="113,1,-88.9,-90.57,REV,,,,,"/>
 <approved hash="113,1,-63.7371,-115.701,ON_1,,,,,"/>
 <approved hash="113,1,-63.2629,-105.279,ON_2,,,,,"/>
 <approved hash="113,1,-124.697,-115.701,OFF_1,,,,,"/>
 <approved hash="113,1,-124.697,-105.279,OFF_2,,,,,"/>
 <approved hash="113,1,86.36,110.215,R3(O),,,,,"/>
+<approved hash="113,1,-68.58,31.5553,BUTTONS,,,,,"/>
+<approved hash="113,1,99.06,100.605,L1,,,,,"/>
+<approved hash="115,1,-119.38,-83.82,BATT+,,,,,"/>
 </errors>
 </schematic>
 </drawing>

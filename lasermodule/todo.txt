@@ -1,11 +1,9 @@
-analog spule, 100n?
-pgnd, agnd? am amp? masseführung?
-benennung
-min leiterbahnbreite 0,032 inch =0,8mm für 4a
-layer cream und mask
 ripup @;
-
-
+layer cream und mask
+min leiterbahnbreite 0,032 inch =0,8mm für 4a
+pgnd, agnd? am amp? masseführung?
+analog spule, 100n?
+benennung
 pi connector spiegelung
 atmega vor den step up? nö
 battery connector mehr als 1a
