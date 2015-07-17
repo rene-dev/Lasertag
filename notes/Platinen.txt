@@ -25,3 +25,15 @@ Vias Bohrung: 0,4mm
 Hotkeys:
 F11: ratsnest; ripup @;move
 F12: Ratsnest
+
+
+
+gerber export:
+Top layer: pcbname.GTL
+Bottom layer: pcbname.GBL
+Solder Stop Mask top: pcbname.GTS
+Solder Stop Mask Bottom: pcbname.GBS
+Silk Top: pcbname.GTO
+Silk Bottom: pcbname.GBO
+NC Drill: pcbname.TXT
+Outline layer: pcbname.GKO or pcbname.DO 
