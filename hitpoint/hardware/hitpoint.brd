@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.2.0">
+<eagle version="7.3.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.635" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.3175" altunitdist="mm" altunit="mm"/>
+<grid distance="0.635" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.15875" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -14,14 +14,14 @@
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
@@ -150,7 +150,7 @@
 <text x="5.3975" y="22.86" size="1.27" layer="25" font="vector" ratio="10">G</text>
 <text x="5.3975" y="20.32" size="1.27" layer="25" font="vector" ratio="10">B</text>
 <text x="14.605" y="13.335" size="1.27" layer="25" font="vector" ratio="10">Lasertag Hitpoint
-v1.0
+v1.1
 warpzone.ms</text>
 <text x="26.67" y="27.305" size="1.27" layer="25" font="vector" ratio="10" rot="R90" align="bottom-right">5V</text>
 <text x="24.13" y="27.305" size="1.27" layer="25" font="vector" ratio="10" rot="R90" align="bottom-right">SDA</text>
@@ -189,6 +189,26 @@ warpzone.ms</text>
 <text x="47.9425" y="6.6675" size="1.27" layer="25" font="vector" ratio="10" rot="R315" align="bottom-right">3.3V</text>
 <text x="9.2075" y="45.4025" size="1.27" layer="25" font="vector" ratio="10" rot="R315" align="bottom-right">RX</text>
 <text x="40.64" y="3.81" size="1.27" layer="25" font="vector" ratio="10" rot="R135" align="bottom-right">RX</text>
+<text x="2.2225" y="28.09875" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">R</text>
+<text x="2.2225" y="25.55875" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">5V</text>
+<text x="2.2225" y="23.01875" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">G</text>
+<text x="2.2225" y="20.47875" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">B</text>
+<text x="28.8925" y="1.27" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">R</text>
+<text x="26.82875" y="1.27" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">5V</text>
+<text x="23.8125" y="1.27" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">G</text>
+<text x="21.2725" y="1.27" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">B</text>
+<text x="46.99" y="29.05125" size="1.016" layer="26" font="vector" ratio="10" rot="MR180">R</text>
+<text x="46.99" y="26.51125" size="1.016" layer="26" font="vector" ratio="10" rot="MR180">5V</text>
+<text x="46.99" y="23.97125" size="1.016" layer="26" font="vector" ratio="10" rot="MR180">G</text>
+<text x="46.99" y="21.43125" size="1.016" layer="26" font="vector" ratio="10" rot="MR180">B</text>
+<text x="29.05125" y="47.3075" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">R</text>
+<text x="26.67" y="47.3075" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">5V</text>
+<text x="23.8125" y="47.3075" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">G</text>
+<text x="21.2725" y="47.3075" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">B</text>
+<text x="34.29" y="39.21125" size="0.6096" layer="26" font="vector" ratio="10" rot="MR180">C3</text>
+<text x="31.4325" y="28.575" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">5V</text>
+<text x="38.1" y="29.68625" size="1.016" layer="26" font="vector" ratio="10" rot="MR180">3.3V</text>
+<text x="36.195" y="26.67" size="1.016" layer="26" font="vector" ratio="10" rot="MR0">GND</text>
 </plain>
 <libraries>
 <library name="jumper">
@@ -811,32 +831,91 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="TINY2313A" library="wz" package="SO20LVERSTUMMELT" value="TINY2313A" x="27.305" y="21.59" rot="MR270"/>
-<element name="C1" library="wz" package="0603" value="100n" x="19.45" y="24.865" rot="MR0"/>
-<element name="R1" library="wz" package="0603" value="100" x="28.575" y="6.985" rot="MR270"/>
-<element name="ULN2803" library="wz" package="SO18W" value="" x="15.875" y="17.78" rot="MR270"/>
-<element name="R2" library="wz" package="0603" value="100" x="23.495" y="6.985" rot="MR270"/>
-<element name="R3" library="wz" package="0603" value="100" x="20.955" y="6.985" rot="MR270"/>
-<element name="C6" library="wz" package="0603" value="100n" x="41.275" y="42.545" rot="MR225"/>
-<element name="C7" library="wz" package="0603" value="100n" x="8.89" y="6.985" rot="MR45"/>
-<element name="C8" library="wz" package="0603" value="100n" x="4.445" y="38.735" rot="MR270"/>
-<element name="R4" library="wz" package="0603" value="100" x="27.94" y="43.18" rot="MR180"/>
-<element name="R5" library="wz" package="0603" value="100" x="22.86" y="43.18" rot="MR180"/>
-<element name="R6" library="wz" package="0603" value="100" x="17.78" y="43.18" rot="MR180"/>
-<element name="R7" library="wz" package="0603" value="100" x="8.255" y="28.575" rot="MR0"/>
-<element name="R8" library="wz" package="0603" value="100" x="6.985" y="23.495" rot="MR0"/>
-<element name="R9" library="wz" package="0603" value="100" x="6.985" y="19.685" rot="MR0"/>
-<element name="R10" library="wz" package="0603" value="100" x="43.18" y="25.4" rot="MR90"/>
-<element name="R11" library="wz" package="0603" value="100" x="43.18" y="21.59" rot="MR90"/>
-<element name="R12" library="wz" package="0603" value="100" x="43.18" y="17.78" rot="MR90"/>
+<element name="TINY2313A" library="wz" package="SO20LVERSTUMMELT" value="TINY2313A" x="27.305" y="21.59" smashed="yes" rot="MR270"/>
+<element name="C1" library="wz" package="0603" value="100n" x="19.45" y="24.865" smashed="yes" rot="MR0">
+<attribute name="NAME" x="20.87875" y="25.5" size="0.6096" layer="26" font="vector" rot="MR0"/>
+<attribute name="VALUE" x="19.29125" y="25.5" size="0.6096" layer="28" font="vector" rot="MR0"/>
+</element>
+<element name="R1" library="wz" package="0603" value="100" x="28.575" y="6.985" smashed="yes" rot="MR270">
+<attribute name="NAME" x="29.21" y="5.55625" size="0.6096" layer="26" font="vector" rot="MR90"/>
+<attribute name="VALUE" x="29.845" y="8.89" size="0.6096" layer="28" font="vector" rot="MR270"/>
+</element>
+<element name="ULN2803" library="wz" package="SO18W" value="" x="15.875" y="17.78" smashed="yes" rot="MR270">
+<attribute name="VALUE" x="16.383" y="21.971" size="1.27" layer="28" ratio="10" rot="MR270"/>
+</element>
+<element name="R2" library="wz" package="0603" value="100" x="23.495" y="6.985" smashed="yes" rot="MR270">
+<attribute name="NAME" x="24.13" y="5.55625" size="0.6096" layer="26" font="vector" rot="MR90"/>
+<attribute name="VALUE" x="24.765" y="8.89" size="0.6096" layer="28" font="vector" rot="MR270"/>
+</element>
+<element name="R3" library="wz" package="0603" value="100" x="20.955" y="6.985" smashed="yes" rot="MR270">
+<attribute name="NAME" x="21.59" y="5.55625" size="0.6096" layer="26" font="vector" rot="MR90"/>
+<attribute name="VALUE" x="22.225" y="8.89" size="0.6096" layer="28" font="vector" rot="MR270"/>
+</element>
+<element name="C6" library="wz" package="0603" value="100n" x="41.275" y="42.545" smashed="yes" rot="MR225">
+<attribute name="NAME" x="40.376975" y="42.545" size="0.6096" layer="26" font="vector" rot="MR225"/>
+<attribute name="VALUE" x="41.061778125" y="44.4998" size="0.6096" layer="28" font="vector" rot="MR225"/>
+</element>
+<element name="C7" library="wz" package="0603" value="100n" x="8.89" y="6.985" smashed="yes" rot="MR45">
+<attribute name="NAME" x="8.994278125" y="5.08" size="0.6096" layer="26" font="vector" rot="MR45"/>
+<attribute name="VALUE" x="7.833225" y="6.300196875" size="0.6096" layer="28" font="vector" rot="MR45"/>
+</element>
+<element name="C8" library="wz" package="0603" value="100n" x="4.445" y="38.735" smashed="yes" rot="MR270">
+<attribute name="NAME" x="5.08" y="37.30625" size="0.6096" layer="26" font="vector" rot="MR90"/>
+<attribute name="VALUE" x="5.715" y="41.275" size="0.6096" layer="28" font="vector" rot="MR270"/>
+</element>
+<element name="R4" library="wz" package="0603" value="100" x="27.94" y="43.18" smashed="yes" rot="MR180">
+<attribute name="NAME" x="28.2575" y="42.545" size="0.6096" layer="26" font="vector" rot="MR180"/>
+<attribute name="VALUE" x="25.87625" y="42.545" size="0.6096" layer="28" font="vector" rot="MR180"/>
+</element>
+<element name="R5" library="wz" package="0603" value="100" x="22.86" y="43.18" smashed="yes" rot="MR180">
+<attribute name="NAME" x="23.1775" y="42.545" size="0.6096" layer="26" font="vector" rot="MR180"/>
+<attribute name="VALUE" x="20.79625" y="42.545" size="0.6096" layer="28" font="vector" rot="MR180"/>
+</element>
+<element name="R6" library="wz" package="0603" value="100" x="17.78" y="43.18" smashed="yes" rot="MR180">
+<attribute name="NAME" x="18.0975" y="42.545" size="0.6096" layer="26" font="vector" rot="MR180"/>
+<attribute name="VALUE" x="15.71625" y="42.545" size="0.6096" layer="28" font="vector" rot="MR180"/>
+</element>
+<element name="R7" library="wz" package="0603" value="100" x="8.255" y="28.575" smashed="yes" rot="MR0">
+<attribute name="NAME" x="8.5725" y="27.94" size="0.6096" layer="26" font="vector" rot="MR180"/>
+<attribute name="VALUE" x="6.35" y="27.94" size="0.6096" layer="28" font="vector" rot="MR180"/>
+</element>
+<element name="R8" library="wz" package="0603" value="100" x="6.985" y="23.495" smashed="yes" rot="MR0">
+<attribute name="NAME" x="7.3025" y="22.86" size="0.6096" layer="26" font="vector" rot="MR180"/>
+<attribute name="VALUE" x="5.08" y="22.86" size="0.6096" layer="28" font="vector" rot="MR180"/>
+</element>
+<element name="R9" library="wz" package="0603" value="100" x="6.985" y="19.685" smashed="yes" rot="MR0">
+<attribute name="NAME" x="7.3025" y="19.05" size="0.6096" layer="26" font="vector" rot="MR180"/>
+<attribute name="VALUE" x="5.08" y="19.05" size="0.6096" layer="28" font="vector" rot="MR180"/>
+</element>
+<element name="R10" library="wz" package="0603" value="100" x="43.18" y="25.4" smashed="yes" rot="MR90">
+<attribute name="NAME" x="43.815" y="23.97125" size="0.6096" layer="26" font="vector" rot="MR90"/>
+<attribute name="VALUE" x="41.91" y="24.60625" size="0.6096" layer="28" font="vector" rot="MR90"/>
+</element>
+<element name="R11" library="wz" package="0603" value="100" x="43.18" y="21.59" smashed="yes" rot="MR90">
+<attribute name="NAME" x="43.815" y="21.43125" size="0.6096" layer="26" font="vector" rot="MR90"/>
+<attribute name="VALUE" x="41.91" y="19.685" size="0.6096" layer="28" font="vector" rot="MR90"/>
+</element>
+<element name="R12" library="wz" package="0603" value="100" x="43.18" y="17.78" smashed="yes" rot="MR90">
+<attribute name="NAME" x="43.815" y="16.98625" size="0.6096" layer="26" font="vector" rot="MR90"/>
+<attribute name="VALUE" x="41.91" y="16.98625" size="0.6096" layer="28" font="vector" rot="MR90"/>
+</element>
 <element name="U$1" library="wz" package="TSOP4338" value="TSOP4338" x="43.815" y="43.815" rot="R135"/>
 <element name="U$2" library="wz" package="TSOP4338" value="TSOP4338" x="5.715" y="43.815" rot="R225"/>
 <element name="U$3" library="wz" package="TSOP4338" value="TSOP4338" x="5.715" y="5.715" rot="R315"/>
-<element name="C2" library="wz" package="0603" value="100n" x="46.99" y="9.2075" rot="MR225"/>
+<element name="C2" library="wz" package="0603" value="100n" x="46.99" y="9.2075" smashed="yes" rot="MR225">
+<attribute name="NAME" x="46.726975" y="8.5725" size="0.6096" layer="26" font="vector" rot="MR225"/>
+<attribute name="VALUE" x="44.713028125" y="10.5273" size="0.6096" layer="28" font="vector" rot="MR225"/>
+</element>
 <element name="U$4" library="wz" package="TSOP4338" value="TSOP4338" x="43.815" y="5.715" rot="R45"/>
-<element name="SJ1" library="jumper" package="SJ" value="" x="36.5125" y="19.05" rot="MR180"/>
-<element name="SJ2" library="jumper" package="SJ" value="" x="36.5125" y="21.59" rot="MR180"/>
-<element name="SJ3" library="jumper" package="SJ" value="" x="36.5125" y="24.13" rot="MR180"/>
+<element name="SJ1" library="jumper" package="SJ" value="" x="36.5125" y="19.05" smashed="yes" rot="MR180">
+<attribute name="VALUE" x="36.9126" y="19.05" size="0.02" layer="28" rot="MR180"/>
+</element>
+<element name="SJ2" library="jumper" package="SJ" value="" x="36.5125" y="21.59" smashed="yes" rot="MR180">
+<attribute name="VALUE" x="36.9126" y="21.59" size="0.02" layer="28" rot="MR180"/>
+</element>
+<element name="SJ3" library="jumper" package="SJ" value="" x="36.5125" y="24.13" smashed="yes" rot="MR180">
+<attribute name="VALUE" x="36.9126" y="24.13" size="0.02" layer="28" rot="MR180"/>
+</element>
 <element name="ISP" library="wz" package="PIN-HEADER-3X2" value="" x="14.605" y="27.94" smashed="yes" rot="R90">
 <attribute name="OC_NEWARK" value="unknown" x="14.605" y="27.94" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MPN" value="" x="14.605" y="27.94" size="1.778" layer="27" rot="R90" display="off"/>
@@ -844,7 +923,10 @@ design rules under a new name.</description>
 <attribute name="OC_FARNELL" value="unknown" x="14.605" y="27.94" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="18.796" y="26.67" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
-<element name="R13" library="wz" package="0603" value="10k" x="16.51" y="33.02" rot="MR180"/>
+<element name="R13" library="wz" package="0603" value="10k" x="16.51" y="33.02" smashed="yes" rot="MR180">
+<attribute name="NAME" x="16.66875" y="32.385" size="0.6096" layer="26" font="vector" rot="MR180"/>
+<attribute name="VALUE" x="14.44625" y="32.385" size="0.6096" layer="28" font="vector" rot="MR180"/>
+</element>
 <element name="LED4" library="wz" package="PIN-HEADER-4" value="" x="45.72" y="24.765" smashed="yes" rot="R270">
 <attribute name="OC_NEWARK" value="unknown" x="45.72" y="24.765" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="" x="45.72" y="24.765" size="1.778" layer="27" rot="R270" display="off"/>
@@ -873,15 +955,19 @@ design rules under a new name.</description>
 <attribute name="OC_FARNELL" value="unknown" x="24.765" y="3.81" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="VALUE" x="24.13" y="2.159" size="1.27" layer="27" ratio="10" rot="R180"/>
 </element>
-<element name="LM1117" library="wz" package="SOT223" value="LM1117_3V3_REGULATOR" x="41.275" y="34.925" rot="MR90"/>
-<element name="C3" library="wz" package="C_UNIVERSAL" value="" x="34.925" y="41.275" rot="MR0"/>
-<element name="C4" library="wz" package="0805" value="4.7u" x="34.29" y="33.02" rot="MR0"/>
-<element name="BUS1" library="wz" package="JST-XH_BUCHSE-4" value="JST-XH_BUCHSE-4-" x="24.765" y="37.465" smashed="yes" rot="R180">
-<attribute name="VALUE" x="28.575" y="41.275" size="1.27" layer="26" rot="R180"/>
+<element name="LM1117" library="wz" package="SOT223" value="LM1117_3V3_REGULATOR" x="41.275" y="34.925" smashed="yes" rot="MR90">
+<attribute name="NAME" x="46.89475" y="33.30575" size="0.6096" layer="26" font="vector" rot="MR90"/>
 </element>
-<element name="BUS2" library="wz" package="JST-XH_BUCHSE-4" value="JST-XH_BUCHSE-4-" x="24.765" y="31.115" smashed="yes" rot="R180">
-<attribute name="VALUE" x="28.575" y="34.925" size="1.27" layer="26" rot="R180"/>
+<element name="C3" library="wz" package="C_UNIVERSAL" value="" x="34.925" y="41.275" smashed="yes" rot="MR0">
+<attribute name="NAME" x="35.5495" y="39.1305" size="0.6096" layer="25" font="vector" rot="R180"/>
+<attribute name="VALUE" x="37.158" y="38.433" size="1.27" layer="28" rot="MR0"/>
 </element>
+<element name="C4" library="wz" package="0805" value="4.7u" x="34.29" y="33.02" smashed="yes" rot="MR0">
+<attribute name="NAME" x="34.76625" y="32.0675" size="0.6096" layer="26" font="vector" rot="MR180"/>
+<attribute name="VALUE" x="32.0675" y="32.0675" size="0.6096" layer="28" font="vector" rot="MR180"/>
+</element>
+<element name="BUS1" library="wz" package="JST-XH_BUCHSE-4" value="JST-XH_BUCHSE-4-" x="24.765" y="37.465" smashed="yes" rot="R180"/>
+<element name="BUS2" library="wz" package="JST-XH_BUCHSE-4" value="JST-XH_BUCHSE-4-" x="24.765" y="31.115" smashed="yes" rot="R180"/>
 <element name="5V" library="wz" package="PIN-HEADER-1" value="" x="32.385" y="29.21" smashed="yes">
 <attribute name="NAME" x="32.9438" y="31.0388" size="1.27" layer="25" font="vector" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="31.115" y="26.035" size="1.27" layer="27"/>
@@ -896,7 +982,10 @@ design rules under a new name.</description>
 </element>
 <element name="H1" library="holes" package="3,0-PAD" value="MOUNT-PAD-ROUND3.0" x="10.625" y="38.905" smashed="yes"/>
 <element name="H2" library="holes" package="3,0-PAD" value="MOUNT-PAD-ROUND3.0" x="38.905" y="10.625" smashed="yes"/>
-<element name="C5" library="wz" package="0805" value="4.7u" x="34.29" y="35.56" rot="MR0"/>
+<element name="C5" library="wz" package="0805" value="4.7u" x="34.29" y="35.56" smashed="yes" rot="MR0">
+<attribute name="NAME" x="34.76625" y="34.6075" size="0.6096" layer="26" font="vector" rot="MR180"/>
+<attribute name="VALUE" x="32.0675" y="34.6075" size="0.6096" layer="28" font="vector" rot="MR180"/>
+</element>
 <element name="LOGO1" library="SparkFun-Aesthetics" package="OSHW-LOGO-M" value="OSHW-LOGOM" x="14.605" y="3.81"/>
 <element name="LOGO2" library="SparkFun-Aesthetics" package="OSHW-LOGO-M" value="OSHW-LOGOM" x="14.605" y="3.81" rot="MR0"/>
 <element name="U$5" library="adafruit" package="FIDUCIAL_1MM" value="FIDUCIAL" x="10" y="47" rot="MR0"/>
@@ -941,9 +1030,9 @@ design rules under a new name.</description>
 <wire x1="1.27" y1="27.6225" x2="2.8575" y2="26.035" width="0.4064" layer="16"/>
 <wire x1="38.1762" y1="37.2364" x2="38.1762" y2="37.3888" width="0.4064" layer="16"/>
 <wire x1="30.1625" y1="41.5925" x2="30.1625" y2="43.815" width="0.6096" layer="16"/>
-<wire x1="32.385" y1="29.21" x2="31.75" y2="28.575" width="0.4064" layer="16"/>
-<wire x1="31.75" y1="28.575" x2="27.94" y2="28.575" width="0.4064" layer="16"/>
-<wire x1="27.94" y1="28.575" x2="26.035" y2="30.48" width="0.4064" layer="16"/>
+<wire x1="32.385" y1="29.21" x2="31.90875" y2="28.73375" width="0.6096" layer="16"/>
+<wire x1="31.90875" y1="28.73375" x2="27.78125" y2="28.73375" width="0.6096" layer="16"/>
+<wire x1="27.78125" y1="28.73375" x2="26.035" y2="30.48" width="0.6096" layer="16"/>
 <wire x1="10.8458" y1="12.7" x2="4.445" y2="12.7" width="0.4064" layer="16"/>
 <wire x1="4.445" y1="12.7" x2="3.81" y2="13.335" width="0.4064" layer="16"/>
 <wire x1="3.81" y1="13.335" x2="3.81" y2="17.78" width="0.4064" layer="16"/>
@@ -952,7 +1041,7 @@ design rules under a new name.</description>
 <wire x1="10.795" y1="43.18" x2="15.24" y2="47.625" width="0.4064" layer="16"/>
 <contactref element="BUS1" pad="P$2"/>
 <contactref element="BUS2" pad="P$2"/>
-<wire x1="26.035" y1="30.48" x2="26.035" y2="31.115" width="0.4064" layer="16"/>
+<wire x1="26.035" y1="30.48" x2="26.035" y2="31.115" width="0.6096" layer="16"/>
 <wire x1="26.035" y1="31.115" x2="26.035" y2="37.465" width="1.27" layer="16"/>
 <wire x1="26.035" y1="37.465" x2="30.1625" y2="41.5925" width="0.6096" layer="16"/>
 <contactref element="C5" pad="1"/>
@@ -986,7 +1075,7 @@ design rules under a new name.</description>
 <contactref element="SJ3" pad="2"/>
 <contactref element="SJ2" pad="2"/>
 <contactref element="ISP" pad="6"/>
-<polygon width="0.254" layer="16" rank="6">
+<polygon width="0.254" layer="16" orphans="yes" rank="6">
 <vertex x="0" y="42.545"/>
 <vertex x="6.985" y="49.53"/>
 <vertex x="42.545" y="49.53"/>
@@ -1053,7 +1142,7 @@ design rules under a new name.</description>
 <via x="47.625" y="11.43" extent="1-16" drill="0.4"/>
 <via x="45.72" y="15.24" extent="1-16" drill="0.4"/>
 <via x="48.26" y="27.305" extent="1-16" drill="0.4"/>
-<via x="41.275" y="24.765" extent="1-16" drill="0.4"/>
+<via x="40.64" y="24.60625" extent="1-16" drill="0.4"/>
 <via x="37.1475" y="26.9875" extent="1-16" drill="0.4"/>
 <via x="47.625" y="41.275" extent="1-16" drill="0.4"/>
 <via x="1.905" y="33.655" extent="1-16" drill="0.4"/>
@@ -1080,7 +1169,7 @@ design rules under a new name.</description>
 <via x="39.0525" y="30.48" extent="1-16" drill="0.4"/>
 <via x="41.91" y="21.59" extent="1-16" drill="0.4"/>
 <via x="5.715" y="22.225" extent="1-16" drill="0.4"/>
-<via x="41.275" y="29.21" extent="1-16" drill="0.4"/>
+<via x="41.91" y="29.21" extent="1-16" drill="0.4"/>
 <via x="14.9225" y="41.5925" extent="1-16" drill="0.4"/>
 <via x="14.9225" y="39.0525" extent="1-16" drill="0.4"/>
 <via x="22.225" y="34.925" extent="1-16" drill="0.4"/>
