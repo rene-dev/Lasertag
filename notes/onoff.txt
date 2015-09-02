@@ -1,0 +1,8 @@
+anaus geht vernünftig zwischen r25 bis 2,11k bis 5,15k bei 4,3uF
+
+r25		gatespannung onoff fet	diodenstrom
+5k   =  2,5v am gate			
+4,7k =  2,7v					0,7mA in ok
+3,9k =  3,60v 							
+3,3k =  3,70v 					1mA in ok		<---------
+2,7k =  3,78v					

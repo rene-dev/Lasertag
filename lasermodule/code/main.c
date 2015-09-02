@@ -18,6 +18,7 @@
 #define BUTTON_0 PB7
 #define BUTTON_1 PB6
 #define BUTTON_2 PD4
+#define ONOFF PB0
 
 //---------------------------- i2c Settings ----------------------------
 
@@ -159,18 +160,6 @@ ISR(TIMER0_OVF_vect){
 	// }
 }
 
-uint8_t laser_r(uint8_t on){
-	static uint8_t laser_r_status;
-	if(on == 1){
-		PORTB |= (1 << PB0);
-		laser_r_status = on;
-	}else if(on == 0){
-		PORTB &= ~(1 << PB0);
-		laser_r_status = on;
-	}
-	return laser_r_status;
-}
-
 uint8_t laser_g(uint8_t on){
 	static uint8_t laser_g_status;
 	if(on == 1){
@@ -240,7 +229,7 @@ void i2c_slave_read_complete(void){
 }
 
 int main(void){
-	// 12 PB0 LASER_R
+	// 12 PB0 LASER_R  ---- NICHT MEHR ----
 	// 11 PD7 LASER_G
 	// 10 PD6 LASER_B		OC0A	Timer0	 8 Bit
 	//  9 PD5 LED_FRONT_B	OC0B	Timer0	 8 Bit
@@ -253,17 +242,22 @@ int main(void){
 	//  2 PD4 BUTTON_3
 	//  7 PB6 BUTTON_2
 	//  8 PB7 BUTTON_1
+	// 12 PB0 ONOFF
 
 	cli();
 
 	//set pins
-	DDRB |= (1 << DDB0) | (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //OUTPUT
+	DDRB |= (1 << DDB1) | (1 << DDB2) | (1 << DDB3); //OUTPUT
 	DDRD |= (1 << DDD3) | (1 << DDD5) | (1 << DDD6) | (1 << DDD7); //OUTPUT
 	DDRB &= ~(1 << PB6) & ~(1 << PB7); //INPUT
 	PORTB |= (1 << PB6) | (1 << PB7); //input pullup
 	DDRD &= ~(1 << PD4); //INPUT
 	PORTD |= (1 << PD4); //input pullup
 	
+	//ausschalten
+	//DDRB |= (1 << DDB0); //OUTPUT
+	//PORTB &= ~(1 << DDB0); //LOW
+
 	//init Timers for PWM:
 	//https://sites.google.com/site/qeewiki/books/avr-guide/pwm-on-the-atmega328
 	//WGM* s157: fast pwm without ctc
@@ -323,7 +317,6 @@ int main(void){
 	
  	while(1){		
 		if (shoot_buffer.enable){
-			laser_buffer.r = shoot_buffer.laser_r;
 			laser_buffer.g = shoot_buffer.laser_g;
 			laser_buffer.b = shoot_buffer.laser_b;
 			shoot_delay = (uint32_t)shoot_buffer.duration*2500;
@@ -347,7 +340,6 @@ int main(void){
 		if(shoot_delay > 0){ //laser an zeit
 			shoot_delay--;
 		}else{
-			laser_buffer.r = 0;
 			laser_buffer.g = 0;
 			laser_buffer.b = 0;
 		}
@@ -356,7 +348,6 @@ int main(void){
 		LED_FRONT_G = ICR1-map(led_front_buffer.g, 0, 255, 0, ICR1);
 		LED_FRONT_B = 255-led_front_buffer.b;
 		LED_FRONT_W = 255-led_front_buffer.w;
-		laser_r(laser_buffer.r);
 		laser_g(laser_buffer.g);
 		LASER_B = laser_buffer.b;
 		

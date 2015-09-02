@@ -10,8 +10,9 @@ Nicht-Druck-Layer: tDocu, bDocu
 Text von Teil lösen: Smash
 
 
-Umrandung WIRE: 20 Dimension, Width 0,254mm
+Umrandung WIRE: 20 Dimension, Width 0
 Umrandung Polygone: Width 0,254mm
+die polygone sollten innerhalb der umtrandung liegen und sich nicht groß verformen wenn man die umrandung weg nimmt. ist dann besser zu panalesieren.
 
 WICHTIG: Bearbeiten -> Netzklassen: nur eine, defeult, clearance 0!
 
@@ -37,3 +38,16 @@ Silk Top: pcbname.GTO
 Silk Bottom: pcbname.GBO
 NC Drill: pcbname.TXT
 Outline layer: pcbname.GKO or pcbname.DO 
+
+
+
+fräsen: es wird aussen um die linie drumrum gefräst, inkl ihrer dicke
+sägeblapp der proxonsäge: 1,6mm dick, also 2mm spalt
+
+
+panalesieren:
+nur brd kopie machen
+panalize ulp machen, das kopiert die r1 r2 ... in neuen layer. alles checken, neuen layer für export angeben
+dann alle wichtigen layer einblenden und platine kopieren
+kreissägeblatt 1,6mm. 2mm zur sicherheit platz lassen
+fräslinie nur aussen rum

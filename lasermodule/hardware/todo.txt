@@ -1,0 +1,7 @@
+schrift weiter weg von kleinfutter
+atmega schrift drehen
+3,3, 5v? an ldoschreiben
+opto diode markieren
+onoff an 2 atmegapins !?
+ok=ltv817
+r25=3,3k
