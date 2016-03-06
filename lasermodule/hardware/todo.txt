@@ -2,6 +2,17 @@ schrift weiter weg von kleinfutter
 atmega schrift drehen
 3,3, 5v? an ldoschreiben
 opto diode markieren
-onoff an 2 atmegapins !?
+onoff an 2 atmegapins !? pb0 ist gut
 ok=ltv817
 r25=3,3k
+tasterfootprints für anaus
+display connector beschriftung
+elkos beide seiten + und beschriftung
+lcd backlight an +!! und nicht an den uln
+wirklich 2 laser nötig?
+laser und so anschluss nach vorne?
+wo ist haptik?
+ am besten: laser_2 = laser_1, laser_1 = haptik (weil pwm)
+ok richtung anzeichnen
+fets an und rev nicht lesbar wenn verlötet
+optionale an led: 2kohm an 5v
