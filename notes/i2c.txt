@@ -1,7 +1,12 @@
 for addresses and registers see hardware.py!
 
 sudo nano /etc/modprobe.d/i2c.conf
-options i2c_bcm2708 baudrate=400000
+options i2c_bcm2708 baudrate=100000
+100000 = 100khz standard
+400000 = high speed
+
+terminierung wichtig: pullups zb geh?ren dazu und sollten ans ende: virus fragen
+
 
 sudo modprobe -r i2c_bcm2708
 sudo modprobe i2c_bcm2708

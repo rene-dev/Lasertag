@@ -91,12 +91,8 @@ typedef struct{
 static volatile misc_t misc_buffer;
 
 //logarithmic pwm fading: http://www.mikrocontroller.net/articles/LED-Fading
-//const uint8_t pwmtable_8D[32] PROGMEM = 
-const uint8_t pwmtable_8D[32] = 
-{
-    0, 1, 2, 2, 2, 3, 3, 4, 5, 6, 7, 8, 10, 11, 13, 16, 19, 23, 27, 32, 38, 45, 54, 64, 76, 91, 108, 128, 152, 181, 215, 255
-};
-const uint8_t pwmtable_8E[64] = 
+//const uint8_t pwmtable64[64] PROGMEM = 
+const uint8_t pwmtable64[64] = 
 {
     1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 21, 22, 24, 26, 28, 30, 33, 35, 38, 41, 45, 48, 52, 56, 61, 65, 71, 76, 82, 89, 96, 103, 111, 120, 129, 140, 151, 162, 175, 189, 203, 219, 237, 255
 };
@@ -132,7 +128,17 @@ uint8_t crc8(const void *vptr, int len){
 	return (uint8_t)(crc >> 8);
 }
 
-int32_t map(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max)
+uint32_t map32(uint32_t x, uint32_t in_min, uint32_t in_max, uint32_t out_min, uint32_t out_max)
+{
+  return (x - in_min) * (out_max - out_min + 1) / (in_max - in_min + 1) + out_min;
+}
+
+uint16_t map16(uint16_t x, uint16_t in_min, uint16_t in_max, uint16_t out_min, uint16_t out_max)
+{
+  return (x - in_min) * (out_max - out_min + 1) / (in_max - in_min + 1) + out_min;
+}
+
+uint8_t map8(uint8_t x, uint8_t in_min, uint8_t in_max, uint8_t out_min, uint8_t out_max)
 {
   return (x - in_min) * (out_max - out_min + 1) / (in_max - in_min + 1) + out_min;
 }
@@ -326,15 +332,6 @@ int main(void){
 	uint16_t ir_delay=0;
 	uint8_t ir_count=255;
 	
-	// hit_buffer.enable=6;
-	// hit_buffer.playerid=7;
-	// hit_buffer.damage=8;
-	
-	// button_buffer.button_1 = 11;
-	// button_buffer.button_2 = 22;
-	// button_buffer.button_3 = 33;
-	
-	
  	while(1){
 		// ---------------- shoot ----------------
 		if (shoot_buffer.enable){
@@ -384,7 +381,8 @@ int main(void){
 		
 		if(muzzle_flash_duration_counter >= 2){ //muzzle_flash an zeit
 			// led_front_buffer.r = pwmtable_8D[map(muzzle_flash_duration_counter, (uint32_t)shoot_buffer.muzzle_flash_duration*200, 1, 31, 0)];
-			led_front_buffer.r = pwmtable_8E[map(muzzle_flash_duration_counter, muzzle_flash_duration_counter_max, 1, 63, 0)]; //ausfaden
+			led_front_buffer.r = pwmtable64[map32(muzzle_flash_duration_counter, muzzle_flash_duration_counter_max, 1, map32(shoot_buffer.muzzle_flash_r, 0, 255, 0, 63), 0)]; //ausfaden
+			// led_front_buffer.r = pwmtable64[map(muzzle_flash_duration_counter, muzzle_flash_duration_counter_max, 1, 63, 0)]; //ausfaden
 			muzzle_flash_duration_counter--;
 		}
 		if(muzzle_flash_duration_counter == 1){

@@ -202,11 +202,11 @@ if __name__ == '__main__':
 
 	print("Waffe Shoot: playerid=42, damage=123")
 	#dauer in 0.1s
-	hardware.setWeaponCharacteristics(playerid=42, damage=123, laser=1, laser_duration=10, vibrate_power=0, vibrate_duration=0, muzzle_flash_r=10, muzzle_flash_g=0, muzzle_flash_b=0, muzzle_flash_w=0, muzzle_flash_duration=20)
-	hardware.shootWeapon()
-	time.sleep(0.1)
-	hardware.shootWeapon()
-	time.sleep(0.1)
+	hardware.setWeaponCharacteristics(playerid=42, damage=123, laser=1, laser_duration=10, vibrate_power=0, vibrate_duration=0, muzzle_flash_r=5, muzzle_flash_g=0, muzzle_flash_b=0, muzzle_flash_w=0, muzzle_flash_duration=20)
+	# hardware.shootWeapon()
+	# time.sleep(0.1)
+	# hardware.shootWeapon()
+	# time.sleep(0.1)
 	hardware.shootWeapon()
 	time.sleep(0.5)
 

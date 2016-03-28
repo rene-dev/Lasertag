@@ -45,9 +45,43 @@ cat /proc/cmdline | wc -c
 view:
 cat /sys/module/kernel/parameters/consoleblank
 
-change:
+change tuts nicht:
 sudo nano /etc/kbd/config
 BLANK_TIME=0
+
+change:
+sudo nano /boot/cmdline.txt
+consoleblank=0
+19:06
+
+---------------- ip nach hochfahren anzeigen ----------------
+
+nano /usr/local/bin/get-ip-address
+<code>
+#!/bin/sh
+/sbin/ip -o a | grep -v "127.0.0.1" | grep -v "::1" | awk '{ print $2 " " $4 }'
+</code>
+chmod +x /usr/local/bin/get-ip-address
+
+nano /etc/network/if-up.d/show-ip-address
+<code>
+#!/bin/sh
+if [ "$METHOD" = loopback ]; then
+    exit 0
+fi
+
+# Only run from ifup.
+if [ "$MODE" != start ]; then
+    exit 0
+fi
+
+/usr/local/bin/get-ip-address > /etc/issue
+echo "" >> /etc/issue
+killall agetty
+</code>
+chmod +x /etc/network/if-up.d/show-ip-address
+/etc/network/if-up.d/show-ip-address
+cat /etc/issue
 
 ---------------- testen ----------------
 
