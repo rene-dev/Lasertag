@@ -20,26 +20,30 @@ class weaponRegisters(Enum):
 	LED_G = 1
 	LED_B = 2
 	LED_W = 3
-	LASER_R = 4
-	LASER_G = 5
-	LASER_B = 6
-	VIBRATION = 7
+	LASER = 4 #Laser 2, AN_AUS
+	VIBRATION = 7 #Laser 1, PWM_8_BIT
 	BUTTON0 = 10
 	BUTTON1 = 11
 	BUTTON2 = 12
 	SHOOT_ENABLED = 20
 	SHOOT_PLAYERID = 21
 	SHOOT_DAMAGE = 22
-	SHOOT_DURATION = 23
-	LASER0 = 24
-	LASER1 = 25
-	HIT_ENABLE = 30
-	HIT_PLAYERID = 31
-	HIT_DMG = 32
-	V_BATT = 40
-	V_BATT = 41
-	LDR = 42
-	LDR = 43
+	SHOOT_LASER = 23
+	SHOOT_LASER_DURATION = 24
+	SHOOT_VIBRATE_POWER = 25
+	SHOOT_VIBRATE_DURATION = 26
+	SHOOT_MUZZLE_FLASH_R = 27
+	SHOOT_MUZZLE_FLASH_G = 28
+	SHOOT_MUZZLE_FLASH_B = 29
+	SHOOT_MUZZLE_FLASH_W = 30
+	SHOOT_MUZZLE_FLASH_DURATION = 31
+	HIT_ENABLE = 40
+	HIT_PLAYERID = 41
+	HIT_DMG = 42
+	V_BATT = 50
+	V_BATT = 51
+	LDR = 52
+	LDR = 53
 
 class hitpointRegisters(Enum):
 	VIBRATION = 7
@@ -55,7 +59,7 @@ logger = logging.getLogger(__name__)
 class Hardware:
 	def __init__(self):
 		self.connect()
-		self.setWeaponLasers(0, 0)
+		self.setWeaponLasers(laser=0)
 		self.setWeaponLED(R=0, G=0, B=0, W=0)
 		self.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=0, G=0, B=0)
 		
@@ -112,13 +116,20 @@ class Hardware:
 		rechts = self.read(i2cAddresses.WEAPON, weaponRegisters.LDR)
 		return links*256 + rechts
 
-	def setWeaponCharacteristics(self, playerid, damage, laser_duration):
+	def setWeaponCharacteristics(self, playerid, damage, laser, laser_duration, vibrate_power, vibrate_duration, muzzle_flash_r, muzzle_flash_g, muzzle_flash_b, muzzle_flash_w, muzzle_flash_duration):
 		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_PLAYERID, playerid)
 		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_DAMAGE, damage)
-		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_DURATION, laser_duration)
+		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_LASER, laser)
+		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_LASER_DURATION, laser_duration)
+		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_VIBRATE_POWER, vibrate_power)
+		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_VIBRATE_DURATION, vibrate_duration)
+		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_MUZZLE_FLASH_R, muzzle_flash_r)
+		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_MUZZLE_FLASH_G, muzzle_flash_g)
+		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_MUZZLE_FLASH_B, muzzle_flash_b)
+		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_MUZZLE_FLASH_W, muzzle_flash_w)
+		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_MUZZLE_FLASH_DURATION, muzzle_flash_duration)
 
-	def shootWeapon(self, laser0, laser1):
-		self.setWeaponLasers(laser0, laser1)
+	def shootWeapon(self):
 		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_ENABLED, 1)
 
 	def setWeaponLED(self, R, G, B, W):
@@ -127,9 +138,8 @@ class Hardware:
 		self.write(i2cAddresses.WEAPON, weaponRegisters.LED_B, B)
 		self.write(i2cAddresses.WEAPON, weaponRegisters.LED_W, W)
 
-	def setWeaponLasers(self, laser0, laser1):
-		self.write(i2cAddresses.WEAPON, weaponRegisters.LASER0, laser0)
-		self.write(i2cAddresses.WEAPON, weaponRegisters.LASER1, laser1)
+	def setWeaponLasers(self, laser):
+		self.write(i2cAddresses.WEAPON, weaponRegisters.LASER, laser)
 
 	#----------------- Trefferzonenmodul -----------------
 
@@ -152,35 +162,33 @@ if __name__ == '__main__':
 	logging.basicConfig(level=logging.DEBUG)
 	hardware = Hardware()
 
-	print("Waffe LED Front")
-	hardware.setWeaponLED(R=50, G=0, B=0, W=0)
-	time.sleep(0.5)
-	hardware.setWeaponLED(R=0, G=50, B=0, W=0)
-	time.sleep(0.5)
-	hardware.setWeaponLED(R=0, G=0, B=50, W=0)
-	time.sleep(0.5)
-	hardware.setWeaponLED(R=0, G=0, B=0, W=50)
-	time.sleep(0.5)
-	hardware.setWeaponLED(R=0, G=0, B=0, W=0)
-	time.sleep(0.5)
+	# print("Waffe LED Front")
+	# hardware.setWeaponLED(R=20, G=0, B=0, W=0)
+	# time.sleep(0.5)
+	# hardware.setWeaponLED(R=0, G=20, B=0, W=0)
+	# time.sleep(0.5)
+	# hardware.setWeaponLED(R=0, G=0, B=20, W=0)
+	# time.sleep(0.5)
+	# hardware.setWeaponLED(R=0, G=0, B=0, W=20)
+	# time.sleep(0.5)
+	# hardware.setWeaponLED(R=0, G=0, B=0, W=0)
+	# time.sleep(0.5)
 
-	print("Waffe LED Top")
-	hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=100, G=0, B=0)
-	time.sleep(0.5)
-	hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=0, G=100, B=0)
-	time.sleep(0.5)
-	hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=0, G=0, B=100)
-	time.sleep(0.5)
-	hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=0, G=0, B=0)
-	time.sleep(0.5)
+	# print("Waffe LED Top")
+	# hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=100, G=0, B=0)
+	# time.sleep(0.5)
+	# hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=0, G=100, B=0)
+	# time.sleep(0.5)
+	# hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=0, G=0, B=100)
+	# time.sleep(0.5)
+	# hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, R=0, G=0, B=0)
+	# time.sleep(0.5)
 
-	print("Waffe Laser")
-	hardware.setWeaponLasers(laser0=1, laser1=0)
-	time.sleep(0.5)
-	hardware.setWeaponLasers(laser0=0, laser1=1)
-	time.sleep(0.5)
-	hardware.setWeaponLasers(laser0=0, laser1=0)
-	time.sleep(1.5)
+	# print("Waffe Laser")
+	# hardware.setWeaponLasers(laser=1)
+	# time.sleep(0.5)
+	# hardware.setWeaponLasers(laser=0)
+	# time.sleep(0.5)
 	
 	enable, playerid, damage = hardware.getWeaponHitResults()
 	print("Waffe Hit Front enable: " + str(enable))
@@ -192,10 +200,14 @@ if __name__ == '__main__':
 	print("Waffe Hit Top playerid: " + str(playerid))
 	print("Waffe Hit Top damage: " + str(damage))
 
-	print("Waffe Shoot: playerid=123, damage=5, rot")
+	print("Waffe Shoot: playerid=42, damage=123")
 	#dauer in 0.1s
-	hardware.setWeaponCharacteristics(playerid=123, damage=42, laser_duration=5)
-	hardware.shootWeapon(laser0 = 1, laser1 = 0)
+	hardware.setWeaponCharacteristics(playerid=42, damage=123, laser=1, laser_duration=10, vibrate_power=0, vibrate_duration=0, muzzle_flash_r=10, muzzle_flash_g=0, muzzle_flash_b=0, muzzle_flash_w=0, muzzle_flash_duration=20)
+	hardware.shootWeapon()
+	time.sleep(0.1)
+	hardware.shootWeapon()
+	time.sleep(0.1)
+	hardware.shootWeapon()
 	time.sleep(0.5)
 
 	print("Waffe Button 0: " + str(hardware.isWeaponButtonDown(0)))

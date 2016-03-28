@@ -11,8 +11,8 @@
 
 //---------------------------- Pins and PWM Registers ----------------------------
 
-#define LASER_2 PD7
-#define LASER_1 OCR0A
+#define LASER PD7 //laser 2
+#define HAPTIK OCR0A //laser 1
 #define LED_FRONT_B OCR0B
 #define IR_CLOCK_DUTY_CYCLE OCR1A
 #define LED_FRONT_G OCR1B
@@ -38,15 +38,13 @@ static volatile led_front_t led_front_buffer;
 
 #define LASER_REG 4
 typedef struct{
-	uint8_t r;
-	uint8_t l2; //g
-	uint8_t l1; //b
+	uint8_t laser; //laser 2
 } laser_t;
 static volatile laser_t laser_buffer;
 
 #define HAPTIK_REG 7
 typedef struct{
-	uint8_t vibrate;
+	uint8_t vibrate; //laser 1
 } haptik_t;
 static volatile haptik_t haptik_buffer;
 
@@ -65,8 +63,8 @@ typedef struct{
 	uint8_t damage;
 	uint8_t duration; //Laser light duration
 	uint8_t laser_r;
-	uint8_t laser_2;
-	uint8_t laser_1;
+	uint8_t laser;
+	uint8_t vibrate;
 } shoot_t;
 static volatile shoot_t shoot_buffer;
 
@@ -163,16 +161,16 @@ ISR(TIMER0_OVF_vect){
 	// }
 }
 
-uint8_t laser_2(uint8_t on){
-	static uint8_t laser_2_status;
+uint8_t laser(uint8_t on){
+	static uint8_t laser_status;
 	if(on == 1){
-		PORTD |= (1 << LASER_2);
-		laser_2_status = on;
+		PORTD |= (1 << LASER);
+		laser_status = on;
 	}else if(on == 0){
-		PORTD &= ~(1 << LASER_2);
-		laser_2_status = on;
+		PORTD &= ~(1 << LASER);
+		laser_status = on;
 	}
-	return laser_2_status;
+	return laser_status;
 }
 	
 volatile uint8_t i2c_last_reg_access = -1;
@@ -233,8 +231,8 @@ void i2c_slave_read_complete(void){
 
 int main(void){
 	// 12 PB0 LASER_R  ---- NICHT MEHR ----
-	// 11 PD7 LASER_2								(Laser)
-	// 10 PD6 LASER_1		OC0A	Timer0	 8 Bit	(Haptik)
+	// 11 PD7 LASER								(Laser)
+	// 10 PD6 HAPTIK		OC0A	Timer0	 8 Bit	(Haptik)
 	//  9 PD5 LED_FRONT_B	OC0B	Timer0	 8 Bit
 	// 13 PB1 IR_CLOCK_-	OC1A	Timer1	16 Bit
 	// 14 PB2 LED_FRONT_G	OC1B	Timer1	16 Bit
@@ -291,7 +289,7 @@ int main(void){
 	LED_FRONT_G=ICR1;
 	LED_FRONT_B=255;
 	LED_FRONT_W=255;
-	LASER_1=255;
+	HAPTIK=255; //haptik
 	//PORTB |= (1 << PB0); //an
 	
 	//i2c init
@@ -308,7 +306,6 @@ int main(void){
 	uint32_t shoot_delay=0;
 	uint16_t ir_delay=0;
 	uint8_t ir_count=255;
-	uint8_t tempshoottest=0;
 	
 	// hit_buffer.enable=6;
 	// hit_buffer.playerid=7;
@@ -319,14 +316,12 @@ int main(void){
 	// button_buffer.button_3 = 33;
 	
 	
- 	while(1){
-	
-/*  		// ---- ir shoot ----
-		
+ 	while(1){		
 		if (shoot_buffer.enable){
-			laser_buffer.l2 = shoot_buffer.laser_2;
-			laser_buffer.l1 = shoot_buffer.laser_1;
-			shoot_delay = (uint32_t)shoot_buffer.duration*2500;
+			laser_buffer.laser = shoot_buffer.laser;
+			haptik_buffer.vibrate = shoot_buffer.vibrate;
+			// shoot_delay = (uint32_t)shoot_buffer.duration*2500;
+			shoot_delay = 2000000;
 			shoot_buffer.enable = 0;
 			ir_count=0;
 		}
@@ -344,57 +339,26 @@ int main(void){
 			ir_delay = 0;
 		}
 		
-		if(shoot_delay > 0){ //laser an zeit
+		if(shoot_delay >= 2){ //laser an zeit
 			shoot_delay--;
-		}else{
-			laser_buffer.l2 = 0;
-			laser_buffer.l1 = 0;
-		} */
+		}
+		if(shoot_delay == 1){
+			laser_buffer.laser = 0;
+			haptik_buffer.vibrate = 0;
+			shoot_delay = 0; //damit man den laser auch ohne shoot anmachen kann
+			led_front_buffer.b=5;
+		}
 		
-		// if(taster(&PINB, BUTTON_1) && tempshoottest=0){
-			// shoot_buffer.playerid = 42;
-			// shoot_buffer.damage = 123;
-			// shoot_buffer.enable = 1;
-			// tempshoottest=1;
-		// }else{
-			// tempshoottest=0;
-		// }
-	
- 		// ---- blinken + buttons (gedrueckt halten) + ir shoot ----
-		LED_FRONT_R = 255-1-taster(&PINB, BUTTON_1)*50;
-		LED_FRONT_G = ICR1-map(2, 0, 255, 0, ICR1); //0 bis ICR1
-		LED_FRONT_B = 255-1-taster(&PINB, BUTTON_2)*50;
-		LED_FRONT_W = 255-1-taster(&PIND, BUTTON_3)*50;
-		laser_2(1); //laser
-		LASER_1 = 255; //haptik
-
-		_delay_ms(255);
-		_delay_ms(255);
-		_delay_ms(255);
+		LED_FRONT_R = 255-led_front_buffer.r;
+		LED_FRONT_G = ICR1-map(led_front_buffer.g, 0, 255, 0, ICR1);
+		LED_FRONT_B = 255-led_front_buffer.b;
+		LED_FRONT_W = 255-led_front_buffer.w;
+		laser(laser_buffer.laser);
+		HAPTIK = haptik_buffer.vibrate;
 		
-		LED_FRONT_R = 255-0;
-		LED_FRONT_G = ICR1-map(0, 0, 255, 0, ICR1); //0 bis ICR1
-		LED_FRONT_B = 255-0;
-		LED_FRONT_W = 255-0;
-		laser_2(0); //laser
-		LASER_1 = 0; //haptik
-		
-		_delay_ms(255);
-		_delay_ms(255);
-		_delay_ms(255);
-		
-		shoot_buffer.playerid = 42;
-		shoot_buffer.damage = 123;
-		shoot_buffer.enable = 1;
-		uint8_t array[] = {shoot_buffer.playerid, shoot_buffer.damage};
-		USART_Transmit(shoot_buffer.playerid); //IR_TX: PlayerID
-		USART_Transmit(shoot_buffer.damage); //IR_TX: Schaden
-		USART_Transmit(crc8(array, 2)); //IR_TX: crc8 checksum
-
-		
-/* 		// ---- buttons ----
-		laser_2(taster(&PINB, BUTTON_1));
-		LED_FRONT_B = 255-taster(&PINB, BUTTON_2);
-		LED_FRONT_W = 255-taster(&PIND, BUTTON_3);
- */	}
+		// _delay_ms(255);
+		button_buffer.button_1 = taster(&PINB, BUTTON_1);
+		button_buffer.button_2 = taster(&PINB, BUTTON_2);
+		button_buffer.button_3 = taster(&PIND, BUTTON_3);
+	}
 }
