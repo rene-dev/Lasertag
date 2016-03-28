@@ -1,4 +1,4 @@
-MCU = atmega328
+#MCU mit make MCU=atmega328 uebergeben
 #FREQ=8000000
 TRG = main
 SRC = $(TRG).c twislave.c
@@ -56,15 +56,9 @@ clean:
 	$(RM) $(TRG).hex
 	$(RM) $(TRG).bin
 	
-size88:
-	$(SIZE) -C --mcu=atmega88 $(TRG).elf
-size328:
-	$(SIZE) -C --mcu=atmega328 $(TRG).elf
-load88: $(TRG).hex
-	avrdude -c usbasp -p m88 -U flash:w:main.hex
-load328: $(TRG).hex
-	avrdude -c usbasp -p m328 -U flash:w:main.hex
-fuses88:
-	avrdude -c usbasp -p m88 -B 150 -U lfuse:w:0xe2:m -U hfuse:w:0xd9:m -U efuse:w:0x07:m
-fuses328:
-	avrdude -c usbasp -p m328 -B 150 -U lfuse:w:0xe2:m -U hfuse:w:0xd9:m -U efuse:w:0x07:m
+size:
+	$(SIZE) -C --mcu=$(MCU) $(TRG).elf
+load: clean $(TRG).hex size
+	avrdude -c usbasp -p $(MCU) -U flash:w:main.hex
+fuses:
+	avrdude -c usbasp -p $(MCU) -B 150 -U lfuse:w:0xe2:m -U hfuse:w:0xd9:m -U efuse:w:0x07:m

@@ -1,3 +1,5 @@
+//Lasermodule
+
 #define F_CPU 8000000
 
 #include <avr/io.h>
@@ -9,15 +11,16 @@
 
 //---------------------------- Pins and PWM Registers ----------------------------
 
-#define LASER_B OCR0A
+#define LASER PD7 //laser 2
+#define HAPTIK OCR0A //laser 1
 #define LED_FRONT_B OCR0B
 #define IR_CLOCK_DUTY_CYCLE OCR1A
 #define LED_FRONT_G OCR1B
 #define LED_FRONT_R OCR2A
 #define LED_FRONT_W OCR2B
-#define BUTTON_0 PB7
-#define BUTTON_1 PB6
-#define BUTTON_2 PD4
+#define BUTTON_1 PB7
+#define BUTTON_2 PB6
+#define BUTTON_3 PD4
 #define ONOFF PB0
 
 //---------------------------- i2c Settings ----------------------------
@@ -35,39 +38,42 @@ static volatile led_front_t led_front_buffer;
 
 #define LASER_REG 4
 typedef struct{
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
+	uint8_t laser; //laser 2
 } laser_t;
 static volatile laser_t laser_buffer;
 
 #define HAPTIK_REG 7
 typedef struct{
-	uint8_t vibrate;
+	uint8_t vibrate; //laser 1
 } haptik_t;
 static volatile haptik_t haptik_buffer;
 
 #define BUTTON_REG 10
 typedef struct{
-	uint8_t button_0;
 	uint8_t button_1;
 	uint8_t button_2;
+	uint8_t button_3;
 } button_t;
 static volatile button_t button_buffer;
 
 #define SHOOT_REG 20
 typedef struct{
-	uint8_t enable; //Fire once if written > 0
-	uint8_t playerid;
-	uint8_t damage;
-	uint8_t duration; //Laser light duration
-	uint8_t laser_r;
-	uint8_t laser_g;
-	uint8_t laser_b;
+	uint8_t enable; //20, Fire once if written > 0
+	uint8_t playerid; //21
+	uint8_t damage; //22
+	uint8_t laser; //23
+	uint8_t laser_duration; //24, Laser light duration
+	uint8_t vibrate_power; //25
+	uint8_t vibrate_duration; //26
+	uint8_t muzzle_flash_r; //27
+	uint8_t muzzle_flash_g; //28
+	uint8_t muzzle_flash_b; //29
+	uint8_t muzzle_flash_w; //30
+	uint8_t muzzle_flash_duration; //31
 } shoot_t;
 static volatile shoot_t shoot_buffer;
 
-#define HIT_REG 30
+#define HIT_REG 40
 typedef struct{
 	uint8_t enable; //Hit if enabled
 	uint8_t playerid;
@@ -75,7 +81,7 @@ typedef struct{
 } hit_t;
 static volatile hit_t hit_buffer;
 
-#define MISC_REG 40
+#define MISC_REG 50
 typedef struct{
 	uint8_t v_batt_l;
 	uint8_t v_batt_r;
@@ -83,6 +89,17 @@ typedef struct{
 	uint8_t ldr_r;
 } misc_t;
 static volatile misc_t misc_buffer;
+
+//logarithmic pwm fading: http://www.mikrocontroller.net/articles/LED-Fading
+//const uint8_t pwmtable_8D[32] PROGMEM = 
+const uint8_t pwmtable_8D[32] = 
+{
+    0, 1, 2, 2, 2, 3, 3, 4, 5, 6, 7, 8, 10, 11, 13, 16, 19, 23, 27, 32, 38, 45, 54, 64, 76, 91, 108, 128, 152, 181, 215, 255
+};
+const uint8_t pwmtable_8E[64] = 
+{
+    1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 21, 22, 24, 26, 28, 30, 33, 35, 38, 41, 45, 48, 52, 56, 61, 65, 71, 76, 82, 89, 96, 103, 111, 120, 129, 140, 151, 162, 175, 189, 203, 219, 237, 255
+};
 
 //---------------------------- UART init ----------------------------
 
@@ -115,7 +132,7 @@ uint8_t crc8(const void *vptr, int len){
 	return (uint8_t)(crc >> 8);
 }
 
-long map(long x, long in_min, long in_max, long out_min, long out_max)
+int32_t map(int32_t x, int32_t in_min, int32_t in_max, int32_t out_min, int32_t out_max)
 {
   return (x - in_min) * (out_max - out_min + 1) / (in_max - in_min + 1) + out_min;
 }
@@ -160,16 +177,16 @@ ISR(TIMER0_OVF_vect){
 	// }
 }
 
-uint8_t laser_g(uint8_t on){
-	static uint8_t laser_g_status;
+uint8_t laser(uint8_t on){
+	static uint8_t laser_status;
 	if(on == 1){
-		PORTD |= (1 << PD7);
-		laser_g_status = on;
+		PORTD |= (1 << LASER);
+		laser_status = on;
 	}else if(on == 0){
-		PORTD &= ~(1 << PD7);
-		laser_g_status = on;
+		PORTD &= ~(1 << LASER);
+		laser_status = on;
 	}
-	return laser_g_status;
+	return laser_status;
 }
 	
 volatile uint8_t i2c_last_reg_access = -1;
@@ -230,8 +247,8 @@ void i2c_slave_read_complete(void){
 
 int main(void){
 	// 12 PB0 LASER_R  ---- NICHT MEHR ----
-	// 11 PD7 LASER_G
-	// 10 PD6 LASER_B		OC0A	Timer0	 8 Bit
+	// 11 PD7 LASER								(Laser)
+	// 10 PD6 HAPTIK		OC0A	Timer0	 8 Bit	(Haptik)
 	//  9 PD5 LED_FRONT_B	OC0B	Timer0	 8 Bit
 	// 13 PB1 IR_CLOCK_-	OC1A	Timer1	16 Bit
 	// 14 PB2 LED_FRONT_G	OC1B	Timer1	16 Bit
@@ -288,7 +305,7 @@ int main(void){
 	LED_FRONT_G=ICR1;
 	LED_FRONT_B=255;
 	LED_FRONT_W=255;
-	LASER_B=255;
+	HAPTIK=255; //haptik
 	//PORTB |= (1 << PB0); //an
 	
 	//i2c init
@@ -302,7 +319,10 @@ int main(void){
 	
 	sei(); // enable Interrupts global
 	
-	uint32_t shoot_delay=0;
+	uint32_t laser_duration_counter=0;
+	uint32_t vibrate_duration_counter=0;
+	uint32_t muzzle_flash_duration_counter=0;
+	uint32_t muzzle_flash_duration_counter_max=0; //fürs ausfaden
 	uint16_t ir_delay=0;
 	uint8_t ir_count=255;
 	
@@ -310,18 +330,26 @@ int main(void){
 	// hit_buffer.playerid=7;
 	// hit_buffer.damage=8;
 	
-	// button_buffer.button_0 = 11;
-	// button_buffer.button_1 = 22;
-	// button_buffer.button_2 = 33;
+	// button_buffer.button_1 = 11;
+	// button_buffer.button_2 = 22;
+	// button_buffer.button_3 = 33;
 	
 	
- 	while(1){		
+ 	while(1){
+		// ---------------- shoot ----------------
 		if (shoot_buffer.enable){
-			laser_buffer.g = shoot_buffer.laser_g;
-			laser_buffer.b = shoot_buffer.laser_b;
-			shoot_delay = (uint32_t)shoot_buffer.duration*2500;
+			laser_buffer.laser = shoot_buffer.laser;
+			laser_duration_counter = (uint32_t)shoot_buffer.laser_duration*200;
+			haptik_buffer.vibrate = shoot_buffer.vibrate_power;
+			vibrate_duration_counter = (uint32_t)shoot_buffer.vibrate_duration*200;
+			led_front_buffer.r = shoot_buffer.muzzle_flash_r;
+			led_front_buffer.g = shoot_buffer.muzzle_flash_g;
+			led_front_buffer.b = shoot_buffer.muzzle_flash_b;
+			led_front_buffer.w = shoot_buffer.muzzle_flash_w;
+			muzzle_flash_duration_counter = (uint32_t)shoot_buffer.muzzle_flash_duration*200;
+			muzzle_flash_duration_counter_max = muzzle_flash_duration_counter; //fürs ausfaden
 			shoot_buffer.enable = 0;
-			ir_count=0;
+			ir_count = 0;
 		}
 		
 		if(ir_delay < 1500){ //delay zwischen ir paketen
@@ -337,23 +365,47 @@ int main(void){
 			ir_delay = 0;
 		}
 		
-		if(shoot_delay > 0){ //laser an zeit
-			shoot_delay--;
-		}else{
-			laser_buffer.g = 0;
-			laser_buffer.b = 0;
+		if(laser_duration_counter >= 2){ //laser an zeit
+			laser_duration_counter--;
 		}
-	
+		if(laser_duration_counter == 1){
+			laser_buffer.laser = 0;
+			haptik_buffer.vibrate = 0;
+			laser_duration_counter = 0; //damit man den laser auch ohne shoot anmachen kann
+		}
+		
+		if(vibrate_duration_counter >= 2){ //vibrate an zeit
+			vibrate_duration_counter--;
+		}
+		if(vibrate_duration_counter == 1){
+			haptik_buffer.vibrate = 0;
+			vibrate_duration_counter = 0; //damit man es auch ohne shoot anmachen kann
+		}
+		
+		if(muzzle_flash_duration_counter >= 2){ //muzzle_flash an zeit
+			// led_front_buffer.r = pwmtable_8D[map(muzzle_flash_duration_counter, (uint32_t)shoot_buffer.muzzle_flash_duration*200, 1, 31, 0)];
+			led_front_buffer.r = pwmtable_8E[map(muzzle_flash_duration_counter, muzzle_flash_duration_counter_max, 1, 63, 0)]; //ausfaden
+			muzzle_flash_duration_counter--;
+		}
+		if(muzzle_flash_duration_counter == 1){
+			led_front_buffer.r = 0;
+			led_front_buffer.g = 0;
+			led_front_buffer.b = 0;
+			led_front_buffer.w = 0;
+			muzzle_flash_duration_counter = 0; //damit man es auch ohne shoot anmachen kann
+		}
+		
+		// ---------------- output ----------------
 		LED_FRONT_R = 255-led_front_buffer.r;
 		LED_FRONT_G = ICR1-map(led_front_buffer.g, 0, 255, 0, ICR1);
 		LED_FRONT_B = 255-led_front_buffer.b;
 		LED_FRONT_W = 255-led_front_buffer.w;
-		laser_g(laser_buffer.g);
-		LASER_B = laser_buffer.b;
+		laser(laser_buffer.laser);
+		HAPTIK = haptik_buffer.vibrate;
 		
-		// _delay_ms(255);
-		button_buffer.button_0 = taster(&PINB, BUTTON_0);
+		// ---------------- input ----------------
 		button_buffer.button_1 = taster(&PINB, BUTTON_1);
-		button_buffer.button_2 = taster(&PIND, BUTTON_2);
+		button_buffer.button_2 = taster(&PINB, BUTTON_2);
+		button_buffer.button_3 = taster(&PIND, BUTTON_3);
 	}
 }
