@@ -40,10 +40,10 @@ class weaponRegisters(Enum):
 	HIT_ENABLE = 40
 	HIT_PLAYERID = 41
 	HIT_DMG = 42
-	V_BATT = 50
-	V_BATT = 51
-	LDR = 52
-	LDR = 53
+	V_BAT_L = 50
+	V_BAT_R = 51
+	LDR_L = 52
+	LDR_R = 53
 
 class hitpointRegisters(Enum):
 	VIBRATION = 7
@@ -105,15 +105,15 @@ class Hardware:
 		enable =	self.read(i2cAddresses.WEAPON, weaponRegisters.HIT_ENABLE) != 0
 		return (enable, playerid, damage)
 
-	def getWeaponVBatt(self):
-		links =  self.read(i2cAddresses.WEAPON, weaponRegisters.V_BATT)
-		rechts = self.read(i2cAddresses.WEAPON, weaponRegisters.V_BATT)
+	def getWeaponVBat(self):
+		links =  self.read(i2cAddresses.WEAPON, weaponRegisters.V_BAT_L)
+		rechts = self.read(i2cAddresses.WEAPON, weaponRegisters.V_BAT_R)
 		#return links<<8 | rechts
 		return links*256 + rechts
 
 	def getWeaponLDR(self):
-		links =  self.read(i2cAddresses.WEAPON, weaponRegisters.LDR)
-		rechts = self.read(i2cAddresses.WEAPON, weaponRegisters.LDR)
+		links =  self.read(i2cAddresses.WEAPON, weaponRegisters.LDR_L)
+		rechts = self.read(i2cAddresses.WEAPON, weaponRegisters.LDR_R)
 		return links*256 + rechts
 
 	def setWeaponCharacteristics(self, playerid, damage, laser, laser_duration, vibrate_power, vibrate_duration, muzzle_flash_r, muzzle_flash_g, muzzle_flash_b, muzzle_flash_w, muzzle_flash_duration):
@@ -202,7 +202,7 @@ if __name__ == '__main__':
 
 	print("Waffe Shoot: playerid=42, damage=123")
 	#dauer in 0.1s
-	hardware.setWeaponCharacteristics(playerid=42, damage=123, laser=1, laser_duration=10, vibrate_power=0, vibrate_duration=0, muzzle_flash_r=5, muzzle_flash_g=0, muzzle_flash_b=0, muzzle_flash_w=0, muzzle_flash_duration=20)
+	hardware.setWeaponCharacteristics(playerid=42, damage=123, laser=1, laser_duration=10, vibrate_power=0, vibrate_duration=0, muzzle_flash_r=5, muzzle_flash_g=0, muzzle_flash_b=0, muzzle_flash_w=0, muzzle_flash_duration=25)
 	# hardware.shootWeapon()
 	# time.sleep(0.1)
 	# hardware.shootWeapon()
@@ -224,6 +224,6 @@ if __name__ == '__main__':
 	print("Waffe Hit Top playerid: " + str(playerid))
 	print("Waffe Hit Top damage: " + str(damage))
 
-	print("V_Batt: " + str(hardware.getWeaponVBatt()))
+	print("V_Bat: " + str(hardware.getWeaponVBat()))
 
 	print("V_LDR: " + str(hardware.getWeaponLDR()))

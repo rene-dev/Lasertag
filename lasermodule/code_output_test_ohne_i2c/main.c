@@ -1,4 +1,4 @@
-//Lasermodule
+//Lasermodule code_output_test_ohne_i2c
 
 #define F_CPU 8000000
 
@@ -58,17 +58,22 @@ static volatile button_t button_buffer;
 
 #define SHOOT_REG 20
 typedef struct{
-	uint8_t enable; //Fire once if written > 0
-	uint8_t playerid;
-	uint8_t damage;
-	uint8_t duration; //Laser light duration
-	uint8_t laser_r;
-	uint8_t laser;
-	uint8_t vibrate;
+	uint8_t enable; //20, Fire once if written > 0
+	uint8_t playerid; //21
+	uint8_t damage; //22
+	uint8_t laser; //23
+	uint8_t laser_duration; //24, Laser light duration
+	uint8_t vibrate_power; //25
+	uint8_t vibrate_duration; //26
+	uint8_t muzzle_flash_r; //27
+	uint8_t muzzle_flash_g; //28
+	uint8_t muzzle_flash_b; //29
+	uint8_t muzzle_flash_w; //30
+	uint8_t muzzle_flash_duration; //31
 } shoot_t;
 static volatile shoot_t shoot_buffer;
 
-#define HIT_REG 30
+#define HIT_REG 40
 typedef struct{
 	uint8_t enable; //Hit if enabled
 	uint8_t playerid;
@@ -76,14 +81,21 @@ typedef struct{
 } hit_t;
 static volatile hit_t hit_buffer;
 
-#define MISC_REG 40
+#define MISC_REG 50
 typedef struct{
-	uint8_t v_batt_l;
-	uint8_t v_batt_r;
+	uint8_t v_bat_l;
+	uint8_t v_bat_r;
 	uint8_t ldr_l;
 	uint8_t ldr_r;
 } misc_t;
 static volatile misc_t misc_buffer;
+
+//logarithmic pwm fading: http://www.mikrocontroller.net/articles/LED-Fading
+//const uint8_t pwmtable64[64] PROGMEM = 
+const uint8_t pwmtable64[64] = 
+{
+    1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 21, 22, 24, 26, 28, 30, 33, 35, 38, 41, 45, 48, 52, 56, 61, 65, 71, 76, 82, 89, 96, 103, 111, 120, 129, 140, 151, 162, 175, 189, 203, 219, 237, 255
+};
 
 //---------------------------- UART init ----------------------------
 
@@ -116,7 +128,17 @@ uint8_t crc8(const void *vptr, int len){
 	return (uint8_t)(crc >> 8);
 }
 
-long map(long x, long in_min, long in_max, long out_min, long out_max)
+uint32_t map32(uint32_t x, uint32_t in_min, uint32_t in_max, uint32_t out_min, uint32_t out_max)
+{
+  return (x - in_min) * (out_max - out_min + 1) / (in_max - in_min + 1) + out_min;
+}
+
+uint16_t map16(uint16_t x, uint16_t in_min, uint16_t in_max, uint16_t out_min, uint16_t out_max)
+{
+  return (x - in_min) * (out_max - out_min + 1) / (in_max - in_min + 1) + out_min;
+}
+
+uint8_t map8(uint8_t x, uint8_t in_min, uint8_t in_max, uint8_t out_min, uint8_t out_max)
 {
   return (x - in_min) * (out_max - out_min + 1) / (in_max - in_min + 1) + out_min;
 }
@@ -303,62 +325,102 @@ int main(void){
 	
 	sei(); // enable Interrupts global
 	
-	uint32_t shoot_delay=0;
+	uint32_t laser_duration_counter=0;
+	uint32_t vibrate_duration_counter=0;
+	uint32_t muzzle_flash_duration_counter=0;
+	uint32_t muzzle_flash_duration_counter_max=0; //fürs ausfaden
 	uint16_t ir_delay=0;
 	uint8_t ir_count=255;
 	
-	// hit_buffer.enable=6;
-	// hit_buffer.playerid=7;
-	// hit_buffer.damage=8;
+			// return links*256 + rechts
+	uint16_t battt = 12345;
+	misc_buffer.v_bat_l = battt>>8;
+	misc_buffer.v_bat_r = battt;
 	
-	// button_buffer.button_1 = 11;
-	// button_buffer.button_2 = 22;
-	// button_buffer.button_3 = 33;
-	
-	
- 	while(1){		
-		if (shoot_buffer.enable){
-			laser_buffer.laser = shoot_buffer.laser;
-			haptik_buffer.vibrate = shoot_buffer.vibrate;
-			// shoot_delay = (uint32_t)shoot_buffer.duration*2500;
-			shoot_delay = 2000000;
-			shoot_buffer.enable = 0;
-			ir_count=0;
-		}
+ 	while(1){
+/*  		// ---------------- blinken + buttons (gedrueckt halten) + ir shoot ----------------
+		LED_FRONT_R = 255-1-taster(&PINB, BUTTON_1)*100;
+		LED_FRONT_G = ICR1-map8(2, 0, 255, 0, ICR1); //0 bis ICR1
+		LED_FRONT_B = 255-1-taster(&PINB, BUTTON_2)*100;
+		LED_FRONT_W = 255-1-taster(&PIND, BUTTON_3)*100;
+		laser(1); //laser
+		HAPTIK = 255-50; //haptik
+
+		_delay_ms(255);
+		_delay_ms(255);
+		_delay_ms(255);
 		
-		if(ir_delay < 1500){ //delay zwischen ir paketen
-			ir_delay++;
-		}else{
-			if(ir_count < 3){ //x ir pakete
-				uint8_t array[] = {shoot_buffer.playerid, shoot_buffer.damage};
-				USART_Transmit(shoot_buffer.playerid); //IR_TX: PlayerID
-				USART_Transmit(shoot_buffer.damage); //IR_TX: Schaden
-				USART_Transmit(crc8(array, 2)); //IR_TX: crc8 checksum
-				ir_count++;
+		LED_FRONT_R = 255-0;
+		LED_FRONT_G = ICR1-map8(0, 0, 255, 0, ICR1); //0 bis ICR1
+		LED_FRONT_B = 255-0;
+		LED_FRONT_W = 255-0;
+		laser(0); //laser
+		HAPTIK = 255-0; //haptik
+		
+		_delay_ms(255);
+		_delay_ms(255);
+		_delay_ms(255);
+		
+		shoot_buffer.playerid = 42;
+		shoot_buffer.damage = 123;
+		shoot_buffer.enable = 1;
+		uint8_t array[] = {shoot_buffer.playerid, shoot_buffer.damage};
+		USART_Transmit(shoot_buffer.playerid); //IR_TX: PlayerID
+		USART_Transmit(shoot_buffer.damage); //IR_TX: Schaden
+		USART_Transmit(crc8(array, 2)); //IR_TX: crc8 checksum
+ */
+		
+ 		// ---------------- pew ----------------
+		uint8_t brightness = 80;
+		if(taster(&PINB, BUTTON_1)){
+			if(taster(&PINB, BUTTON_2) && !taster(&PIND, BUTTON_3)){
+				LED_FRONT_R = 255-brightness;
+				LED_FRONT_G = ICR1-map8(0, 0, 255, 0, ICR1);
+				LED_FRONT_B = 255-0;
+				LED_FRONT_W = 255-0;
+				_delay_ms(20);
+				laser(1);
+			}else if(!taster(&PINB, BUTTON_2) && taster(&PIND, BUTTON_3)){
+				LED_FRONT_R = 255-0;
+				LED_FRONT_G = ICR1-map8(brightness, 0, 255, 0, ICR1);
+				LED_FRONT_B = 255-0;
+				LED_FRONT_W = 255-0;
+				_delay_ms(20);
+				laser(1);
+			}else if(taster(&PINB, BUTTON_2) && taster(&PIND, BUTTON_3)){
+				LED_FRONT_R = 255-brightness;
+				LED_FRONT_G = ICR1-map8(brightness, 0, 255, 0, ICR1);
+				LED_FRONT_B = 255-brightness;
+				LED_FRONT_W = 255-brightness;
+				_delay_ms(20);
+				laser(1);
+			}else{
+				LED_FRONT_R = 255-0;
+				LED_FRONT_G = ICR1-map8(0, 0, 255, 0, ICR1);
+				LED_FRONT_B = 255-brightness;
+				LED_FRONT_W = 255-0;
+				_delay_ms(20);
+				laser(1);
 			}
-			ir_delay = 0;
+			
+			
+			_delay_ms(30);
+			LED_FRONT_R = 255-0;
+			LED_FRONT_G = ICR1-map8(0, 0, 255, 0, ICR1);
+			LED_FRONT_B = 255-0;
+			LED_FRONT_W = 255-0;
+			
+			_delay_ms(200);
+			laser(0);
+			_delay_ms(255);
 		}
+					
 		
-		if(shoot_delay >= 2){ //laser an zeit
-			shoot_delay--;
-		}
-		if(shoot_delay == 1){
-			laser_buffer.laser = 0;
-			haptik_buffer.vibrate = 0;
-			shoot_delay = 0; //damit man den laser auch ohne shoot anmachen kann
-			led_front_buffer.b=5;
-		}
 		
-		LED_FRONT_R = 255-led_front_buffer.r;
-		LED_FRONT_G = ICR1-map(led_front_buffer.g, 0, 255, 0, ICR1);
-		LED_FRONT_B = 255-led_front_buffer.b;
-		LED_FRONT_W = 255-led_front_buffer.w;
-		laser(laser_buffer.laser);
-		HAPTIK = haptik_buffer.vibrate;
-		
-		// _delay_ms(255);
-		button_buffer.button_1 = taster(&PINB, BUTTON_1);
-		button_buffer.button_2 = taster(&PINB, BUTTON_2);
-		button_buffer.button_3 = taster(&PIND, BUTTON_3);
+/* 		// ---- buttons ----
+		laser_buffer.laser = taster(&PINB, BUTTON_1);
+		led_front_buffer.r = taster(&PINB, BUTTON_2)*255;
+		led_front_buffer.b = taster(&PIND, BUTTON_3)*255;
+ */
 	}
 }

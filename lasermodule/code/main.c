@@ -83,8 +83,8 @@ static volatile hit_t hit_buffer;
 
 #define MISC_REG 50
 typedef struct{
-	uint8_t v_batt_l;
-	uint8_t v_batt_r;
+	uint8_t v_bat_l;
+	uint8_t v_bat_r;
 	uint8_t ldr_l;
 	uint8_t ldr_r;
 } misc_t;
@@ -332,6 +332,11 @@ int main(void){
 	uint16_t ir_delay=0;
 	uint8_t ir_count=255;
 	
+			// return links*256 + rechts
+	uint16_t battt = 12345;
+	misc_buffer.v_bat_l = battt>>8;
+	misc_buffer.v_bat_r = battt;
+	
  	while(1){
 		// ---------------- shoot ----------------
 		if (shoot_buffer.enable){
@@ -395,7 +400,7 @@ int main(void){
 		
 		// ---------------- output ----------------
 		LED_FRONT_R = 255-led_front_buffer.r;
-		LED_FRONT_G = ICR1-map(led_front_buffer.g, 0, 255, 0, ICR1);
+		LED_FRONT_G = ICR1-map8(led_front_buffer.g, 0, 255, 0, ICR1);
 		LED_FRONT_B = 255-led_front_buffer.b;
 		LED_FRONT_W = 255-led_front_buffer.w;
 		laser(laser_buffer.laser);
@@ -405,5 +410,7 @@ int main(void){
 		button_buffer.button_1 = taster(&PINB, BUTTON_1);
 		button_buffer.button_2 = taster(&PINB, BUTTON_2);
 		button_buffer.button_3 = taster(&PIND, BUTTON_3);
+
+		// ---------------- input ----------------
 	}
 }
