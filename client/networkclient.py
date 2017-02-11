@@ -12,7 +12,7 @@ class NetworkClient:
         self.s.connect((ip, port))
         print "sending name: ", name
         self.s.send(name + "\n")
-        self.playerid = None
+        self.playerid = 32
 
     def disconnect(self):
         self.s.send("exit\n")
@@ -33,6 +33,9 @@ class NetworkClient:
 	    print "received data:", data
 	    if self.playerid == None: # TODO: state machine or protocol?
 	        self.playerid = int(data)
+            else:
+                self.playerid = 42
+		print("Failed to receive playerid")
         except(socket.error):
 	    pass # nothing received
         self.s.setblocking(1)

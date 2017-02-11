@@ -2,12 +2,13 @@ import sys
 import time
 import pygame
 import display
-import sounds
+#import sounds
 import hardware
 from hardware import i2cAddresses
 from enum import Enum
 import networkserver
 import networkclient
+from twisted.internet import reactor
 
 class PlayerRole(Enum):
 	CLIENT = 0
@@ -36,7 +37,7 @@ class Lasertag:
 		self.cooldownEnd = 0
 		self.deathEnd = 0
 		self.state = PlayerState.IDLE
-		self.sounds = sounds.Sounds(self.pygame)
+		#self.sounds = sounds.Sounds(self.pygame)
 		self.display = display.Display(self.pygame, self.health, self.ammo)
 		self.hardware = hardware.Hardware()
 		self.role = role
@@ -52,7 +53,7 @@ class Lasertag:
 
 		#initialize hardware
 		self.hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, 0, 255, 0)
-		self.hardware.setWeaponCharacteristics(playerid=self.myid, damage=30, laser_duration=self.shotDuration/100)
+		self.hardware.setWeaponCharacteristics(self.myid, 30, 0, self.shotDuration/100, 0, 0, 255, 0, 255, 127, 1)
 
 	def shoot(self):
 		if self.ammo > 0:
@@ -60,8 +61,8 @@ class Lasertag:
 			self.shotEnd = self.milliseconds + self.shotDuration
 			self.ammo = self.ammo - 1
 			self.display.setAmmo(self.ammo)
-			self.sounds.play('pew')
-			self.hardware.shootWeapon(laser0=1, laser1=0);
+			#self.sounds.play('pew')
+			self.hardware.shootWeapon()
 
 	def handleHit(self, enable, playerid, dmg, sourceName):
 		if enable and playerid != self.myid:
@@ -69,7 +70,7 @@ class Lasertag:
 			self.deathEnd = self.milliseconds + self.deathDuration
 			print "hit by player ", playerid, " at module: ", sourceName
 			self.networkclient.sendHitEvent(playerid)
-			self.sounds.play('tod')
+			#self.sounds.play('tod')
 			self.hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, 0, 0, 0)
 
 	def handleHits(self):
@@ -114,6 +115,7 @@ class Lasertag:
 		self.display.redraw()
 
 		#update/poll networking stuff
+		print("Polling")
 		self.networkclient.poll()
 		if self.myid == 0: # if own playerid not yet set by the server
 			self.onPlayerIdReceived(self.networkclient.getPlayerId())
@@ -123,16 +125,16 @@ class Lasertag:
 	def shutdown(self):
 		print 'Shutting down...'
 		self.networkclient.disconnect()
-		self.hardware.setWeaponLasers(laser0=0, laser1=0)
+		self.hardware.setWeaponLasers()
 		self.hardware.setHitpointLED(i2cAddresses.HITPOINT_WEAPON, 0, 0, 0)
 		self.hardware.setWeaponLED(0, 0, 0, 0)
 
 if __name__ == '__main__':
 	# handle arguments
-	role = PlayerRole.Client
+	role = PlayerRole.CLIENT
 	if len(sys.argv) > 1:
             if sys.argv[1] == "server":
-		role = PlayerRole.Server
+		role = PlayerRole.SERVER
 	else:
 		print "Usage: ", sys.argv[0], "<client|server>\n"
 
@@ -141,7 +143,7 @@ if __name__ == '__main__':
 	pygame.init()
 
 	# run a lasertag instance!
-	lasertag = Lasertag(pygame, role, "127.0.0.1", 1234) #testing params!
+	lasertag = Lasertag(pygame, role, "127.0.0.1", 1234, "Rainbow crash") #testing params!
 	try:
 		while True:
 			lasertag.update()

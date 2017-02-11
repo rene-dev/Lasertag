@@ -90,6 +90,9 @@ class Hardware:
 			try:
 				self.bus.write_byte_data(i2c_adr, register, data)
 				break
+			except TypeError:
+				pass
+				#print("TYPEERROR", i2c_adr, register, data)
 			except IOError:
 				self.reconnect()
 				#print "i2c reopened"
@@ -117,6 +120,7 @@ class Hardware:
 		return links*256 + rechts
 
 	def setWeaponCharacteristics(self, playerid, damage, laser, laser_duration, vibrate_power, vibrate_duration, muzzle_flash_r, muzzle_flash_g, muzzle_flash_b, muzzle_flash_w, muzzle_flash_duration):
+		print("playerid {0}; damage {1}; laser {2}; laser_duration {3}; vibrate_power {4}; vibrate_duration {5}; muzzle_flash_r {6}; muzzle_flash_b {7}; muzzle_flash_w {8}, muzzle_flash_duration {9}".format(playerid, damage, laser, laser_duration, vibrate_power, vibrate_duration, muzzle_flash_r, muzzle_flash_g, muzzle_flash_b, muzzle_flash_w, muzzle_flash_duration))
 		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_PLAYERID, playerid)
 		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_DAMAGE, damage)
 		self.write(i2cAddresses.WEAPON, weaponRegisters.SHOOT_LASER, laser)
