@@ -16,43 +16,43 @@ class i2cAddresses(Enum):
 	HITPOINT4 = 0x08
 
 class weaponRegisters(Enum):
-	LED_R = 0
-	LED_G = 1
-	LED_B = 2
-	LED_W = 3
-	LASER = 4 #Laser 2, AN_AUS
-	VIBRATION = 7 #Laser 1, PWM_8_BIT
-	BUTTON0 = 10
-	BUTTON1 = 11
-	BUTTON2 = 12
-	SHOOT_ENABLED = 20
-	SHOOT_PLAYERID = 21
-	SHOOT_DAMAGE = 22
-	SHOOT_LASER = 23
-	SHOOT_LASER_DURATION = 24
-	SHOOT_VIBRATE_POWER = 25
-	SHOOT_VIBRATE_DURATION = 26
-	SHOOT_MUZZLE_FLASH_R = 27
-	SHOOT_MUZZLE_FLASH_G = 28
-	SHOOT_MUZZLE_FLASH_B = 29
-	SHOOT_MUZZLE_FLASH_W = 30
-	SHOOT_MUZZLE_FLASH_DURATION = 31
-	HIT_ENABLE = 40
-	HIT_PLAYERID = 41
-	HIT_DMG = 42
-	V_BAT_L = 50
-	V_BAT_R = 51
-	LDR_L = 52
-	LDR_R = 53
+	LED_R = 0					#OUTPUT, Front-RGBW-LED: [0, 255]
+	LED_G = 1					#OUTPUT, Front-RGBW-LED: [0, 255]
+	LED_B = 2					#OUTPUT, Front-RGBW-LED: [0, 255]
+	LED_W = 3					#OUTPUT, Front-RGBW-LED: [0, 255]
+	LASER = 4					#OUTPUT, Laser (Platinenbeschriftung "Laser 2"): [0, 1]
+	VIBRATION = 7				#OUTPUT, Vibrationsmotor (Platinenbeschriftung "Laser 1"): [0, 255] VORSICHT!
+	BUTTON0 = 10				#INPUT,  Button
+	BUTTON1 = 11				#INPUT,  Button
+	BUTTON2 = 12				#INPUT,  Button
+	SHOOT_ENABLED = 20			#OUTPUT, Für Schuss auf 1 setzen, setzt sich selbst zurück: [0, 1]
+	SHOOT_PLAYERID = 21			#OUTPUT, Wird bei Schuss per IR gesendet: [0, 255]
+	SHOOT_DAMAGE = 22			#OUTPUT, Wird bei Schuss per IR gesendet: [0, 255]
+	SHOOT_LASER = 23			#OUTPUT, Laser an bei Schuss: [0, 1]
+	SHOOT_LASER_DURATION = 24	#OUTPUT, Laser wie lange an bei Schuss: [0, 255] Einheit??
+	SHOOT_VIBRATE_POWER = 25	#OUTPUT, Vibrationsmotor wie stark an bei Schuss, 0 == garnicht: [0, 255] VORSICHT!
+	SHOOT_VIBRATE_DURATION = 26	#OUTPUT, Vibrationsmotor wie lange an bei Schuss: [0, 255] Einheit??
+	SHOOT_MUZZLE_FLASH_R = 27	#OUTPUT, Front-RGBW-LED Helligkeit bei Schuss: [0, 255]
+	SHOOT_MUZZLE_FLASH_G = 28	#OUTPUT, Front-RGBW-LED Helligkeit bei Schuss: [0, 255]
+	SHOOT_MUZZLE_FLASH_B = 29	#OUTPUT, Front-RGBW-LED Helligkeit bei Schuss: [0, 255]
+	SHOOT_MUZZLE_FLASH_W = 30	#OUTPUT, Front-RGBW-LED Helligkeit bei Schuss: [0, 255]
+	SHOOT_MUZZLE_FLASH_DURATION = 31	#OUTPUT, Front-RGBW-LED wie lange an bei Schuss: [0, 255] Einheit??
+	HIT_ENABLE = 40				#INPUT,  1 wenn getroffen, setzt sich bei Auslesen auf 0 zurück: [0, 1]
+	HIT_PLAYERID = 41			#INPUT,  PlayerID des Schützen: [0, 255]
+	HIT_DMG = 42				#INPUT,  Angerichteter Schaden: [0, 255]
+	V_BAT_L = 50				#INPUT,  Akkustand 16-Bit Wert zusammen mit V_BAT_R: [0, 255]
+	V_BAT_R = 51				#INPUT,  Akkustand 16-Bit Wert zusammen mit V_BAT_L: [0, 255]
+	LDR_L = 52					#INPUT,  Helligkeit 16-Bit Wert zusammen mit LDR_R: [0, 255]
+	LDR_R = 53					#INPUT,  Helligkeit 16-Bit Wert zusammen mit LDR_L: [0, 255]
 
 class hitpointRegisters(Enum):
-	VIBRATION = 7
-	HIT_ENABLE = 30
-	HIT_PLAYERID = 31
-	HIT_DMG = 32
-	LED_R = 50
-	LED_G = 51
-	LED_B = 52
+	VIBRATION = 7				#OUTPUT, Vibrationsmotor: [0, 255] Noch nicht in Hardware vorhanden.
+	HIT_ENABLE = 30				#INPUT,  1 wenn getroffen, setzt sich bei Auslesen auf 0 zurück: [0, 1]
+	HIT_PLAYERID = 31			#INPUT,  PlayerID des Schützen: [0, 255]
+	HIT_DMG = 32				#INPUT,  Angerichteter Schaden: [0, 255]
+	LED_R = 50					#OUTPUT, 4 RGB-LEDs: [0, 255]
+	LED_G = 51					#OUTPUT, 4 RGB-LEDs: [0, 255]
+	LED_B = 52					#OUTPUT, 4 RGB-LEDs: [0, 255]
 
 logger = logging.getLogger(__name__)
 
