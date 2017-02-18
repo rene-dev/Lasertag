@@ -1,1 +1,26 @@
-espeak
+Klingt komisch, ist aber so:
+  espeak
+  commandline:
+    espeak -vde "test"  # -vde stellt de als sprache ein, "test" ist der gesprochene text
+    
+google text to speech
+  deps: pip install gtts
+  python:
+    >>> from gtts import gTTS
+    >>> import subprocess
+    >>> def speak(text):
+    >>>   tts = gTTS(text=text, lang='de')  # lang='de' kann mit fast (!) allen anderen Sprachen ersetzt werden
+    >>>   tts.save("/tmp/tempaudio.mp3")  # Kann auch genutzt werden um audiofiles zu machen, die offline genutzt werden können
+    >>>   subprocess.call(["play", "/tmp/tmpaudio.mp3", "speed", "1.1"])  # speed 1.1, weil speed 1.0 sehr "müde" klingt
+    >>>   subprocess.call(["rm", "/tmp/tmpaudio.mp3"])
+    >>> speak("Hallo, dies ist ein Test! 12345 1 2 3 4")
+    >>> speak("Nun noch ein anderer Text!")
+
+  commandline:
+    gtts-cli -lde -o /tmp/tempaudio.mp3 "HIER IST EIN TEXT"; play /tmp/tempaudio.mp3 speed 1.1; rm /tmp/tempaudio.mp3
+
+picospeaker (ist leider leider irgendwie closed source oder so, aber offline tuts)
+  install:
+    apt-get install libttspico-utils
+  commandline:
+    pico2wave --wave="/temp/tmpaudio.wav" --lang="de-DE" "HIER DEIN TEXT"; play /tmp/tmpaudio.wav; rm /tmp/tmpaudio.wav 
