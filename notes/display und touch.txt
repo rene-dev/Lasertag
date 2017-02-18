@@ -1,0 +1,384 @@
+------------------------------------ Diaplay und Touch installieren ------------------------------------
+
+https://github.com/notro/fbtft/wiki
+https://github.com/notro/fbtft/wiki/FBTFT-RPI-overlays
+
+
+nano larstft-overlay.dts
+
+<code>
+/*
+ * Device Tree overlay for rpi-display ILI9341+TOUCH
+ *
+ */
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
+
+	fragment@0 {
+		target = <&spi0>;
+		__overlay__ {
+			status = "okay";
+
+			spidev@0{
+				status = "disabled";
+			};
+
+			spidev@1{
+				status = "disabled";
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <&gpio>;
+		__overlay__ {
+			larstft_pins: larstft_pins {
+				brcm,pins = <17 18 24 25>;
+				brcm,function = <0 1 1 1>; /* in out out out */
+			};
+		};
+	};
+
+	fragment@2 {
+		target = <&spi0>;
+		__overlay__ {
+			/* needed to avoid dtc warning */
+			#address-cells = <1>;
+			#size-cells = <0>;
+			larstft: larstft@0{
+				compatible = "ilitek,ili9341";
+				reg = <0>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&larstft_pins>;
+
+				spi-max-frequency = <80000000>;
+				rotate = <180>;
+				bgr;
+                                /* width = <240>; */
+                                /* height = <320>; */
+				fps = <30>;
+				buswidth = <8>;
+				reset-gpios = <&gpio 25 0>;
+				dc-gpios = <&gpio 24 0>;
+				led-gpios = <&gpio 18 1>;
+				debug = <0>;
+			};
+
+			larstft_ts: larstft-ts@1 {
+				compatible = "ti,ads7846";
+				reg = <1>;
+
+				spi-max-frequency = <2000000>;
+				interrupts = <17 2>; /* high-to-low edge triggered */
+				interrupt-parent = <&gpio>;
+				pendown-gpio = <&gpio 17 0>;
+				ti,x-plate-ohms = /bits/ 16 <60>;
+				ti,pressure-max = /bits/ 16 <255>;
+			};
+		};
+	};
+	__overrides__ {
+		speed =   <&larstft>,"spi-max-frequency:0";
+		rotate =  <&larstft>,"rotate:0";
+		fps =     <&larstft>,"fps:0";
+		debug =   <&larstft>,"debug:0";
+		xohms =   <&larstft_ts>,"ti,x-plate-ohms;0";
+	};
+};
+</code>
+
+wget -c https://raw.githubusercontent.com/RobertCNelson/tools/master/pkgs/dtc.sh
+chmod +x dtc.sh
+sudo ./dtc.sh
+
+sudo dtc -@ -I dts -O dtb -o /boot/overlays/larstft-overlay.dtb larstft-overlay.dts
+ls -lh /boot/overlays/la*
+
+sudo nano /boot/config.txt
+dtparam=spi=on
+dtoverlay=larstft
+
+update kernel SPI with DMA support
+sudo rpi-update
+
+sudo reboot
+
+---------------- testen ----------------
+
+ls /dev/fb*
+FRAMEBUFFER=/dev/fb1 startx
+
+sudo apt-get install libnetpbm10-dev -y
+git clone https://git.kernel.org/pub/scm/linux/kernel/git/geert/fbtest.git
+cd fbtest
+make
+cd ..
+./fbtest/fbtest --fbdev /dev/fb1
+
+sudo con2fbmap 1 1
+sudo con2fbmap 1 0
+cat /dev/urandom > /dev/fb1
+cat /dev/zero > /dev/fb1
+bb
+
+---------------- bildschirm nicht schlafen schicken ----------------
+
+view:
+cat /sys/module/kernel/parameters/consoleblank
+
+change:
+sudo nano /boot/cmdline.txt
+consoleblank=0
+
+------------------- console beim booten ---------------------
+
+sudo nano /boot/cmdline.txt
+fbcon=map:10
+
+NICHT NÖTIG!:
+fbcon=rotate:1
+
+klappt nicht weil font nicht in kernel kompiliert:
+fbcon=font:ProFont6x11
+
+rotate:
+	0: Normale Darstellung
+	1: 90° im Uhrzeigersinn gedreht
+	2: Um 180° gedreht
+	3: 90° gegen den Uhrzeigersinn gedreht
+
+font kleiner machen:
+sudo apt-get install kbd
+sudo dpkg-reconfigure console-setup
+Encoding to use on the console: <UTF-8>
+Character set to support: <Guess optimal character set>
+Font for the console: Terminus (default is VGA)
+Font size: 6x12 (framebuffer only)
+	
+------------------- fb0 --> fb1 ---------------------
+
+https://github.com/notro/fbtft/wiki/FBTFT-on-Raspian
+https://github.com/notro/fbtft-spindle/wiki/FBTFT-image#fbcp---framebuffer-copy
+
+Build and install
+
+sudo apt-get install -y cmake
+git clone https://github.com/tasanakorn/rpi-fbcp
+mkdir -p rpi-fbcp/build
+cd rpi-fbcp/build
+cmake ..
+make
+sudo install fbcp /usr/local/bin/fbcp
+
+sudo nano /boot/config.txt
+framebuffer_width=240
+framebuffer_height=320
+disable_overscan=1
+
+Install service
+
+sudo wget -O /etc/init.d/fbcp https://gist.github.com/notro/eac0fec51cac67bb99c7/raw/4804a36459db10b17d35451d98d4573a045084be/fbcp
+sudo chmod +x /etc/init.d/fbcp
+
+Start
+
+con2fbmap 1 0
+sudo service fbcp start
+cat /dev/urandom > /dev/fb0
+tail /var/log/messages
+con2fbmap 1 1
+con2fbmap 1 0
+
+Testen
+
+wget http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_surround-fix.avi
+omxplayer big_buck_bunny_480p_surround-fix.avi
+cat /dev/urandom > /dev/fb0
+cat /dev/zero > /dev/fb0
+
+
+
+
+hdmi_cvt=<width> <height> <framerate> <aspect> <margins> <interlace> <rb>
+hdmi_cvt=240 320 60 1 0 0 0
+width        width in pixels
+height       height in pixels
+framerate    framerate in Hz
+aspect       aspect ratio 1=4:3, 2=14:9, 3=16:9, 4=5:4, 5=16:10, 6=15:9
+margins      0=margins disabled, 1=margins enabled
+interlace    0=progressive, 1=interlaced
+rb           0=normal, 1=reduced blanking
+
+
+------------------- touch testen ---------------------
+	
+#evtest dient zum Testen und Kalibrieren des Touchpanells
+
+sudo apt-get install evtest -y
+
+ls /dev/input/event*
+sudo con2fbmap 1 0
+sudo evtest /dev/input/event0
+
+sudo TSLIB_FBDEVICE=/dev/fb0 TSLIB_TSDEVICE=/dev/input/event0 ts_test
+
+
+sudo TSLIB_FBDEVICE=/dev/fb0 TSLIB_TSDEVICE=/dev/input/event0 ts_calibrate
+cat /etc/pointercal
+
+------------------------------------ Touch installieren ------------------------------------
+
+------------------- achsen tauschen ---------------------
+
+#xinput dient zum Vertauschen der Achsen
+
+sudo apt-get install xinput -y
+
+Folgende Eingabe ist überflüssig bei Kalibrierung mit Tool xinput-calibrator
+(siehe unten):
+DISPLAY=:0 xinput --set-prop 'ADS7846 Touchscreen' 'Evdev Axis Inversion' 0 1
+
+
+------------------- Kalibrieren für x ---------------------
+
+Kalibrierung
+Oftmals ist bei den resistiven Touchdisplays die Kalibrierung nicht wirklich gut. Daher kalibrieren wir erneut, wozu es von Adafruit ein kleines Programm namens Xinput-Calibrator gibt.
+Fangen wir an, indem wir es laden und ausführen:
+
+http://www.freedesktop.org/wiki/Software/xinput_calibrator/
+wget http://adafruit-download.s3.amazonaws.com/xinput-calibrator_0.7.5-1_armhf.deb
+sudo dpkg -i -B xinput-calibrator_0.7.5-1_armhf.deb
+oder
+sudo apt-get install xinput-calibrator
+
+Nun muss eine ggf. ältere Kalibrierung gelöscht werden, damit wir danach unsere neue überschreiben können:
+
+sudo rm /etc/X11/xorg.conf.d/99-calibration.conf
+
+Anschließend wird X auf dem Bildschirm gestartet und dann der xinput-calibrator. Falls du den Bildschirm (z.B. im Autostart) bereits gestartet hast, ist die erste Zeile nicht nötig:
+
+FRAMEBUFFER=/dev/fb1 startx
+DISPLAY=:0.0 xinput_calibrator --misclick 0
+DISPLAY=:1.0 xinput_calibrator --misclick 0
+
+Es sollte eine neue Anwendung "Touchscreen Calibration" starten.
+ 
+
+Hier drückst du (am besten mit einem Stylus) auf die roten Kreuze (in allen vier Ecken). Anschließend sollte solch ein Code in der Konsole erscheinen:
+
+Section "InputClass"
+        Identifier      "calibration"
+        MatchProduct    "ADS7846 Touchscreen"
+        Option  "Calibration"   "609 3246 302 2961"
+EndSection
+
+Diesen müssen wir nun in die vorhin gelöschte Datei schreiben.
+
+---------------------- Videos abspielen -----------------------
+
+Ein nettes Feature ist Videos auf dem Display laufen zu lassen. Das geht entweder, indem du die Datei mühselig im Verzeichnis suchst oder einfach einen Player per Konsole startest. Letzteres zeige ich einmal kurz:
+Als erstes brauchst du einen Player (z.B. den mplayer).
+
+sudo apt-get install -y mplayer
+
+Falls du ein Video auf dem Pi hast, kannst du jenes nehmen, ansonsten einfach testweise eines herunterladen:
+
+wget http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_surround-fix.avi
+
+Und nun kannst du es auch bereits abspielen (zusätzliche Optionen kannst du hier einsehen).
+
+mplayer -nolirc -vo fbdev2:/dev/fb1 -vf scale=320:-3 big_buck_bunny_480p_surround-fix.avi
+
+
+
+
+
+
+
+
+---------------- x nicht autostart ----------------
+
+systemdienst deaktivieren:
+sudo systemctl set-default multi-user.target
+
+
+
+
+
+
+		
+---------------- bildschirm nicht schlafen schicken ----------------
+boot console:
+sudo nano /boot/cmdline.txt
+fbcon=map:10
+
+sudo dpkg-reconfigure console-setup
+
+Encoding to use on the console: <UTF-8>
+Character set to support: <Guess optimal character set>
+Font for the console: Terminus (default is VGA)
+Font size: 6x12 (framebuffer only)
+		
+		
+		
+---------------- bildschirm nicht schlafen schicken ----------------
+
+view:
+cat /sys/module/kernel/parameters/consoleblank
+
+change:
+sudo nano /etc/kbd/config
+BLANK_TIME=0
+
+
+
+------ python framebuffer beim start laden ------
+
+sudo nano /etc/profile.d/umgebungsvariablen_setzen.sh
+SDL_VIDEODRIVER=fbcon
+SDL_FBDEV=/dev/fb1
+SDL_NOMOUSE=0
+
+------ notizen ------
+
+console blanking:
+https://github.com/notro/fbtft/wiki/Boot-console
+
+https://github.com/notro/fbtft/blob/master/fbtft_device.c
+
+display: ili9341
+touch: xpt2046
+
+gcc a.c `pkg-config --libs --cflags directfb`
+
+------ speed ------
+speed=100000000
+weiss
+speed=90000000
+weiss
+speed=80000000
+Benchmarking... 10x10 squares: 22.47 Mpixels/s
+Benchmarking... 20x20 squares: 47.16 Mpixels/s
+Benchmarking... 50x50 squares: 97.79 Mpixels/s
+Benchmarking... 100x100 squares: 132.10 Mpixels/s
+Benchmarking... 200x200 squares: 144.01 Mpixels/s
+
+------ wenn das display nicht mehr will ------
+
+sudo apt-get update
+sudo REPO_URI=https://github.com/notro/rpi-firmware rpi-update
+sudo REPO_URI=https://github.com/notro/rpi-firmware BRANCH=builtin rpi-update
+
+------ wenn x nicht will ------
+
+sudo nano /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+        Option          "fbdev" "/dev/fb1"
+
+
+
+
+

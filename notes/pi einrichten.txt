@@ -1,3 +1,9 @@
+install raspbian lite
+
+auf fat partition eine datei namens "ssh" anlegen
+
+pi:raspberry
+
 sudo passwd pi
  a
 
@@ -6,6 +12,13 @@ sudo raspi-config
  i2c
  spi
  hostname
+
+sudo mkdir /root/.ssh
+sudo chmod 700 /root/.ssh
+sudo touch /root/.ssh/authorized_keys
+sudo chmod 600 /root/.ssh/authorized_keys
+sudo nano /root/.ssh/authorized_keys
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIENZooWzCc3TQRpi1h3EWqDwoXQnyRi9glgGM3d5s3HE larsm3
 
 mkdir .ssh
 chmod 700 .ssh
@@ -16,30 +29,64 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIENZooWzCc3TQRpi1h3EWqDwoXQnyRi9glgGM3d5s3HE
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPWVdc/woZlMIcuMmXE84Vx2Ex3xH9yimHQcO59exQjW void-2016
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDW2IzP3Znjmd6D0KHbL9WZGdJgTrJ/a+ooGMW7JlDspkt9kZSCZvq2qOhhNZYCwc5u7P8orf9iiO/A6P3bB+PIEtOQPpJm9GfVXWpmNNCoTq5wNIcv3+ObCIZGl5BYztHIw2XRsOwcKOsee6UWaNSujARK321h+9S9aUOSeWUYGDu6uYMe1YLFXL+ajz4XxMPalWnQQ1OjZLzNpaPDadXHnoh8ycGkyM5S4OH7ZJ58ivMATJfYiUGJOONT5dTVTTi6tEmfmu/L6QlD1CSUIS1vhewT/eKUaX1gxSTU5aCsUqpGXkE42ake5AuDCkVUde8z8D13OKuiTyIStcZTHthv ands@andspad
 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAzODOWF/PARNLIvIDMCTfngx0vfkLcoxRu2pYyI9wLCmOItp4+EWX8hcYKpKN951Urgtzw45XJbzLWYCKerJXbsQetSFKSnnchUVhi98MUL8LcCPaliEmCLNgUFxC+LnGVhZZ8ZX5WYDtoijAvIXVJkA7jNHzwzbk6kUGCpU6sxg+FVsFH6j6JVQY+lpxzgLfU1LYWsO/DMQuoIfzrsfl+bRub1XCu5BMHAeOMBMD5/L+3N/wif6g7QezpjmbKuClUnFytqzuYFh3zUEWHLYtmVlt/BYiQxwWOsU7XRQ3NTj0TcTqOFSLXAol5DvvtkhMrNfKvJuli4XvhYcY1WSUjw== renehopf@mac.com
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCp3IHQFEDoh5Rcd9ptmA6KMDRuwtwARM8n+1NJRUpZAyy8BGeCw7+yGlzAUZ9w9pl2M/TI7PwQRoR618nXcDNe4k254QELyspa9AnVsUe6Bf8JkstTElbSN5n7Ywh7jJpt6d4xCG7PAoXrkt4Fnqu3QhKVBBn3jcHS/cb7N63dAFX3mSYGGyXpzMSSrGOU4YKk9KVwKSK6uqQTlwRTW7c4UGeHbrFg3CekFODHYKJEAiJlk9vZDi3MsEOQyCbCLlAgJjablEyvY0XqbOL2rn5Lsd1PoLuyjWJRF6EzHa0rQek1CPCt8dHfox3d/3wiOikco7wAIgMtZpK42x+PQnPiiPtREV8X2YrRH8TokEb5as38TWweBVuRvtQACqhhKehZM09B7FUlT6Mwdk31TkTTfCjJUhJczsqzuVzG1x/vWx0rJEtk26Q5eFWQGpgVxdXEBnZE8Rs984VHaIyIx7N7ZagvEZlNHCHGSIt/DUCKdXHO1ZrP7qtB5nS70ixV2224khKrpq65vjlO4EuhbijpG3LaE5t7BcBH1fWSCwiBL/NGE+L+UjZ4ZIpilDBA5lbseHrMn3rw4ifHyztpA1sN0G79YnHwjmgLYwPDUHXK1shdBseKmkfawZIhTHgfzncVg90Ad9LaVphbieozJAnDfkp/JO/taczmfnafw49szQ== olelange1234@gmail.comsudo nano /etc/ssh/sshd_config
-sudo nano /etc/ssh/sshd_config
- PasswordAuthentication without-password
- PermitRootLogin no
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3YbT9OotQDcqjibk7bZ3NmkYL0A6D1O7pxM8ZAtmOstNp1wD6LeQ+zMGEpZSKsnOyxFvGM90ItkUoUXIZnZ5wikTDi8gIY0mizbjpAXizMrhq+0z5/aAX9XpOzGIYBY73oLUTtXjtgliBIy/gE2j+nGHSbjnfjO/y5UFqOTLEqwbmSHo4ePARKwPgjKHIQdz8PN0dj6NPuQ4ZcGkEMA/GJanwQJIO5+CDbjKewV+7+BghXpVqhMuNCRMPszzgVjz3IN4wcmz/EfTq88TUngNzRXOcRiSkg85vexHQj2/PNOrzaWur8rvhEb9VqCZeTyKl0DLmSYBtXmThEhPOKj2J2uEZAYT2JuXT+Kn2nmv7MzrXgpNnh6lf0/XJWYCL8C0Tg4PTveBD4hcZ8fE7dWVq6gssWTzz4ldmqkLPoYsZ3HwAIeImrkrgX49u+Hl7hskFdNvUf4YQ4rnIb5rQdnoFk7Q3DUXzq+6i3Slux5mHYBQp1xU2/OJwFXMBNC6ICubEfmgr6T346bEA6QQtqhCvUrc8IehQfNKde2l08Jf9sVFz97pSlPJhQnMcnpjJTzn5iAnoF8XPRMAfCFbweCZ9FhDFkuf3Sszbh7icA3C67TfGLbv+f+HYG7Tob6gUKZpblytDI6Cs4YuH4X+mEJEG4bI5+J7K160Sj31Xofbm4w== ole@Bernd
+
+sudo sed -i -r 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 sudo service ssh restart
 
-
 sudo apt-get update
-sudo apt-get dist-upgrade
+sudo apt-get dist-upgrade -y
+sudo apt-get install python-pip python-dev i2c-tools gcc-avr binutils-avr avr-libc avrdude git rpi-update -y
 sudo rpi-update
-sudo apt-get install python-smbus python-enum i2c-tools gcc-avr binutils-avr avr-libc avrdude
-sudo REPO_URI=https://github.com/notro/rpi-firmware BRANCH=builtin rpi-update
+sudo pip install -U pip
+sudo pip install --upgrade setuptools
+
 
 sudo nano /etc/modules
  i2c-dev
 
-sudo nano /boot/cmdline.txt
- dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait fbtft_device.custom fbtft_device.name=fb_ili9341 fbtft_device.width=240 fbtft_device.height=320 fbtft_device.rotate=180 fbtft_device.speed=80000000 fbtft_device.buswidth=8 fbtft_device.bgr=1 fbtft_device.gpios=reset:25,led:18,dc:24 fbtft_device.cs=0 fbtft_device.debug=0 fbtft_device.verbose=0 fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo
+sudo sed -i -r 's/BLANK_TIME=30/BLANK_TIME=0/' /etc/kbd/config
 
-sudo nano /usr/share/X11/xorg.conf.d/99-fbturbo.conf
-        Option          "fbdev" "/dev/fb1"
+----- network -----
 
-sudo nano /etc/kbd/config
- BLANK_TIME=0
+https://wiki.archlinux.org/index.php/dhcpcd
+
+sudo nano /etc/dhcpcd.conf
+# define static profile
+profile static_eth0
+static ip_address=100.0.0.11/24
+
+# fallback to static profile on eth0
+interface eth0
+fallback static_eth0
+
+https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
+
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+network={
+    ssid="eth0"
+    psk="bla"
+}
+
+oder für open wlan:
+
+network={
+    ssid="eth0-open"
+    key_mgmt=NONE
+}
+
+----- display installieren -----
+
+
+display und touch.txt
+ Diaplay und Touch installieren
+ bildschirm nicht schlafen schicken
+ console beim booten
+
+----- display testen -----
+
+bootkonsole wird direkt angezeigt
 
 sudo apt-get install libnetpbm10-dev
 git clone https://git.kernel.org/pub/scm/linux/kernel/git/geert/fbtest.git
@@ -47,30 +94,32 @@ cd fbtest
 sudo make
 cd ..
 
-sudo nano /etc/network/interfaces
-<code>
-auto lo
-iface lo inet loopback
-iface eth0 inet dhcp
+ls /dev/fb*
 
-auto wlan0
-allow-hotplug wlan0
-iface wlan0 inet dhcp
-wpa-ap-scan 1
-wpa-scan-ssid 1
-wpa-ssid "warpzone"
-wpa-psk "Er20TUp+13soS"
-</code>
+./fbtest/fbtest --fbdev /dev/fb0
+con2fbmap 1 1
+con2fbmap 1 0
+cat /dev/urandom > /dev/fb0
+cat /dev/zero > /dev/fb1
 
-sudo raspi-config
- expand fs
- i2c aktivieren
- hostname eintragen
- reboot
+-----  -----
+
+sudo pip install twisted smbus enum
+
+git clone https://github.com/rene-dev/Lasertag
 
 sudo chmod +x ./start_client.sh
+sudo chmod +x ./start_server.sh
 
-sudo apt-get install python-twisted
+
+
+
+
+
+
+
+
+
 
 
 starten:
@@ -79,7 +128,6 @@ sudo ./start_client.sh
 autostart:
 sudo nano /etc/rc.local
  sudo ./start_client.sh
-
 
 
 

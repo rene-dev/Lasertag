@@ -2,6 +2,25 @@ https://github.com/notro/fbtft/wiki
 
 
 
+---------------- muss NICHT jedes mal per modprobe gestartet werden, bootkonsole wird direkt angezeigt ----------------
+
+--- install ---
+ 
+neuster offieller raspikernel kann dma, kein custom kernel mehr n;tiug. (bootkonsole wird direkt angezeigt):
+sudo apt-get update
+sudo apt-get install rpi-update
+sudo rpi-update
+
+muss alles inkl dem was schon drin ist in einer zeile stehen:
+sudo nano /boot/cmdline.txt
+dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait fbtft_device.custom fbtft_device.name=fb_ili9341 fbtft_device.width=240 fbtft_device.height=320 fbtft_device.rotate=180 fbtft_device.speed=80000000 fbtft_device.buswidth=8 fbtft_device.bgr=1 fbtft_device.gpios=reset:25,led:18,dc:24 fbtft_device.cs=0 fbtft_device.debug=0 fbtft_device.verbose=0 fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo
+
+Enable X windows on PiScreen:
+sudo nano /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+        Option          "fbdev" "/dev/fb1"
+
+cat /proc/cmdline | wc -c
+
 
 ---------------- muss jedes mal per modprobe gestartet werden ----------------
 
@@ -22,23 +41,6 @@ sudo modprobe fbtft_device custom name=fb_ili9341 width=240 height=320 rotate=18
 dmesg
 lsmod
 ls /dev/fb*
-
----------------- bootkonsole wird direkt angezeigt ----------------
-
---- install ---
- 
-FBTFT drivers built into the kernel proper (bootkonsole wird direkt angezeigt):
-sudo apt-get update
-sudo REPO_URI=https://github.com/notro/rpi-firmware BRANCH=builtin rpi-update
-
-muss alles inkl dem was schon drin ist in einer zeile stehen:
-sudo nano /boot/cmdline.txt
-dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootwait fbtft_device.custom fbtft_device.name=fb_ili9341 fbtft_device.width=240 fbtft_device.height=320 fbtft_device.rotate=180 fbtft_device.speed=80000000 fbtft_device.buswidth=8 fbtft_device.bgr=1 fbtft_device.gpios=reset:25,led:18,dc:24 fbtft_device.cs=0 fbtft_device.debug=0 fbtft_device.verbose=0 fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo
-
-sudo nano /usr/share/X11/xorg.conf.d/99-fbturbo.conf
-        Option          "fbdev" "/dev/fb1"
-
-cat /proc/cmdline | wc -c
 
 ---------------- bildschirm nicht schlafen schicken ----------------
 
