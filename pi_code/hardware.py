@@ -25,7 +25,7 @@ class weaponRegisters(Enum):
 	BUTTON0 = 10				#INPUT,  Button
 	BUTTON1 = 11				#INPUT,  Button
 	BUTTON2 = 12				#INPUT,  Button
-	SHOOT_ENABLED = 20			#OUTPUT, Für Schuss auf 1 setzen, setzt sich selbst zurück: [0, 1]
+	SHOOT_ENABLED = 20			#OUTPUT, Fur Schuss auf 1 setzen, setzt sich selbst zuruck: [0, 1]
 	SHOOT_PLAYERID = 21			#OUTPUT, Wird bei Schuss per IR gesendet: [0, 255]
 	SHOOT_DAMAGE = 22			#OUTPUT, Wird bei Schuss per IR gesendet: [0, 255]
 	SHOOT_LASER = 23			#OUTPUT, Laser an bei Schuss: [0, 1]
@@ -37,8 +37,8 @@ class weaponRegisters(Enum):
 	SHOOT_MUZZLE_FLASH_B = 29	#OUTPUT, Front-RGBW-LED Helligkeit bei Schuss: [0, 255]
 	SHOOT_MUZZLE_FLASH_W = 30	#OUTPUT, Front-RGBW-LED Helligkeit bei Schuss: [0, 255]
 	SHOOT_MUZZLE_FLASH_DURATION = 31	#OUTPUT, Front-RGBW-LED wie lange an bei Schuss: [0, 255] Einheit??
-	HIT_ENABLE = 40				#INPUT,  1 wenn getroffen, setzt sich bei Auslesen auf 0 zurück: [0, 1]
-	HIT_PLAYERID = 41			#INPUT,  PlayerID des Schützen: [0, 255]
+	HIT_ENABLE = 40				#INPUT,  1 wenn getroffen, setzt sich bei Auslesen auf 0 zuruck: [0, 1]
+	HIT_PLAYERID = 41			#INPUT,  PlayerID des Schutzen: [0, 255]
 	HIT_DMG = 42				#INPUT,  Angerichteter Schaden: [0, 255]
 	V_BAT_L = 50				#INPUT,  Akkustand 16-Bit Wert zusammen mit V_BAT_R: [0, 255]
 	V_BAT_R = 51				#INPUT,  Akkustand 16-Bit Wert zusammen mit V_BAT_L: [0, 255]
@@ -47,8 +47,8 @@ class weaponRegisters(Enum):
 
 class hitpointRegisters(Enum):
 	VIBRATION = 7				#OUTPUT, Vibrationsmotor: [0, 255] Noch nicht in Hardware vorhanden.
-	HIT_ENABLE = 30				#INPUT,  1 wenn getroffen, setzt sich bei Auslesen auf 0 zurück: [0, 1]
-	HIT_PLAYERID = 31			#INPUT,  PlayerID des Schützen: [0, 255]
+	HIT_ENABLE = 30				#INPUT,  1 wenn getroffen, setzt sich bei Auslesen auf 0 zuruck: [0, 1]
+	HIT_PLAYERID = 31			#INPUT,  PlayerID des Schutzen: [0, 255]
 	HIT_DMG = 32				#INPUT,  Angerichteter Schaden: [0, 255]
 	LED_R = 50					#OUTPUT, 4 RGB-LEDs: [0, 255]
 	LED_G = 51					#OUTPUT, 4 RGB-LEDs: [0, 255]
