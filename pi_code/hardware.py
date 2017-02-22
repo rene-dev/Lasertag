@@ -56,7 +56,7 @@ class hitpointRegisters(Enum):
 
 logger = logging.getLogger(__name__)
 
-class Hardware:
+class Hardware(object):
 	def __init__(self):
 		self.connect()
 		self.setWeaponLasers(laser=0)
