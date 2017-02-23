@@ -1,8 +1,14 @@
 # -*- coding:utf-8 -*-
+#
+# Autoren:
+#   OleL
+#
+
 import socket
 import time
 import hashlib, random  # To generate hash
-
+import threading
+import json
 
 class Player(object):
     def __init__(self, player_id, color, name, key, health=100):
@@ -18,6 +24,40 @@ class Player(object):
         self.damage_history.append({'time': time.time(), 'hit_by': player_id, 'damage': damage, 'health': self.health})
 
 
+class ClientThread(threading.Thread):
+
+    def __init__(self, conn, addr, server):
+
+        super(ClientThread, self).__init__()
+        self.daemon = True
+
+        self.conn = conn
+        self.addr = addr
+        self.server = server
+
+    def run(self):
+        while 1:
+            input = self.conn.recv(1024)
+            dic = json.loads(input)
+
+            method = dic['method']
+            args = dic['args']
+
+            if method == 'player_join':
+                ret = self.server.player_join(args)
+            elif method == 'player_quit':
+                ret = self.server.player_quit(args)
+            elif method == 'player_hit':
+                ret = self.server.player_hit(args)
+            elif method == 'get_gameinfo':
+                ret = self.server.get_gameinfo(args)
+            else:
+                ret = {'status': 1, 'message': 'METHOD NOT FOUND'}
+
+            j = json.dumps(ret)
+
+            self.conn.send(j)
+
 class NetworkServer(object):
     def __init__(self):
         self.players = []
@@ -25,7 +65,22 @@ class NetworkServer(object):
 
         self.start_time = 0
 
+        self.port = 6535  # Port used for all network communication
+
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.bind(('0.0.0.0', self.port))
+
+        self.connections = []
+
     def run(self):
+
+        self.sock.listen(5)
+
+        while 1:
+            connection, address = self.sock.accept()
+            client = ClientThread(connection, address, self)
+            client.start()
+            self.connections.append(client)
 
     def player_join(self, args):
         color = args[0]
@@ -44,7 +99,8 @@ class NetworkServer(object):
 
         dic = {'player_id': player_id,
                'health': player.health,
-               'key': key}
+               'key': key,
+               'status': 0}
 
         if self.start_time == 0:  # Spiel hat noch nicht gestartet, oder es ist der 01.01.1970
             self.start_time = time.time()
@@ -61,9 +117,10 @@ class NetworkServer(object):
             self.players[player_id].hit(opposit_id, damage)
 
         dic = {'health': self.players[player_id].health,
-               'name': self.players[opposit_id].name}
+               'name': self.players[opposit_id].name,
+               'status': 0}
 
-        return dic if key == self.players[player_id].key else "ACCESS DENIED"
+        return dic if key == self.players[player_id].key else {'status': 1, 'message': 'ACCESS DENIED'}
 
     def player_quit(self, args):
         player_id = args[0]
@@ -72,7 +129,7 @@ class NetworkServer(object):
         if key == self.players[player_id].key:
             self.players.pop(self.players[player_id])
 
-        return {'status': True} if key == self.players[player_id].key else "ACCESS DENIED"
+        return {'status': True} if key == self.players[player_id].key else{'status': 1, 'message': 'ACCESS DENIED'}
 
     def get_gameinfo(self, args):
         player_id = args[0]
@@ -86,7 +143,10 @@ class NetworkServer(object):
 
         dic = {'active_players': active_players,
                'player_health': player.health,
-               'game_time': time.time() - self.start_time
-               }
+               'game_time': time.time() - self.start_time,
+               'status': 0}
 
-        return dic if key == self.players[player_id].key else "ACCESS DENIED"
+        return dic if key == self.players[player_id].key else {'status': 1, 'message': 'ACCESS DENIED'}
+
+if __name__ == "__main__":
+    NetworkServer().run()
