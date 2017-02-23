@@ -23,6 +23,8 @@ class Player(object):
     def hit(self, player_id, damage):
         self.damage_history.append({'time': time.time(), 'hit_by': player_id, 'damage': damage, 'health': self.health})
 
+        self.health -= damage
+
 
 class ClientThread(threading.Thread):
 
@@ -34,29 +36,37 @@ class ClientThread(threading.Thread):
         self.conn = conn
         self.addr = addr
         self.server = server
+        self.running = True
 
     def run(self):
-        while 1:
+        while self.running:
             input = self.conn.recv(1024)
-            dic = json.loads(input)
+            if input == "close":
+                self.conn.close()
+                self.running = False
+                print "Closing connection from", self.addr
+            try:
+                dic = json.loads(input)
 
-            method = dic['method']
-            args = dic['args']
+                method = dic['method']
+                args = dic['args']
 
-            if method == 'player_join':
-                ret = self.server.player_join(args)
-            elif method == 'player_quit':
-                ret = self.server.player_quit(args)
-            elif method == 'player_hit':
-                ret = self.server.player_hit(args)
-            elif method == 'get_gameinfo':
-                ret = self.server.get_gameinfo(args)
-            else:
-                ret = {'status': 1, 'message': 'METHOD NOT FOUND'}
+                if method == 'player_join':
+                    ret = self.server.player_join(args)
+                elif method == 'player_quit':
+                    ret = self.server.player_quit(args)
+                elif method == 'player_hit':
+                    ret = self.server.player_hit(args)
+                elif method == 'get_gameinfo':
+                    ret = self.server.get_gameinfo(args)
+                else:
+                    ret = {'status': 1, 'message': 'METHOD NOT FOUND'}
 
-            j = json.dumps(ret)
+                j = json.dumps(ret)
 
-            self.conn.send(j)
+                self.conn.send(j)
+            except Exception as e:
+                pass
 
 class NetworkServer(object):
     def __init__(self):
@@ -78,9 +88,13 @@ class NetworkServer(object):
 
         while 1:
             connection, address = self.sock.accept()
+            print "New connection from", address
             client = ClientThread(connection, address, self)
             client.start()
             self.connections.append(client)
+
+    def shutdown(self):
+        self.sock.close()
 
     def player_join(self, args):
         color = args[0]
@@ -91,7 +105,7 @@ class NetworkServer(object):
         while num in self.used_hashes:
             num = random.randint(0, 2 ** 16)
         _hash = hashlib.sha512()  # Ein bisschen overpowered, aber sicher ist sicher ;D
-        _hash.update(num)
+        _hash.update(str(num))
         key = _hash.hexdigest()
 
         player = Player(player_id, color, name, key)
@@ -126,10 +140,13 @@ class NetworkServer(object):
         player_id = args[0]
         key = args[1]
 
-        if key == self.players[player_id].key:
-            self.players.pop(self.players[player_id])
+        dic = {'status': True} if key == self.players[player_id].key else{'status': 1, 'message': 'ACCESS DENIED'}
 
-        return {'status': True} if key == self.players[player_id].key else{'status': 1, 'message': 'ACCESS DENIED'}
+        if key == self.players[player_id].key:
+            self.players[player_id].running = False
+            self.players.pop(player_id)
+
+        return dic
 
     def get_gameinfo(self, args):
         player_id = args[0]
@@ -149,4 +166,9 @@ class NetworkServer(object):
         return dic if key == self.players[player_id].key else {'status': 1, 'message': 'ACCESS DENIED'}
 
 if __name__ == "__main__":
-    NetworkServer().run()
+    server = NetworkServer()
+    try:
+        server.run()
+    except KeyboardInterrupt:
+        print "Received KeyboardInterrupt, shutting down!"
+        server.shutdown()
