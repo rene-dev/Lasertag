@@ -1,0 +1,32 @@
+Neues Netzwerk Protokoll:
+
+Server ist nicht mehr in eigentliches Spiel eingebettet, KANN also auch extern laufen.
+Server ist über TCP Port 6535 erreichbar
+
+Kommunikation über JSON:
+
+    Kommando       Parameter                             Return
+    -------------- ------------------------------------- -------------------------------------------
+    player_join    farbe, name                           status, id, key, health
+    player_quit    id, key                               status
+    player_hit     player_id, key, opposite_id, damage   status, name, health
+    get_gameinfo   player_id, key                        status, health, game_time, active_players
+    close          /                                     /
+
+
+    Senden eines Kommandos:
+    {
+     'method': 'methoden_name',
+     'args': {'key': 'value', '...': '....'}
+    }
+
+    Antwort auch als JSON
+
+Key ist der SHA512 hash einer zufälligen Zahl, er muss zur Authentifizierung immer angegeben werden.
+Dieser Key verhindert es zwar nicht, dass jemand der eine MITM attacke fährt ins Spiel eingreifen kann,
+aber er verhindert, dass eine Falsche player_id angegeben wird und weitere einfache Attacken
+
+Die player_id wird iterativ vergeben
+Die Farbe ist für Designfoo/Gameplay vermutlich ganz nützlich
+active_players (bei get_gameinfo) ist eine Liste von wie folgt aufgebauten Dicts:
+    {'player_id': 0, 'name': 'Null'}
