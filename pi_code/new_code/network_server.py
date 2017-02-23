@@ -20,8 +20,8 @@ class Player(object):
         self.health = health
         self.damage_history = []
 
-    def hit(self, player_id, damage):
-        self.damage_history.append({'time': time.time(), 'hit_by': player_id, 'damage': damage, 'health': self.health})
+    def hit(self, opposite_id, damage):
+        self.damage_history.append({'time': time.time(), 'hit_by': opposite_id, 'damage': damage, 'health': self.health})
 
         self.health -= damage
 
@@ -41,15 +41,13 @@ class ClientThread(threading.Thread):
     def run(self):
         while self.running:
             input = self.conn.recv(1024)
-            if input == "close":
-                self.conn.close()
-                self.running = False
-                print "Closing connection from", self.addr
             try:
                 dic = json.loads(input)
 
                 method = dic['method']
                 args = dic['args']
+
+                ret = {'status': 1, 'message': 'METHOD NOT FOUND'}
 
                 if method == 'player_join':
                     ret = self.server.player_join(args)
@@ -59,13 +57,15 @@ class ClientThread(threading.Thread):
                     ret = self.server.player_hit(args)
                 elif method == 'get_gameinfo':
                     ret = self.server.get_gameinfo(args)
-                else:
-                    ret = {'status': 1, 'message': 'METHOD NOT FOUND'}
+                elif method == "close":
+                    self.conn.close()
+                    self.running = False
+                    print "Closing connection from", self.addr
 
                 j = json.dumps(ret)
 
                 self.conn.send(j)
-            except Exception as e:
+            except:
                 pass
 
 class NetworkServer(object):
@@ -97,8 +97,8 @@ class NetworkServer(object):
         self.sock.close()
 
     def player_join(self, args):
-        color = args[0]
-        name = args[1]
+        color = args['color']
+        name = args['name']
 
         player_id = len(self.players)
         num = random.randint(0, 2 ** 16)  # Max 65536 spieler sollte reichen
@@ -122,25 +122,25 @@ class NetworkServer(object):
         return dic
 
     def player_hit(self, args):
-        player_id = args[0]  # ID des beschossenen spielers
-        opposit_id = args[1]  # ID des schießenden spielers
-        key = args[2]  # Key für Authentifizierung
-        damage = args[3]  # Zugefügter schaden
+        player_id = args['player_id']  # ID des beschossenen spielers
+        opposite_id = args['opposite_id']  # ID des schießenden spielers
+        key = args['key']  # Key für Authentifizierung
+        damage = args['damage']  # Zugefügter schaden
 
         if key == self.players[player_id].key:
-            self.players[player_id].hit(opposit_id, damage)
+            self.players[player_id].hit(opposite_id, damage)
 
         dic = {'health': self.players[player_id].health,
-               'name': self.players[opposit_id].name,
+               'name': self.players[opposite_id].name,
                'status': 0}
 
         return dic if key == self.players[player_id].key else {'status': 1, 'message': 'ACCESS DENIED'}
 
     def player_quit(self, args):
-        player_id = args[0]
-        key = args[1]
+        player_id = args['player_id']
+        key = args['key']
 
-        dic = {'status': True} if key == self.players[player_id].key else{'status': 1, 'message': 'ACCESS DENIED'}
+        dic = {'status': 0} if key == self.players[player_id].key else {'status': 1, 'message': 'ACCESS DENIED'}
 
         if key == self.players[player_id].key:
             self.players[player_id].running = False
@@ -149,8 +149,8 @@ class NetworkServer(object):
         return dic
 
     def get_gameinfo(self, args):
-        player_id = args[0]
-        key = args[1]
+        player_id = args['player_id']
+        key = args['key']
 
         active_players = []
         for player in self.players:

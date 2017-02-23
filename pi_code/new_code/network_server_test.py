@@ -7,7 +7,7 @@ sock.connect(('localhost', 6535))
 
 print "Testen von 'player_join' (farbe: 255, 0, 0 name: 'olel')"
 
-request = {'method': 'player_join', 'args': [[255, 0, 0], 'olel']}
+request = {'method': 'player_join', 'args': {'color': [255, 0, 0], 'name': 'olel'}}
 request_json = json.dumps(request)
 sock.send(request_json)
 recv_json = json.loads(sock.recv(1024))
@@ -22,8 +22,9 @@ print "Antwort:\n\tStatus %d\n\tId %d\n\tHealth %d\n\tKey %s" % (status, player_
 for i in range(0, 2):
     print "Testen von 'player_hit' (getroffen von sich selbst, %s schaden)" % ((i + 1) * 25)
 
-    request = {'method': 'player_hit', 'args': [player_id, player_id, key, (i + 1) * 25]}
+    request = {'method': 'player_hit', 'args': {'player_id': player_id, 'opposite_id': player_id, 'key': key, 'damage': (i + 1) * 25}}
     request_json = json.dumps(request)
+    print request_json
     sock.send(request_json)
     recv_json = json.loads(sock.recv(1024))
 
@@ -36,7 +37,7 @@ for i in range(0, 2):
 
 print "Testen von 'get_gameinfo'"
 
-request = {'method': 'get_gameinfo', 'args': [player_id, key]}
+request = {'method': 'get_gameinfo', 'args': {'player_id': player_id, 'key': key}}
 request_json = json.dumps(request)
 sock.send(request_json)
 recv = sock.recv(65535)
@@ -51,7 +52,7 @@ print "Antwort:\n\tStatus %d\n\tHealth %d\n\tGame Time %f\n\tActive Players: %s"
 
 print "Testen von 'player_quit'"
 
-request = {'method': 'player_quit', 'args': [player_id, key]}
+request = {'method': 'player_quit', 'args': {'player_id': 'player_id', 'key': key}}
 request_json = json.dumps(request)
 sock.send(request_json)
 recv_json = json.loads(sock.recv(1024))
