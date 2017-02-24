@@ -19,6 +19,7 @@ class Player(object):
 
         self.health = health
         self.damage_history = []
+        self.active = True
 
     def hit(self, opposite_id, damage):
         self.damage_history.append({'time': time.time(), 'hit_by': opposite_id, 'damage': damage, 'health': self.health})
@@ -37,6 +38,10 @@ class ClientThread(threading.Thread):
         self.addr = addr
         self.server = server
         self.running = True
+
+    def shutdown(self):
+        self.conn.close()
+        print "Closing connection from", self.addr
 
     def run(self):
         while self.running:
@@ -58,15 +63,15 @@ class ClientThread(threading.Thread):
                 elif method == 'get_gameinfo':
                     ret = self.server.get_gameinfo(args)
                 elif method == "close":
-                    self.conn.close()
                     self.running = False
-                    print "Closing connection from", self.addr
 
                 j = json.dumps(ret)
 
                 self.conn.send(j)
             except:
                 pass
+        self.shutdown()
+        print "DONE", self.addr
 
 class NetworkServer(object):
     def __init__(self):
@@ -78,6 +83,7 @@ class NetworkServer(object):
         self.port = 6535  # Port used for all network communication
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.setblocking(True)
         self.sock.bind(('0.0.0.0', self.port))
 
         self.connections = []
@@ -94,6 +100,9 @@ class NetworkServer(object):
             self.connections.append(client)
 
     def shutdown(self):
+        for connection in self.connections:
+            connection.shutdown()
+        self.sock.shutdown(socket.SHUT_RDWR)
         self.sock.close()
 
     def player_join(self, args):
@@ -143,8 +152,7 @@ class NetworkServer(object):
         dic = {'status': 0} if key == self.players[player_id].key else {'status': 1, 'message': 'ACCESS DENIED'}
 
         if key == self.players[player_id].key:
-            self.players[player_id].running = False
-            self.players.pop(player_id)
+            self.players[player_id].active = False
 
         return dic
 
@@ -154,11 +162,13 @@ class NetworkServer(object):
 
         active_players = []
         for player in self.players:
-            active_players.append({'player_id': player.player_id, 'player_name': player.name})
+            if player.active:
+                active_players.append({'player_id': player.player_id, 'player_name': player.name})
 
         player = self.players[player_id]
 
         dic = {'active_players': active_players,
+               'damage_history': player.damage_history,
                'player_health': player.health,
                'game_time': time.time() - self.start_time,
                'status': 0}

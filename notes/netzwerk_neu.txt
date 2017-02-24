@@ -6,11 +6,11 @@ Server ist über TCP Port 6535 erreichbar
 Kommunikation über JSON:
 
     Kommando       Parameter                             Return
-    -------------- ------------------------------------- -------------------------------------------
+    -------------- ------------------------------------- ----------------------------------------------------------
     player_join    farbe, name                           status, id, key, health
     player_quit    id, key                               status
     player_hit     player_id, key, opposite_id, damage   status, name, health
-    get_gameinfo   player_id, key                        status, health, game_time, active_players
+    get_gameinfo   player_id, key                        status, health, game_time, active_players, damage_history
     close          /                                     /
 
 
