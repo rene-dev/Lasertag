@@ -30,3 +30,7 @@ Die player_id wird iterativ vergeben
 Die Farbe ist für Designfoo/Gameplay vermutlich ganz nützlich
 active_players (bei get_gameinfo) ist eine Liste von wie folgt aufgebauten Dicts:
     {'player_id': 0, 'name': 'Null'}
+
+Der Status gibt an ob ein Befehl funktioniert hat (status=0) oder nicht (status=1),
+wenn der Status 1 ist wird ein weiterer Parameter 'message' returnt der angibt, weshalb
+es nicht funktioniert hat
