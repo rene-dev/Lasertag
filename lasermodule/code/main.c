@@ -372,7 +372,7 @@ int main(void){
 		}
 		if(laser_duration_counter == 1){
 			laser_buffer.laser = 0;
-			haptik_buffer.vibrate = 0;
+			// haptik_buffer.vibrate = 0;
 			laser_duration_counter = 0; //damit man den laser auch ohne shoot anmachen kann
 		}
 		
@@ -404,7 +404,7 @@ int main(void){
 		LED_FRONT_B = 255-led_front_buffer.b;
 		LED_FRONT_W = 255-led_front_buffer.w;
 		laser(laser_buffer.laser);
-		HAPTIK = haptik_buffer.vibrate;
+		HAPTIK = 255-haptik_buffer.vibrate;
 		
 		// ---------------- input ----------------
 		button_buffer.button_1 = taster(&PINB, BUTTON_1);

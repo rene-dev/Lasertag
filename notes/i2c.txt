@@ -36,6 +36,12 @@ sudo i2cget -y 1 0x03 10
 sudo i2cget -y 1 0x03 11
 sudo i2cget -y 1 0x03 12
 
+Haptik
+sudo i2cset -y 1 0x03 7 0
+sudo i2cset -y 1 0x03 7 40
+sudo i2cset -y 1 0x03 7 100
+
+
 Hitpoint RGB LEDs
 sudo i2cset -y 1 0x04 50 255
 sudo i2cset -y 1 0x04 51 255
@@ -43,7 +49,6 @@ sudo i2cset -y 1 0x04 52 255
 sudo i2cset -y 1 0x04 50 0
 sudo i2cset -y 1 0x04 51 0
 sudo i2cset -y 1 0x04 52 0
-
 
 
 clock stretching
