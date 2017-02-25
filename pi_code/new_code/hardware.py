@@ -162,7 +162,7 @@ class Hardware(object):
         enable = self.read(hitpoint_address, HitpointRegisters.HIT_ENABLE) != 0
         return enable, player_id, damage
 
-    def setHitpointLED(self, hitpoint_address, r, g, b):
+    def set_hitpoint_led(self, hitpoint_address, r, g, b):
         self.write(hitpoint_address, HitpointRegisters.LED_R, r)
         self.write(hitpoint_address, HitpointRegisters.LED_G, g)
         self.write(hitpoint_address, HitpointRegisters.LED_B, b)
