@@ -174,6 +174,10 @@ if __name__ == '__main__':
 
     hardware = Hardware()
 
+    hardware.set_hitpoint_led(I2CAddresses.HITPOINT_WEAPON, 127, 127, 127)
+    time.sleep(0.1)
+    hardware.set_hitpoint_led(I2CAddresses.HITPOINT_WEAPON, 0, 0, 0)
+
     enable, playerid, damage = hardware.get_weapon_hit_results()
     print("Waffe Hit Front enable: " + str(enable))
     print("Waffe Hit Front playerid: " + str(playerid))
