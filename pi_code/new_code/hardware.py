@@ -57,13 +57,14 @@ class HitpointRegisters(object):
 
 class Hardware(object):
     def __init__(self):
+        self.bus = None
+
         self.connect()
 
         self.set_weapon_lasers(laser=0)
         self.set_weapon_led(0, 0, 0, 0)
         self.set_hitpoint_led(I2CAddresses.HITPOINT_WEAPON, 0, 0, 0)
 
-        self.bus = None
 
     # ----------------- low level -----------------
     def connect(self):
