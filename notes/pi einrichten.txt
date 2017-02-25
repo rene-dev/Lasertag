@@ -102,7 +102,46 @@ con2fbmap 1 0
 cat /dev/urandom > /dev/fb0
 cat /dev/zero > /dev/fb1
 
+---------------- ip nach hochfahren anzeigen ----------------
+
+sudo nano /usr/local/bin/get-ip-address
+<code>
+#!/bin/sh
+/sbin/ip -o a | grep -v "127.0.0.1" | grep -v "::1" | awk '{ print $2 " " $4 }'
+</code>
+sudo chmod +x /usr/local/bin/get-ip-address
+
+sudo nano /etc/network/if-up.d/show-ip-address
+<code>
+#!/bin/sh
+
+sleep 10s
+
+if [ "$METHOD" = loopback ]; then
+    exit 0
+fi
+
+# Only run from ifup.
+if [ "$MODE" != start ]; then
+    exit 0
+fi
+
+/usr/local/bin/get-ip-address > /etc/issue
+echo "" >> /etc/issue
+killall agetty
+</code>
+sudo chmod +x /etc/network/if-up.d/show-ip-address
+/etc/network/if-up.d/show-ip-address
+cat /etc/issue
+
 -----  -----
+
+echo <<<eof
+/sbin/ip -o a | grep -v "127.0.0.1" | grep -v "::1" | awk '{ print $2 " " $4 }'eof
+
+
+
+
 
 sudo pip install twisted smbus enum
 
