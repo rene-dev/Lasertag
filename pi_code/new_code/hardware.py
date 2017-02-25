@@ -131,7 +131,7 @@ class Hardware(object):
         print "\tmuzzle_flash (r, g, b, w):", muzzle_flash_r, muzzle_flash_g, muzzle_flash_b, muzzle_flash_w
         print "\tmuzzle_flash_duration:", muzzle_flash_duration
 
-        self.write(I2CAddresses.WEAPON, WeaponRegisters.SHOOT_PLAYERID, playerid)
+        self.write(I2CAddresses.WEAPON, WeaponRegisters.SHOOT_PLAYERID, player_id)
         self.write(I2CAddresses.WEAPON, WeaponRegisters.SHOOT_DAMAGE, damage)
         self.write(I2CAddresses.WEAPON, WeaponRegisters.SHOOT_LASER, laser)
         self.write(I2CAddresses.WEAPON, WeaponRegisters.SHOOT_LASER_DURATION, laser_duration)
