@@ -155,6 +155,11 @@ class Hardware(object):
     def set_weapon_lasers(self, laser):
         self.write(I2CAddresses.WEAPON, WeaponRegisters.LASER, laser)
 
+    def vibrate(self, duration, power):
+        self.write(I2CAddresses.WEAPON, WeaponRegisters.VIBRATION, power)
+        time.sleep(duration)
+        self.write(I2CAddresses.WEAPON, WeaponRegisters.VIBRATION, 0)
+
     # ----------------- Trefferzonenmodul -----------------
 
     def get_hitpoint_results(self, hitpoint_address):
@@ -177,6 +182,8 @@ if __name__ == '__main__':
     hardware.set_hitpoint_led(I2CAddresses.HITPOINT_WEAPON, 127, 127, 127)
     time.sleep(0.1)
     hardware.set_hitpoint_led(I2CAddresses.HITPOINT_WEAPON, 0, 0, 0)
+
+    hardware.vibrate(0.1, 100)
 
     enable, playerid, damage = hardware.get_weapon_hit_results()
     print("Waffe Hit Front enable: " + str(enable))

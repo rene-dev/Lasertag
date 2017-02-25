@@ -5,7 +5,7 @@ class Display(object):
         self.width = 240
         self.height = 320
 
-        self.fb = open("/dev/fb0")
+        self.fb = open("/dev/fb1", 'w')
         self.frame = [[(0, 0, 0) for x in range(0, self.width)] for y in range(0, self.height)]
 
     def fill(self, r, g, b):
