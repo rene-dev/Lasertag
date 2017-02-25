@@ -22,8 +22,8 @@ class WeaponRegisters(object):
     LASER = 4  # OUTPUT, Laser (Platinenbeschriftung "Laser 2"): [0, 1]
     VIBRATION = 7  # OUTPUT, Vibrationsmotor (Platinenbeschriftung "Laser 1"): [0, 255] VORSICHT!
     BUTTON0 = 10  # INPUT,  Button
-    BUTTON1 = 11  # INPUT,  Button
-    BUTTON2 = 12  # INPUT,  Button
+    BUTTON1 = 11  # INPUT,  Schwarz
+    BUTTON2 = 12  # INPUT,  Rot
     SHOOT_ENABLED = 20  # OUTPUT, Fur Schuss auf 1 setzen, setzt sich selbst zuruck: [0, 1]
     SHOOT_PLAYERID = 21  # OUTPUT, Wird bei Schuss per IR gesendet: [0, 255]
     SHOOT_DAMAGE = 22  # OUTPUT, Wird bei Schuss per IR gesendet: [0, 255]
@@ -183,17 +183,17 @@ if __name__ == '__main__':
     time.sleep(0.1)
     hardware.set_hitpoint_led(I2CAddresses.HITPOINT_WEAPON, 0, 0, 0)
 
-    hardware.vibrate(0.1, 100)
+    hardware.vibrate(0.1, 255)
 
-    enable, playerid, damage = hardware.get_weapon_hit_results()
-    print("Waffe Hit Front enable: " + str(enable))
-    print("Waffe Hit Front playerid: " + str(playerid))
-    print("Waffe Hit Front damage: " + str(damage))
+    enable, player_id, damage = hardware.get_weapon_hit_results()
+    print "Waffe Hit Front enable:", enable
+    print "Waffe Hit Front player_id:", player_id
+    print "Waffe Hit Front damage:", damage
 
-    enable, playerid, damage = hardware.get_hitpoint_results(I2CAddresses.HITPOINT_WEAPON)
-    print("Waffe Hit Top enable: " + str(enable))
-    print("Waffe Hit Top playerid: " + str(playerid))
-    print("Waffe Hit Top damage: " + str(damage))
+    enable, player_id, damage = hardware.get_hitpoint_results(I2CAddresses.HITPOINT_WEAPON)
+    print "Waffe Hit Top enable:", enable
+    print "Waffe Hit Top player_id:", player_id
+    print "Waffe Hit Top damage:", damage
 
     print("Waffe Shoot: playerid=42, damage=123")
 
@@ -210,7 +210,7 @@ if __name__ == '__main__':
 
     enable, player_id, damage = hardware.get_weapon_hit_results()
     print "Waffe Hit Front enable:", enable
-    print "Waffe Hit Front playerid:", playerid
+    print "Waffe Hit Front playerid:", player_id
     print "Waffe Hit Front damage:", damage
 
     enable, player_id, damage = hardware.get_hitpoint_results(I2CAddresses.HITPOINT_WEAPON)
