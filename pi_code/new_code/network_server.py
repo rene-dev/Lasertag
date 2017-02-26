@@ -10,25 +10,28 @@ import hashlib, random  # To generate hash
 import threading
 import json
 
+
 class Player(object):
-    def __init__(self, player_id, color, name, key, health=100):
+    def __init__(self, player_id, key):
         self.player_id = player_id
-        self.color = color
         self.key = key
-        self.name = name
 
-        self.health = health
-        self.damage_history = []
-        self.active = True
+        self.properties = {}
 
-    def hit(self, opposite_id, damage):
-        self.damage_history.append({'time': time.time(), 'hit_by': opposite_id, 'damage': damage, 'health': self.health})
+    def set_property(self, prop, value):
+        if not prop in self.properties.keys():
+            self.properties.update({prop: value})
+        else:
+            self.properties[prop] = value
 
-        self.health -= damage
+    def get_property(self, prop):
+        if prop in self.properties.keys():
+            return self.properties[prop]
+        else:
+            return None
 
 
 class ClientThread(threading.Thread):
-
     def __init__(self, conn, addr, server):
 
         super(ClientThread, self).__init__()
@@ -58,20 +61,21 @@ class ClientThread(threading.Thread):
                     ret = self.server.player_join(args)
                 elif method == 'player_quit':
                     ret = self.server.player_quit(args)
-                elif method == 'player_hit':
-                    ret = self.server.player_hit(args)
-                elif method == 'get_gameinfo':
-                    ret = self.server.get_gameinfo(args)
+                elif method == 'get_property':
+                    ret = self.server.get_property(args)
+                elif method == 'set_property':
+                    ret = self.server.set_property(args)
                 elif method == "close":
                     self.running = False
+                    ret = {'status': 0}
 
                 j = json.dumps(ret)
-
                 self.conn.send(j)
             except:
                 pass
         self.shutdown()
         print "DONE", self.addr
+
 
 class NetworkServer(object):
     def __init__(self):
@@ -101,13 +105,12 @@ class NetworkServer(object):
 
     def shutdown(self):
         for connection in self.connections:
-            connection.shutdown()
+            if connection.running:
+                connection.shutdown()
         self.sock.shutdown(socket.SHUT_RDWR)
         self.sock.close()
 
     def player_join(self, args):
-        color = args['color']
-        name = args['name']
 
         player_id = len(self.players)
         num = random.randint(0, 2 ** 16)  # Max 65536 spieler sollte reichen
@@ -117,11 +120,10 @@ class NetworkServer(object):
         _hash.update(str(num))
         key = _hash.hexdigest()
 
-        player = Player(player_id, color, name, key)
+        player = Player(player_id, key)
         self.players.append(player)
 
         dic = {'player_id': player_id,
-               'health': player.health,
                'key': key,
                'status': 0}
 
@@ -129,21 +131,6 @@ class NetworkServer(object):
             self.start_time = time.time()
 
         return dic
-
-    def player_hit(self, args):
-        player_id = args['player_id']  # ID des beschossenen spielers
-        opposite_id = args['opposite_id']  # ID des schießenden spielers
-        key = args['key']  # Key für Authentifizierung
-        damage = args['damage']  # Zugefügter schaden
-
-        if key == self.players[player_id].key:
-            self.players[player_id].hit(opposite_id, damage)
-
-        dic = {'health': self.players[player_id].health,
-               'name': self.players[opposite_id].name,
-               'status': 0}
-
-        return dic if key == self.players[player_id].key else {'status': 1, 'message': 'ACCESS DENIED'}
 
     def player_quit(self, args):
         player_id = args['player_id']
@@ -156,24 +143,32 @@ class NetworkServer(object):
 
         return dic
 
-    def get_gameinfo(self, args):
+    def set_property(self, args):
         player_id = args['player_id']
         key = args['key']
+        prop = args['property']
+        val = args['value']
 
-        active_players = []
-        for player in self.players:
-            if player.active:
-                active_players.append({'player_id': player.player_id, 'player_name': player.name})
+        if key == self.players[player_id].key:
+            self.players[player_id].set_property(prop, val)
+            dic = {'status': 0}
+        else:
+            dic = {'status': 1, 'message': 'ACCESS DENIED'}
+        return dic
 
-        player = self.players[player_id]
+    def get_property(self, args):
+        player_id = args['player_id']
+        key = args['key']
+        prop = args['property']
 
-        dic = {'active_players': active_players,
-               'damage_history': player.damage_history,
-               'player_health': player.health,
-               'game_time': time.time() - self.start_time,
-               'status': 0}
+        if key == self.players[player_id].key:
+            val = self.players[player_id].get_property(prop)
+            dic = {'status': 0, 'value': val}
+        else:
+            dic = {'status': 1, 'message': 'ACCESS DENIED'}
 
-        return dic if key == self.players[player_id].key else {'status': 1, 'message': 'ACCESS DENIED'}
+        return dic
+
 
 if __name__ == "__main__":
     server = NetworkServer()
