@@ -1,0 +1,98 @@
+/dts-v1/;
+
+/ {
+	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
+
+	fragment@0 {
+		target = <0xdeadbeef>;
+
+		__overlay__ {
+			status = "okay";
+
+			spidev@0 {
+				status = "disabled";
+			};
+
+			spidev@1 {
+				status = "disabled";
+			};
+		};
+	};
+
+	fragment@1 {
+		target = <0xdeadbeef>;
+
+		__overlay__ {
+
+			larstft_pins {
+				brcm,pins = <0x11 0x12 0x18 0x19>;
+				brcm,function = <0x0 0x1 0x1 0x1>;
+				linux,phandle = <0x1>;
+				phandle = <0x1>;
+			};
+		};
+	};
+
+	fragment@2 {
+		target = <0xdeadbeef>;
+
+		__overlay__ {
+			#address-cells = <0x1>;
+			#size-cells = <0x0>;
+
+			larstft@0 {
+				compatible = "ilitek,ili9341";
+				reg = <0x0>;
+				pinctrl-names = "default";
+				pinctrl-0 = <0x1>;
+				spi-max-frequency = <0x3938700>;
+				rotate = <0xb4>;
+				bgr;
+				fps = <0x1e>;
+				buswidth = <0x8>;
+				reset-gpios = <0xdeadbeef 0x19 0x0>;
+				dc-gpios = <0xdeadbeef 0x18 0x0>;
+				led-gpios = <0xdeadbeef 0x12 0x1>;
+				debug = <0x0>;
+				linux,phandle = <0x2>;
+				phandle = <0x2>;
+			};
+
+			larstft-ts@1 {
+				compatible = "ti,ads7846";
+				reg = <0x1>;
+				spi-max-frequency = <0x1e8480>;
+				interrupts = <0x1b 0x2>;
+				interrupt-parent = <0x0>;
+				pendown-gpio = <0x4 0x1b 0x0>;
+				ti,x-plate-ohms = [00 3c];
+				ti,pressure-max = [00 ff];
+				linux,phandle = <0x3>;
+				phandle = <0x3>;
+			};
+		};
+	};
+
+	__overrides__ {
+		speed = <0x2 0x7370692d 0x6d61782d 0x66726571 0x75656e63 0x793a3000>;
+		rotate = [00 00 00 02 72 6f 74 61 74 65 3a 30 00];
+		fps = [00 00 00 02 66 70 73 3a 30 00];
+		debug = <0x2 0x64656275 0x673a3000>;
+		xohms = [00 00 00 03 74 69 2c 78 2d 70 6c 61 74 65 2d 6f 68 6d 73 3b 30 00];
+	};
+
+	__symbols__ {
+		larstft_pins = "/fragment@1/__overlay__/larstft_pins";
+		larstft = "/fragment@2/__overlay__/larstft@0";
+		larstft_ts = "/fragment@2/__overlay__/larstft-ts@1";
+	};
+
+	__fixups__ {
+		spi0 = "/fragment@0:target:0", "/fragment@2:target:0";
+		gpio = "/fragment@1:target:0", "/fragment@2/__overlay__/larstft@0:reset-gpios:0", "/fragment@2/__overlay__/larstft@0:dc-gpios:0", "/fragment@2/__overlay__/larstft@0:led-gpios:0", "/fragment@2/__overlay__/larstft-ts@1:interrupt-parent:0", "/fragment@2/__overlay__/larstft-ts@1:pendown-gpio:0";
+	};
+
+	__local_fixups__ {
+		fixup = "/fragment@2/__overlay__/larstft@0:pinctrl-0:0", "/__overrides__:speed:0", "/__overrides__:rotate:0", "/__overrides__:fps:0", "/__overrides__:debug:0", "/__overrides__:xohms:0";
+	};
+};
