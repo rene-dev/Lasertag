@@ -30,6 +30,7 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPWVdc/woZlMIcuMmXE84Vx2Ex3xH9yimHQcO59exQjW
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDW2IzP3Znjmd6D0KHbL9WZGdJgTrJ/a+ooGMW7JlDspkt9kZSCZvq2qOhhNZYCwc5u7P8orf9iiO/A6P3bB+PIEtOQPpJm9GfVXWpmNNCoTq5wNIcv3+ObCIZGl5BYztHIw2XRsOwcKOsee6UWaNSujARK321h+9S9aUOSeWUYGDu6uYMe1YLFXL+ajz4XxMPalWnQQ1OjZLzNpaPDadXHnoh8ycGkyM5S4OH7ZJ58ivMATJfYiUGJOONT5dTVTTi6tEmfmu/L6QlD1CSUIS1vhewT/eKUaX1gxSTU5aCsUqpGXkE42ake5AuDCkVUde8z8D13OKuiTyIStcZTHthv ands@andspad
 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAzODOWF/PARNLIvIDMCTfngx0vfkLcoxRu2pYyI9wLCmOItp4+EWX8hcYKpKN951Urgtzw45XJbzLWYCKerJXbsQetSFKSnnchUVhi98MUL8LcCPaliEmCLNgUFxC+LnGVhZZ8ZX5WYDtoijAvIXVJkA7jNHzwzbk6kUGCpU6sxg+FVsFH6j6JVQY+lpxzgLfU1LYWsO/DMQuoIfzrsfl+bRub1XCu5BMHAeOMBMD5/L+3N/wif6g7QezpjmbKuClUnFytqzuYFh3zUEWHLYtmVlt/BYiQxwWOsU7XRQ3NTj0TcTqOFSLXAol5DvvtkhMrNfKvJuli4XvhYcY1WSUjw== renehopf@mac.com
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3YbT9OotQDcqjibk7bZ3NmkYL0A6D1O7pxM8ZAtmOstNp1wD6LeQ+zMGEpZSKsnOyxFvGM90ItkUoUXIZnZ5wikTDi8gIY0mizbjpAXizMrhq+0z5/aAX9XpOzGIYBY73oLUTtXjtgliBIy/gE2j+nGHSbjnfjO/y5UFqOTLEqwbmSHo4ePARKwPgjKHIQdz8PN0dj6NPuQ4ZcGkEMA/GJanwQJIO5+CDbjKewV+7+BghXpVqhMuNCRMPszzgVjz3IN4wcmz/EfTq88TUngNzRXOcRiSkg85vexHQj2/PNOrzaWur8rvhEb9VqCZeTyKl0DLmSYBtXmThEhPOKj2J2uEZAYT2JuXT+Kn2nmv7MzrXgpNnh6lf0/XJWYCL8C0Tg4PTveBD4hcZ8fE7dWVq6gssWTzz4ldmqkLPoYsZ3HwAIeImrkrgX49u+Hl7hskFdNvUf4YQ4rnIb5rQdnoFk7Q3DUXzq+6i3Slux5mHYBQp1xU2/OJwFXMBNC6ICubEfmgr6T346bEA6QQtqhCvUrc8IehQfNKde2l08Jf9sVFz97pSlPJhQnMcnpjJTzn5iAnoF8XPRMAfCFbweCZ9FhDFkuf3Sszbh7icA3C67TfGLbv+f+HYG7Tob6gUKZpblytDI6Cs4YuH4X+mEJEG4bI5+J7K160Sj31Xofbm4w== ole@Bernd
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAB/RPWypYj0yI2DiBaXDnjJUiKBWMNdsX1cdoeWHYOvRh+QsSKVkF00msvuD+GNsNd9V5CJGiHybE+Ezv2bjaJZOHySbh+GUG3ldh20WkzbqDpZ+L26gHPfhdFi9xMHLXOSy1iUZXhJE+Kb8YImMJZyP/B88kWBbBmpFkb84Hwd9QFOsjv0JRjo6HgTPx+/810TK04IdKgDUWglx1stEhwz1EqSWdsPGYJmAoJK4vms8RUgQG8I7C8PtpLmjOynsYV3hwymoon+dUfP9v6xO2UAzfjPsg1az/9ut7FUVZtoMRTRCbXXtjLZRqMpmzJXrcBF9eBdvT9gT5RlWkxFR8KjF5KxTvJja3eQp7bQ1BlVKdIrkzPFjnCgCiC/KNTDMgK2x2IVemz4MMNVLYjARMsWkuqpGpT59NTve+8T4M9f8/AFWGmEvtknN6vYdm2kFqzJbreC1KnD8fZhq9dRNmHkJT2UPUHFcC0kVNeg/ehvqpGlkYUAraoqF1k7Mel99XYh+4nSGjrmH0wNvn21WiBbhleDAUS7TfoQkvz822Im5F0jP+fK2yPhDdPQDv1RIkgdRlqQd+MVtC4Kdsp2SBg8NcZ0EFbueuyFV8Jm4Xrn5/Y3lCmWN73Bk1I0UkSM/cGtnlrnnDWrP0HiyhdjQQZbszrkbSeJUHpp/9TDym3 HoelShare@MBP
 
 sudo sed -i -r 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 sudo service ssh restart
@@ -60,21 +61,15 @@ static ip_address=100.0.0.11/24
 interface eth0
 fallback static_eth0
 
-https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
-
-sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
-
-network={
-    ssid="eth0"
-    psk="bla"
-}
-
-oder für open wlan:
-
-network={
-    ssid="eth0-open"
-    key_mgmt=NONE
-}
+# fuer meshing
+sudo nano /etc/network/interfaces
+ auto wlan0
+ face wlan0 inet static
+	address 192.168.42.[PRO NODE UNIQUE]
+	netmask 255.255.255.0
+	wireless-channel 11
+	wireless-essid LaserMesh
+	wireless-mode ad-hoc
 
 ----- display installieren -----
 
