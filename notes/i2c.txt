@@ -50,13 +50,15 @@ sudo i2cset -y 1 0x04 50 0
 sudo i2cset -y 1 0x04 51 0
 sudo i2cset -y 1 0x04 52 0
 
-Hitpoint: got hit?
-ob getroffen:
-sudo i2cget -y 1 0x04 40
-player_id:
-sudo i2cget -y 1 0x04 41
-damage:
-sudo i2cget -y 1 0x04 42
+weapon: got hit?
+sudo i2cget -y 1 0x04 40 #ob getroffen
+sudo i2cget -y 1 0x04 41 #player_id
+sudo i2cget -y 1 0x04 42 #damage
+
+hitpoint: got hit?
+sudo i2cget -y 1 0x04 30 #ob getroffen
+sudo i2cget -y 1 0x04 31 #player_id
+sudo i2cget -y 1 0x04 32 #damage
 
 
 

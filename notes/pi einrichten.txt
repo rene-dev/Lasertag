@@ -71,6 +71,23 @@ sudo nano /etc/network/interfaces
 	wireless-essid LaserMesh
 	wireless-mode ad-hoc
 
+# für ohne meshing
+https://www.raspberrypi.org/documentation/configuration/wireless/wireless-cli.md
+
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+network={
+    ssid="eth0"
+    psk="bla"
+}
+
+oder für open wlan:
+
+network={
+    ssid="eth0-open"
+    key_mgmt=NONE
+}
+
 ----- display installieren -----
 
 
